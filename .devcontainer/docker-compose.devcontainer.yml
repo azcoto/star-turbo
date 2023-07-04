@@ -1,0 +1,12 @@
+services:
+  star-turbo:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .bashrc:/root/.bashrc:cached
+      - ..:/workspace
+      - star-turbo-node_modules:/workspace/node_modules
+    command: sleep infinity
+volumes:
+    star-turbo-node_modules:

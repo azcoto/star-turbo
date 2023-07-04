@@ -1,0 +1,23 @@
+{
+  "name": "star-turbo-devcon",
+  "dockerComposeFile": "docker-compose.devcontainer.yml",
+  "service": "star-turbo",
+  "workspaceFolder": "/workspace",
+  // "containerEnv" : { "CHOKIDAR_USEPOLLING" : "true" },
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ],
+  "postCreateCommand": "pnpm i",
+  "postStartCommand": "git config --global --add safe.directory /workspace",
+  "customizations": {
+    "vscode": {
+      "extensions" : [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "GitHub.copilot-nightly",
+        "GitHub.copilot-chat"
+      ]
+    }
+  }
+}
