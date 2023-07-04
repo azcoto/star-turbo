@@ -18,4 +18,5 @@ app.get('/', (req, res) =>
 
 app.listen(8800);
 
-export const viteNodeApp = app;
+import { Application } from 'express';
+export const viteNodeApp: Application = app;
