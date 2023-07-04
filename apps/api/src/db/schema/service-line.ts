@@ -1,4 +1,4 @@
-import { pgTable, boolean, varchar, doublePrecision, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer } from 'drizzle-orm/pg-core';
 
 export const serviceLine = pgTable('service_line', {
   serviceLineNumber: varchar('service_line_number', { length: 30 }).primaryKey(),
@@ -23,7 +23,7 @@ export const addressLine = pgTable('address_line', {
 });
 
 export const subscriptions = pgTable('subscriptions', {
-  subscriptionsReferenceId: varchar('subscriptions_reference_id', { length: 50 }).primaryKey(),
+  subscriptionReferenceId: varchar('subscription_reference_id', { length: 50 }).primaryKey(),
   serviceLineNumber: varchar('service_line_number', { length: 30 }),
   descr: varchar('descr', { length: 255 }).notNull(),
   startDate: timestamp('start_date', { withTimezone: true }),
@@ -40,4 +40,17 @@ export const terminals = pgTable('terminals', {
   dishSerialNumber: varchar('dish_serial_number', { length: 20 }),
   serviceLineNumber: varchar('service_line_number', { length: 30 }),
   active: boolean('active').notNull(),
+});
+
+export const telemetry = pgTable('telemetry', {
+  ts: timestamp('ts', { withTimezone: true }),
+  deviceId: varchar('device_id', { length: 28 }),
+  deviceType: char('device_type', { length: 1 }),
+  downlinkThroughput: doublePrecision('downlink_throughput'),
+  uplinkThroughput: doublePrecision('uplink_throughput'),
+  pingDropRateAvg: doublePrecision('ping_drop_rate_avg'),
+  pingLatencyMsAvg: integer('ping_latency_ms_avg'),
+  obstructionPercentTime: doublePrecision('obstruction_percent_time'),
+  uptime: integer('uptime'),
+  signalQuality: doublePrecision('signal_quality'),
 });

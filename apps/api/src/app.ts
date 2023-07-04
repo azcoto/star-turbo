@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import postgres from 'postgres';
 import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { serviceLine } from './db/schema/service-line';
+import { addressLine, serviceLine, subscriptions, telemetry, terminals } from './db/schema/service-line';
+import { desc } from 'drizzle-orm';
 
 const app = express();
 console.log(import.meta.env.VITE_DB_URL);
@@ -16,7 +17,7 @@ app.use(
 );
 
 app.get('/', async (req, res) => {
-  const result = await db.select().from(serviceLine);
+  const result = await db.select().from(telemetry).orderBy(desc(telemetry.ts)).limit(100);
   return res.json({
     sucess: true,
     message: 'Success!',
