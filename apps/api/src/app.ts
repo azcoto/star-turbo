@@ -5,7 +5,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:8900',
   })
 );
 
@@ -16,7 +16,6 @@ app.get('/', (req, res) =>
   })
 );
 
-app.listen(8800);
+if (import.meta.env.PROD) app.listen(8000);
 
-import { Application } from 'express';
-export const viteNodeApp: Application = app;
+export const viteNodeApp = app;

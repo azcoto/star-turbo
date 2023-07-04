@@ -2,6 +2,12 @@
   "name": "api",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest"
+},
+
   "dependencies": {
     "@types/cors": "^2.8.13",
     "cors": "^2.8.5",
@@ -13,6 +19,7 @@
     "typescript": "^5.1.6",
     "vite": "^4.3.9",
     "tsconfig": "workspace:*",
-    "vite-plugin-node": "^3.0.2"
+    "vite-plugin-node": "^3.0.2",
+    "eslint-config-custom": "workspace:*"
   }
 }
