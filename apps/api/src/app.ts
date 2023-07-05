@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import routes from './routes';
 import { errorHandler } from './errorHandler';
+import logger from './logger';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(
   })
 );
 
+app.use(logger);
 app.use(routes);
 app.use(errorHandler);
 
