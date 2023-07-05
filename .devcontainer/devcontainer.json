@@ -16,7 +16,8 @@
         "dbaeumer.vscode-eslint",
         "bradlc.vscode-tailwindcss",
         "GitHub.copilot-nightly",
-        "GitHub.copilot-chat"
+        "GitHub.copilot-chat",
+        "rangav.vscode-thunder-client"
       ]
     }
   }

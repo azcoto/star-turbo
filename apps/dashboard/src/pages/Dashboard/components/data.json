@@ -1,0 +1,920 @@
+[
+  {
+    "Time": "2023-07-05 14:39:30",
+    "downlink_throughput": 10.7,
+    "uplink_throughput": 1.35,
+    "signal_quality": 982,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:39:15",
+    "downlink_throughput": 9.76,
+    "uplink_throughput": 1.2,
+    "signal_quality": 898,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:39:00",
+    "downlink_throughput": 9.09,
+    "uplink_throughput": 852,
+    "signal_quality": 855,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:38:45",
+    "downlink_throughput": 5.83,
+    "uplink_throughput": 572,
+    "signal_quality": 934,
+    "ping_latency_ms_avg": 53,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:38:30",
+    "downlink_throughput": 7.93,
+    "uplink_throughput": 626,
+    "signal_quality": 923,
+    "ping_latency_ms_avg": 57,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:38:15",
+    "downlink_throughput": 4.13,
+    "uplink_throughput": 444,
+    "signal_quality": 895,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:38:00",
+    "downlink_throughput": 6.09,
+    "uplink_throughput": 579,
+    "signal_quality": 754,
+    "ping_latency_ms_avg": 55,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:37:45",
+    "downlink_throughput": 6.91,
+    "uplink_throughput": 537,
+    "signal_quality": 734,
+    "ping_latency_ms_avg": 48,
+    "ping_drop_rate_avg": 13.4,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:37:30",
+    "downlink_throughput": 9.19,
+    "uplink_throughput": 813,
+    "signal_quality": 833,
+    "ping_latency_ms_avg": 53,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:37:15",
+    "downlink_throughput": 6.81,
+    "uplink_throughput": 861,
+    "signal_quality": 688,
+    "ping_latency_ms_avg": 53,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:37:00",
+    "downlink_throughput": 10.3,
+    "uplink_throughput": 1.05,
+    "signal_quality": 877,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:36:45",
+    "downlink_throughput": 5.54,
+    "uplink_throughput": 773,
+    "signal_quality": 888,
+    "ping_latency_ms_avg": 54,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:36:30",
+    "downlink_throughput": 5.73,
+    "uplink_throughput": 700,
+    "signal_quality": 623,
+    "ping_latency_ms_avg": 56,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:36:15",
+    "downlink_throughput": 1.76,
+    "uplink_throughput": 489,
+    "signal_quality": 635,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:36:00",
+    "downlink_throughput": 3.28,
+    "uplink_throughput": 380,
+    "signal_quality": 668,
+    "ping_latency_ms_avg": 56,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:35:45",
+    "downlink_throughput": 8.35,
+    "uplink_throughput": 904,
+    "signal_quality": 695,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:35:30",
+    "downlink_throughput": 10.1,
+    "uplink_throughput": 947,
+    "signal_quality": 975,
+    "ping_latency_ms_avg": 43,
+    "ping_drop_rate_avg": 46,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:35:15",
+    "downlink_throughput": 9.76,
+    "uplink_throughput": 931,
+    "signal_quality": 957,
+    "ping_latency_ms_avg": 59,
+    "ping_drop_rate_avg": 6.54,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:35:00",
+    "downlink_throughput": 9.89,
+    "uplink_throughput": 1.76,
+    "signal_quality": 951,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:34:45",
+    "downlink_throughput": 8.77,
+    "uplink_throughput": 657,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 43,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:34:30",
+    "downlink_throughput": 10.7,
+    "uplink_throughput": 893,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 50,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:34:15",
+    "downlink_throughput": 10.4,
+    "uplink_throughput": 894,
+    "signal_quality": 910,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:34:00",
+    "downlink_throughput": 7.54,
+    "uplink_throughput": 697,
+    "signal_quality": 993,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:33:45",
+    "downlink_throughput": 9.96,
+    "uplink_throughput": 755,
+    "signal_quality": 712,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:33:30",
+    "downlink_throughput": 10.5,
+    "uplink_throughput": 1.07,
+    "signal_quality": 791,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:33:15",
+    "downlink_throughput": 10.5,
+    "uplink_throughput": 1.05,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 44,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:33:00",
+    "downlink_throughput": 10.4,
+    "uplink_throughput": 738,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 45,
+    "ping_drop_rate_avg": 13.4,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:32:45",
+    "downlink_throughput": 9.21,
+    "uplink_throughput": 603,
+    "signal_quality": 904,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 46.2,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:32:30",
+    "downlink_throughput": 4.24,
+    "uplink_throughput": 480,
+    "signal_quality": 811,
+    "ping_latency_ms_avg": 48,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:32:15",
+    "downlink_throughput": 3.83,
+    "uplink_throughput": 299,
+    "signal_quality": 685,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:32:00",
+    "downlink_throughput": 8.58,
+    "uplink_throughput": 542,
+    "signal_quality": 814,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:31:45",
+    "downlink_throughput": 7.89,
+    "uplink_throughput": 1.25,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 49,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:31:30",
+    "downlink_throughput": 6.31,
+    "uplink_throughput": 1.01,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:31:15",
+    "downlink_throughput": 2.42,
+    "uplink_throughput": 258,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:31:00",
+    "downlink_throughput": 8.64,
+    "uplink_throughput": 722,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:30:45",
+    "downlink_throughput": 7.04,
+    "uplink_throughput": 443,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 49,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:30:30",
+    "downlink_throughput": 8.42,
+    "uplink_throughput": 423,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 55,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:30:15",
+    "downlink_throughput": 9.27,
+    "uplink_throughput": 582,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:30:00",
+    "downlink_throughput": 10.6,
+    "uplink_throughput": 994,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:29:45",
+    "downlink_throughput": 10.5,
+    "uplink_throughput": 1.17,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:29:30",
+    "downlink_throughput": 10,
+    "uplink_throughput": 934,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 50,
+    "ping_drop_rate_avg": 6.92,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:29:15",
+    "downlink_throughput": 9.75,
+    "uplink_throughput": 701,
+    "signal_quality": 708,
+    "ping_latency_ms_avg": 50,
+    "ping_drop_rate_avg": 39.9,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:29:00",
+    "downlink_throughput": 9.75,
+    "uplink_throughput": 700,
+    "signal_quality": 899,
+    "ping_latency_ms_avg": 42,
+    "ping_drop_rate_avg": 46.1,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:28:45",
+    "downlink_throughput": 10.1,
+    "uplink_throughput": 777,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 49,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:28:30",
+    "downlink_throughput": 10.2,
+    "uplink_throughput": 880,
+    "signal_quality": 936,
+    "ping_latency_ms_avg": 42,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:28:15",
+    "downlink_throughput": 9.87,
+    "uplink_throughput": 875,
+    "signal_quality": 868,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:28:00",
+    "downlink_throughput": 10.6,
+    "uplink_throughput": 1.03,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 53,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:27:45",
+    "downlink_throughput": 10.4,
+    "uplink_throughput": 865,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 6.94,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:27:30",
+    "downlink_throughput": 9.49,
+    "uplink_throughput": 1.24,
+    "signal_quality": 770,
+    "ping_latency_ms_avg": 41,
+    "ping_drop_rate_avg": 47.4,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:27:15",
+    "downlink_throughput": 10.7,
+    "uplink_throughput": 1.14,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:27:00",
+    "downlink_throughput": 10.4,
+    "uplink_throughput": 1.02,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:26:45",
+    "downlink_throughput": 10.7,
+    "uplink_throughput": 1.23,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:26:30",
+    "downlink_throughput": 10.5,
+    "uplink_throughput": 1.09,
+    "signal_quality": 988,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:26:15",
+    "downlink_throughput": 10.7,
+    "uplink_throughput": 1.38,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 43,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:26:00",
+    "downlink_throughput": 10.7,
+    "uplink_throughput": 1.42,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 58,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:25:45",
+    "downlink_throughput": 10.6,
+    "uplink_throughput": 1.08,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:25:30",
+    "downlink_throughput": 10.5,
+    "uplink_throughput": 814,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:25:15",
+    "downlink_throughput": 8.45,
+    "uplink_throughput": 819,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 45,
+    "ping_drop_rate_avg": 6.52,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:25:00",
+    "downlink_throughput": 8.18,
+    "uplink_throughput": 715,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 45,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:24:45",
+    "downlink_throughput": 3.62,
+    "uplink_throughput": 426,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 50,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:24:30",
+    "downlink_throughput": 4.99,
+    "uplink_throughput": 479,
+    "signal_quality": 899,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:24:15",
+    "downlink_throughput": 6.34,
+    "uplink_throughput": 569,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 49,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:24:00",
+    "downlink_throughput": 9.02,
+    "uplink_throughput": 905,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 44,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:23:45",
+    "downlink_throughput": 7.56,
+    "uplink_throughput": 818,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 45,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:23:30",
+    "downlink_throughput": 7.24,
+    "uplink_throughput": 924,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:23:15",
+    "downlink_throughput": 3.36,
+    "uplink_throughput": 296,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 50,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:23:00",
+    "downlink_throughput": 6.9,
+    "uplink_throughput": 469,
+    "signal_quality": 832,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:22:45",
+    "downlink_throughput": 10,
+    "uplink_throughput": 621,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 49,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:22:30",
+    "downlink_throughput": 4.77,
+    "uplink_throughput": 521,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:22:15",
+    "downlink_throughput": 4.89,
+    "uplink_throughput": 502,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 43,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:22:00",
+    "downlink_throughput": 9.09,
+    "uplink_throughput": 769,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 41,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:21:45",
+    "downlink_throughput": 6.55,
+    "uplink_throughput": 661,
+    "signal_quality": 626,
+    "ping_latency_ms_avg": 49,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:21:30",
+    "downlink_throughput": 8.67,
+    "uplink_throughput": 664,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 48,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:21:15",
+    "downlink_throughput": 10,
+    "uplink_throughput": 807,
+    "signal_quality": 596,
+    "ping_latency_ms_avg": 60,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:21:00",
+    "downlink_throughput": 7.01,
+    "uplink_throughput": 468,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 50,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:20:45",
+    "downlink_throughput": 8.48,
+    "uplink_throughput": 862,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:20:30",
+    "downlink_throughput": 10.4,
+    "uplink_throughput": 876,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 40,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:20:15",
+    "downlink_throughput": 10.2,
+    "uplink_throughput": 861,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 58,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:20:00",
+    "downlink_throughput": 9.79,
+    "uplink_throughput": 642,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:19:45",
+    "downlink_throughput": 5.37,
+    "uplink_throughput": 374,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 48,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:19:30",
+    "downlink_throughput": 5.91,
+    "uplink_throughput": 462,
+    "signal_quality": 815,
+    "ping_latency_ms_avg": 44,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:19:15",
+    "downlink_throughput": 8.12,
+    "uplink_throughput": 631,
+    "signal_quality": 582,
+    "ping_latency_ms_avg": 45,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:19:00",
+    "downlink_throughput": 2.61,
+    "uplink_throughput": 244,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:18:45",
+    "downlink_throughput": 5.52,
+    "uplink_throughput": 549,
+    "signal_quality": 618,
+    "ping_latency_ms_avg": 55,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:18:30",
+    "downlink_throughput": 8.02,
+    "uplink_throughput": 552,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:18:15",
+    "downlink_throughput": 6.74,
+    "uplink_throughput": 502,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:18:00",
+    "downlink_throughput": 7.97,
+    "uplink_throughput": 552,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 52,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:17:45",
+    "downlink_throughput": 6.15,
+    "uplink_throughput": 531,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 45,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:17:30",
+    "downlink_throughput": 4.72,
+    "uplink_throughput": 623,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:17:15",
+    "downlink_throughput": 5.7,
+    "uplink_throughput": 581,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 48,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:17:00",
+    "downlink_throughput": 4.87,
+    "uplink_throughput": 515,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 44,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:16:45",
+    "downlink_throughput": 5.72,
+    "uplink_throughput": 598,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 42,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:16:30",
+    "downlink_throughput": 7.22,
+    "uplink_throughput": 746,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:16:15",
+    "downlink_throughput": 5.75,
+    "uplink_throughput": 733,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:16:00",
+    "downlink_throughput": 6.43,
+    "uplink_throughput": 748,
+    "signal_quality": 824,
+    "ping_latency_ms_avg": 43,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:15:45",
+    "downlink_throughput": 9.34,
+    "uplink_throughput": 1.17,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:15:30",
+    "downlink_throughput": 9.68,
+    "uplink_throughput": 934,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 47,
+    "ping_drop_rate_avg": 6.57,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:15:15",
+    "downlink_throughput": 10.5,
+    "uplink_throughput": 1.28,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:15:00",
+    "downlink_throughput": 7.39,
+    "uplink_throughput": 833,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 48,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:14:45",
+    "downlink_throughput": 10.3,
+    "uplink_throughput": 945,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 44,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:14:30",
+    "downlink_throughput": 10.6,
+    "uplink_throughput": 928,
+    "signal_quality": 1,
+    "ping_latency_ms_avg": 46,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  },
+  {
+    "Time": "2023-07-05 14:14:15",
+    "downlink_throughput": 8.46,
+    "uplink_throughput": 1.1,
+    "signal_quality": 749,
+    "ping_latency_ms_avg": 51,
+    "ping_drop_rate_avg": 0,
+    "obstruction_percent_time": 115
+  }
+]

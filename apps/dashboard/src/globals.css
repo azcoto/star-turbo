@@ -95,8 +95,15 @@
     /* [&:not(:first-child)]:mt-6 */
   }
 
-  .leaflet-container {
-    @apply w-96 h-96
-  }
   
+} 
+
+/* remove first tick from y-axis */
+.recharts-yAxis .recharts-cartesian-axis-ticks g:nth-child(1) {
+  display: none;
+}
+
+/* remove selection from axes */
+.recharts-cartesian-axis-ticks g text {
+  user-select: none;
 }
