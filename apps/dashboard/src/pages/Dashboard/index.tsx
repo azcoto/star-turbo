@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 
-function App() {
+function Dashboard() {
   return (
     <main>
       <Button variant={'destructive'}>Click me</Button>
@@ -8,4 +8,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;

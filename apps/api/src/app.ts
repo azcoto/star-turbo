@@ -26,6 +26,4 @@ app.get('/', async (req, res) => {
   });
 });
 
-if (import.meta.env.PROD) app.listen(8000);
-
 export const viteNodeApp = app;

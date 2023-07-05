@@ -7,6 +7,7 @@
       "source.fixAll.eslint": true
     }
   },
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.exclude": {
     "**/.git": true,
