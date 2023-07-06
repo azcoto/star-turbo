@@ -15,7 +15,7 @@
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "bradlc.vscode-tailwindcss",
-        "GitHub.copilot-nightly",
+        "GitHub.copilot",
         "GitHub.copilot-chat",
         "rangav.vscode-thunder-client"
       ]

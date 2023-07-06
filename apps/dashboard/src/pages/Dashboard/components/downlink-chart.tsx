@@ -9,30 +9,30 @@ const cleanedData = data.map(item => {
   };
 });
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: { value: number }[];
-  label: string;
-}
+// interface CustomTooltipProps {
+//   active?: boolean;
+//   payload?: { value: number }[];
+//   label: string;
+// }
 
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
-  const getIntroOfPage = (label: string) => {
-    // return the intro of the page
-    return `Intro of ${label}`;
-  };
+// const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+//   const getIntroOfPage = (label: string) => {
+//     // return the intro of the page
+//     return `Intro of ${label}`;
+//   };
 
-  if (active && payload && payload.length) {
-    return (
-      <div className="custom-tooltip">
-        <p className="label">{`${label} : ${payload[0].value}`}</p>
-        <p className="intro">{getIntroOfPage(label)}</p>
-        <p className="desc">Anything you want can be displayed here.</p>
-      </div>
-    );
-  }
+//   if (active && payload && payload.length) {
+//     return (
+//       <div className="custom-tooltip">
+//         <p className="label">{`${label} : ${payload[0].value}`}</p>
+//         <p className="intro">{getIntroOfPage(label)}</p>
+//         <p className="desc">Anything you want can be displayed here.</p>
+//       </div>
+//     );
+//   }
 
-  return null;
-};
+//   return null;
+// };
 
 const DownlinkChart = () => {
   return (
