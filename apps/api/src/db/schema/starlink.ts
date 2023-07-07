@@ -1,4 +1,4 @@
-import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer } from 'drizzle-orm/pg-core';
+import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer, smallint } from 'drizzle-orm/pg-core';
 
 export const serviceLine = pgTable('service_line', {
   serviceLineNumber: varchar('service_line_number', { length: 30 }).primaryKey(),
@@ -49,7 +49,7 @@ export const telemetry = pgTable('telemetry', {
   downlinkThroughput: doublePrecision('downlink_throughput'),
   uplinkThroughput: doublePrecision('uplink_throughput'),
   pingDropRateAvg: doublePrecision('ping_drop_rate_avg'),
-  pingLatencyMsAvg: integer('ping_latency_ms_avg'),
+  pingLatencyMsAvg: doublePrecision('ping_latency_ms_avg'),
   obstructionPercentTime: doublePrecision('obstruction_percent_time'),
   uptime: integer('uptime'),
   signalQuality: doublePrecision('signal_quality'),

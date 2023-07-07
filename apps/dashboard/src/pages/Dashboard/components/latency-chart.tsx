@@ -2,13 +2,14 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { TelemetryQuery } from '@/services';
 import { useTelemetry } from '../hooks';
 
-interface DownlinkChartProps {
+interface LatencyChartProps {
   tq: TelemetryQuery;
 }
 
-const DownlinkChart = (props: DownlinkChartProps) => {
+const LatencyChart = (props: LatencyChartProps) => {
   const { tq } = props;
   const { data } = useTelemetry(tq);
+
   const domain = data ? [data[0].time, data[data.length - 1].time] : [0, 0];
 
   return (
@@ -50,16 +51,15 @@ const DownlinkChart = (props: DownlinkChartProps) => {
           }}
           dx={-10}
           width={70}
-          tickFormatter={throughput => {
-            const tick = throughput < 1 ? `${throughput * 1000} Kb/s` : `${throughput} Mb/s`;
-            return tick;
+          tickFormatter={latency => {
+            return `${latency} ms`;
           }}
         />
         <Tooltip />
-        <Area type="monotone" dataKey="downlinkThroughput" stroke="#8884d8" fill="#8884d8" />
+        <Area type="monotone" dataKey="pingLatencyMsAvg" stroke="#8884d8" fill="#8884d8" />
       </AreaChart>
     </ResponsiveContainer>
   );
 };
 
-export default DownlinkChart;
+export default LatencyChart;

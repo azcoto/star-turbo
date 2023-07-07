@@ -4,8 +4,23 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DownlinkChart, GeoMap, TerminalInfo } from './components';
+import { useTelemetry } from './hooks';
+import { TelemetryQuery } from '@/services';
+import UplinkChart from './components/uplink-chart';
+import LatencyChart from './components/latency-chart';
+import PingDropChart from './components/ping-drop-chart';
+import SignalChart from './components/signal-chart';
 
 function Dashboard() {
+  const tq: TelemetryQuery = {
+    terminalId: 'ut01000000-00000000-00168778',
+    start: new Date('2023-07-06T17:00:00.000Z'),
+    end: new Date('2023-07-07T16:59:00.000Z'),
+  };
+
+  const { data } = useTelemetry(tq);
+
+  console.log(data);
   return (
     <main className="px-8 pt-8">
       <div className="flex flex-col border rounded-lg shadow-lg px-6">
@@ -39,27 +54,27 @@ function Dashboard() {
         <div className="grid grid-cols-3 gap-4 py-4">
           <div className="flex flex-col h-72 gap-y-4">
             <h4 className="text-muted-foreground">DOWNLINK THROUGHPUT</h4>
-            <DownlinkChart />
+            <DownlinkChart tq={tq} />
           </div>
           <div className="flex flex-col h-72 gap-y-4">
             <h4 className="text-muted-foreground">UPLINK THROUGHPUT</h4>
-            <DownlinkChart />
+            <UplinkChart tq={tq} />
           </div>
           <div className="flex flex-col h-72 gap-y-4">
             <h4 className="text-muted-foreground">LATENCY</h4>
-            <DownlinkChart />
+            <LatencyChart tq={tq} />
           </div>
           <div className="flex flex-col h-72 gap-y-4">
             <h4 className="text-muted-foreground">PING DROP RATE</h4>
-            <DownlinkChart />
+            <PingDropChart tq={tq} />
           </div>
           <div className="flex flex-col h-72 gap-y-4">
             <h4 className="text-muted-foreground">SIGNAL QUALITY</h4>
-            <DownlinkChart />
+            <SignalChart tq={tq} />
           </div>
           <div className="flex flex-col h-72 gap-y-4">
             <h4 className="text-muted-foreground">OBSTRUCTION</h4>
-            <DownlinkChart />
+            <DownlinkChart tq={tq} />
           </div>
         </div>
       </div>

@@ -2,11 +2,11 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { TelemetryQuery } from '@/services';
 import { useTelemetry } from '../hooks';
 
-interface DownlinkChartProps {
+interface UplinkChartProps {
   tq: TelemetryQuery;
 }
 
-const DownlinkChart = (props: DownlinkChartProps) => {
+const UplinkChart = (props: UplinkChartProps) => {
   const { tq } = props;
   const { data } = useTelemetry(tq);
   const domain = data ? [data[0].time, data[data.length - 1].time] : [0, 0];
@@ -56,10 +56,10 @@ const DownlinkChart = (props: DownlinkChartProps) => {
           }}
         />
         <Tooltip />
-        <Area type="monotone" dataKey="downlinkThroughput" stroke="#8884d8" fill="#8884d8" />
+        <Area type="monotone" dataKey="uplinkThroughput" stroke="#8884d8" fill="#8884d8" />
       </AreaChart>
     </ResponsiveContainer>
   );
 };
 
-export default DownlinkChart;
+export default UplinkChart;
