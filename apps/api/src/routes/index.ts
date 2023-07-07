@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import telemetryRoutes from '../telemetry';
-import authenticationRoutes from '../authentication';
+import telemetryRoutes from '@/endpoints/telemetry';
+import authenticationRoutes from '@/endpoints/authentication';
 
-import rootRoutes from '../root';
+import rootRoutes from '@/endpoints/root';
 
 const router = Router();
 

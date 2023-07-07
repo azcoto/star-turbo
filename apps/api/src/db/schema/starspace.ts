@@ -1,11 +1,14 @@
 import { mysqlTable, datetime, boolean, int, bigint, varchar } from 'drizzle-orm/mysql-core';
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
+import config from '@/config';
+
+const { starspaceConnStr } = config;
 
 const queryClient = mysql.createPool({
-  uri: import.meta.env.VITE_DB_STARSPACE_URL as string,
+  uri: starspaceConnStr,
 });
-console.log('import.meta.env.VITE_DB_STARSPACE_URL', import.meta.env.VITE_DB_STARSPACE_URL);
+
 export const starspaceDb = drizzle(queryClient);
 
 export const user = mysqlTable('users', {

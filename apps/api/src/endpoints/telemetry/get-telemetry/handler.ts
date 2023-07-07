@@ -1,7 +1,7 @@
 import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { desc, sql } from 'drizzle-orm';
-import { telemetry } from '../../db/schema/starlink';
+import { telemetry } from '@/db/schema/starlink';
 import { TelemetryRequest, TelemetryResponse } from './dtos';
 
 const queryClient = postgres(import.meta.env.VITE_DB_STARLINK_URL);
