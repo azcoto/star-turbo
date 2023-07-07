@@ -1,4 +1,4 @@
-import { NextFunction } from 'express';
+import { NextFunction, Request } from 'express';
 import { z } from 'zod';
 import { LoginRequest, LoginResponse } from './dto';
 
@@ -7,9 +7,9 @@ const schema = z.object({
   password: z.string(),
 });
 
-export const validate = (req: LoginRequest, res: LoginResponse, next: NextFunction) => {
+export const validate = (req: Request, res: LoginResponse, next: NextFunction) => {
   try {
-    const parsed = schema.parse(req.query);
+    const parsed = schema.parse(req.body);
     res.locals = parsed;
     return next();
   } catch (err) {

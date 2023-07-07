@@ -4,6 +4,6 @@ import handler from './handler';
 
 const router = Router();
 
-router.post('/', validate, handler);
+router.post('/login', validate, handler);
 
 export default router;

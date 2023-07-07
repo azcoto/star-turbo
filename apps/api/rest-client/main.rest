@@ -1,1 +1,11 @@
+### root
 GET http://localhost:8000
+
+### Authentication -  Login
+POST http://localhost:8000/auth/login
+content-type : application/json
+
+{
+  "username": "test1",
+  "password": "admin"
+}

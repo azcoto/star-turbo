@@ -5,17 +5,17 @@ import mysql from 'mysql2/promise';
 const queryClient = mysql.createPool({
   uri: import.meta.env.VITE_DB_STARSPACE_URL as string,
 });
+console.log('import.meta.env.VITE_DB_STARSPACE_URL', import.meta.env.VITE_DB_STARSPACE_URL);
+export const starspaceDb = drizzle(queryClient);
 
-export const starlinkDb = drizzle(queryClient);
-
-export const user = mysqlTable('user', {
+export const user = mysqlTable('users', {
   id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
   endCustomerId: bigint('end_customer_id', { mode: 'number' }),
   uuid: varchar('uuid', { length: 36 }),
   fullName: varchar('full_name', { length: 191 }),
   username: varchar('username', { length: 191 }),
   email: varchar('email', { length: 255 }),
-  password: varchar('password', { length: 191 }),
+  password: varchar('password', { length: 191 }).notNull(),
   name: varchar('name', { length: 191 }),
   address: varchar('address', { length: 191 }),
   city: varchar('city', { length: 191 }),
