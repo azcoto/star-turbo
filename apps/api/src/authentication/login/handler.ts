@@ -3,7 +3,7 @@ import { starspaceDb, user } from '../../db/schema/starspace';
 import { DrizzleError, and, eq } from 'drizzle-orm';
 import { NextFunction } from 'express';
 import { ApiError } from '../../api-error';
-import { compare } from 'bcrypt';
+import { compare } from 'bcryptjs';
 
 const handler = async (req: LoginRequest, res: LoginResponse, next: NextFunction) => {
   const { username, password } = req.body;
