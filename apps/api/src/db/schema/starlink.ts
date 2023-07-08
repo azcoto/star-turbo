@@ -1,4 +1,14 @@
+import config from '@/config';
 import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer, smallint } from 'drizzle-orm/pg-core';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
+
+const { starlinkConnStr } = config;
+const queryClient = new Pool({
+  connectionString: starlinkConnStr,
+});
+
+export const dbStarlink = drizzle(queryClient);
 
 export const serviceLine = pgTable('service_line', {
   serviceLineNumber: varchar('service_line_number', { length: 30 }).primaryKey(),

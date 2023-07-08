@@ -9,6 +9,10 @@ content-type : application/json
   "username": "user",
   "password": "telkomsat"
 }
-
+      
 ### Get
 GET http://localhost:8000/telemetry?start=1688662800000&end=1688673600000&terminalId=ut01000000-00000000-00168778
+
+
+### Get
+GET http://localhost:8000/service-line/AST-1642430-93633-42

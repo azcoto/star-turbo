@@ -1,5 +1,5 @@
 import { LoginRequest, LoginResponse } from './dto';
-import { starspaceDb, user } from '@/db/schema/starspace';
+import { dbStarspace, user } from '@/db/schema/starspace';
 import { DrizzleError, and, eq } from 'drizzle-orm';
 import { NextFunction } from 'express';
 import { ApiError } from '@/api-error';
@@ -10,7 +10,7 @@ const handler = async (req: LoginRequest, res: LoginResponse, next: NextFunction
   const { username, password } = req.body;
   try {
     // prettier-ignore
-    const resUser = await starspaceDb
+    const resUser = await dbStarspace
     .select({
       username: user.username,
       password: user.password,

@@ -9,7 +9,7 @@ const queryClient = mysql.createPool({
   uri: starspaceConnStr,
 });
 
-export const starspaceDb = drizzle(queryClient);
+export const dbStarspace = drizzle(queryClient);
 
 export const user = mysqlTable('users', {
   id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),

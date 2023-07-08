@@ -1,13 +1,9 @@
-import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import { and, between, desc, eq, sql } from 'drizzle-orm';
-import { telemetry } from '@/db/schema/starlink';
+import { and, desc, eq, sql } from 'drizzle-orm';
+import { dbStarlink, telemetry } from '@/db/schema/starlink';
 import { TelemetryRequest, TelemetryResponse } from './dtos';
 
-const queryClient = postgres(import.meta.env.VITE_DB_STARLINK_URL);
-const db: PostgresJsDatabase = drizzle(queryClient);
-
 export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => {
+  console.log('req.body', req.body);
   const { start, end, terminalId } = res.locals;
   // epoch to date
   const startDate = new Date(start);
@@ -23,7 +19,7 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
   const bucketSize = mult ? `${mult}s` : `15s`;
 
   // prettier-ignore
-  const query = db
+  const query = dbStarlink
     .select({
       ts: sql<string>`time_bucket(${bucketSize}, ts)`.as('tsb'),
       downlinkThroughput: sql<number>`avg(downlink_throughput)`.as('downlinkThroughput'),
