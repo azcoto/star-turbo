@@ -4,14 +4,17 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DownlinkChart, GeoMap, TerminalInfo } from './components';
-import { useTelemetry } from './hooks';
+import { useServiceLine, useTelemetry } from './hooks';
 import { TelemetryQuery } from '@/services';
 import UplinkChart from './components/uplink-chart';
 import LatencyChart from './components/latency-chart';
 import PingDropChart from './components/ping-drop-chart';
 import SignalChart from './components/signal-chart';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function Dashboard() {
+  const sln = 'AST-1642430-93633-42';
+
   const tq: TelemetryQuery = {
     terminalId: 'ut01000000-00000000-00168778',
     start: new Date('2023-07-06T17:00:00.000Z'),
@@ -19,6 +22,7 @@ function Dashboard() {
   };
 
   const { data } = useTelemetry(tq);
+  const { data: slData } = useServiceLine(sln);
 
   console.log(data);
   return (
@@ -32,7 +36,7 @@ function Dashboard() {
           </Avatar>
         </div>
         <div className="flex flex-row justify-between pt-4">
-          <h3>PT. BANK MANDIRI - TOBA</h3>
+          {slData ? <h3>{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
           <div className="flex flex-row gap-x-4 items-center">
             <div className="w-3 h-3 rounded-full bg-green-500" />
             <h4>ONLINE</h4>

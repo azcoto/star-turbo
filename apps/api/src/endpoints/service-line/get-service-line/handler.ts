@@ -20,7 +20,7 @@ const handler = async (req: ServiceLineRequest, res: ServiceLineResponse, next: 
       region: addressLine.region,
       regionCode: addressLine.regionCode,
       postalCode: addressLine.postalCode,
-      metdata: addressLine.metadata,
+      metadata: addressLine.metadata,
       formattedAddress: addressLine.formattedAddress,
       latitude: addressLine.latitude,
       longitude: addressLine.longitude,

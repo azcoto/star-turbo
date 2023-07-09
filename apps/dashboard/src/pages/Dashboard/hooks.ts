@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { TelemetryQuery, getTelemetry } from '@/services';
-import instance from '@/services/axios';
+import { getServiceLine } from '@/services/service-line';
 
 export function useTelemetry(telemetryQuery: TelemetryQuery) {
   return useQuery({
@@ -14,5 +14,12 @@ export function useTelemetry(telemetryQuery: TelemetryQuery) {
         };
       });
     },
+  });
+}
+
+export function useServiceLine(serviceLineNumber: string) {
+  return useQuery({
+    queryKey: ['get-service-line', serviceLineNumber],
+    queryFn: () => getServiceLine(serviceLineNumber),
   });
 }
