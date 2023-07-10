@@ -63,4 +63,5 @@ export const telemetry = pgTable('telemetry', {
   obstructionPercentTime: doublePrecision('obstruction_percent_time'),
   uptime: integer('uptime'),
   signalQuality: doublePrecision('signal_quality'),
+  serviceLineNumber: varchar('service_line_number', { length: 30 }),
 });

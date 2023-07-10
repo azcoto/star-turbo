@@ -2,7 +2,7 @@ import ax from './axios';
 import { z } from 'zod';
 
 export type TelemetryQuery = {
-  terminalId: string;
+  serviceLineNumber: string;
   start: Date;
   end: Date;
 };
@@ -37,11 +37,12 @@ const schema = z.array(
 );
 
 export const getTelemetry = async (query: TelemetryQuery) => {
-  const { terminalId, start, end } = query;
+  console.log(query);
+  const { serviceLineNumber, start, end } = query;
   // convert date to epoch
 
   const { data } = await ax.get<TelemetryResponse>(
-    `/telemetry?terminalId=${terminalId}&start=${start.valueOf()}&end=${end.valueOf()}`
+    `/telemetry?serviceLineNumber=${serviceLineNumber}&start=${start.valueOf()}&end=${end.valueOf()}`
   );
   return schema.parse(data.data);
 };

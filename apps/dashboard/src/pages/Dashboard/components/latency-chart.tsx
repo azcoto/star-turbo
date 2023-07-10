@@ -28,10 +28,10 @@ const LatencyChart = (props: LatencyChartProps) => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           style={{
-            fontFamily: 'Segoe UI',
+            fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
             fontSize: '12px',
           }}
-          interval={20}
+          interval={40}
           tickFormatter={time => {
             const date = new Date(time);
             const hours = `${date.getHours()}`.padStart(2, '0');
@@ -46,7 +46,7 @@ const LatencyChart = (props: LatencyChartProps) => {
         />
         <YAxis
           style={{
-            fontFamily: 'Segoe UI',
+            fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
             fontSize: '12px',
           }}
           dx={-10}

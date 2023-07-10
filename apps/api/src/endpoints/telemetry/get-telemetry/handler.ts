@@ -3,12 +3,11 @@ import { dbStarlink, telemetry } from '@/db/schema/starlink';
 import { TelemetryRequest, TelemetryResponse } from './dtos';
 
 export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => {
-  console.log('req.body', req.body);
-  const { start, end, terminalId } = res.locals;
+  console.log('req.body', res.locals);
+  const { start, end, serviceLineNumber } = res.locals;
   // epoch to date
   const startDate = new Date(start);
   const endDate = new Date(end);
-
   /*
    * * Calculate bucket size
    * * If delta less than 1 hour then bucket size 15s
@@ -17,7 +16,8 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
   const delta = (end - start) / 1000;
   const mult = Math.floor(delta / 3600) * 15;
   const bucketSize = mult ? `${mult}s` : `15s`;
-
+  console.log(delta, mult, bucketSize);
+  console.log(serviceLineNumber);
   // prettier-ignore
   const query = dbStarlink
     .select({
@@ -33,13 +33,13 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
     .where(
       and(
         sql`ts BETWEEN ${startDate} AND ${endDate}`, 
-        eq(telemetry.deviceId, terminalId)
+        eq(telemetry.serviceLineNumber, serviceLineNumber)
       )
     )
     .orderBy(desc(sql`tsb`))
     .groupBy(sql`tsb`);
 
-  // console.log(query.toSQL());
+  console.log(query.toSQL());
   const result = await query;
   return res.json({
     success: true,

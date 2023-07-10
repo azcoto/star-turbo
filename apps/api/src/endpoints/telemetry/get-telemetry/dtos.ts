@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Locals } from 'express';
 
 export interface TelemetryQuery {
-  terminalId: string;
+  serviceLineNumber: string;
   start: string;
   end: string;
 }
@@ -10,7 +10,7 @@ export interface TelemetryQuery {
 export type TelemetryRequest = Request<never, unknown, never, TelemetryQuery>;
 
 export interface LocalsData extends Locals {
-  terminalId: string;
+  serviceLineNumber: string;
   start: number;
   end: number;
 }

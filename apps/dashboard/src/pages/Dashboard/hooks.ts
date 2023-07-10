@@ -7,6 +7,7 @@ export function useTelemetry(telemetryQuery: TelemetryQuery) {
     queryKey: ['telemetry', telemetryQuery],
     queryFn: () => getTelemetry(telemetryQuery),
     select: data => {
+      console.log(data);
       return data.map(d => {
         return {
           time: d.ts.getTime(),
