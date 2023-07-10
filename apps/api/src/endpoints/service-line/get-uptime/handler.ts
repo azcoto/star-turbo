@@ -10,7 +10,7 @@ const handler = async (req: ServiceLineRequest, res: ServiceLineResponse, next: 
     // prettier-ignore
     const result = await dbStarlink
     .select({
-      uptimeFormatted: sql`to_char(justify_hours(interval '1 sec' * ${telemetry.uptime}}), 'FMDD" DAYS "HH24" HOURS "MI" MINUTES')`,
+      uptimeFormatted: sql`to_char(justify_hours(interval '1 sec' * ${telemetry.uptime}), 'FMDD" DAYS "HH24" HOURS "MI" MINUTES')`,
       lastUpdated : sql`to_char(${telemetry.ts}, 'DD/MM/YYY hh24:MI:ss')`,
       checkOnline : sql`AGE(now(), ${telemetry.ts} ) < interval '15 minutes'`
     })
@@ -27,6 +27,7 @@ const handler = async (req: ServiceLineRequest, res: ServiceLineResponse, next: 
       data: result[0],
     });
   } catch (err) {
+    console.log(err);
     if (err instanceof DrizzleError) {
       return next(new ApiError('ORM Error', 500, { message: err.message }));
     }

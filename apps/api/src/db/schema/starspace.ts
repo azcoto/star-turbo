@@ -29,3 +29,5 @@ export const user = mysqlTable('users', {
   createdAt: datetime('created_at'),
   updatedAt: datetime('updated_at'),
 });
+
+//

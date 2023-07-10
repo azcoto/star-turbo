@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DownlinkChart, GeoMap, TerminalInfo } from './components';
-import { useServiceLine, useTelemetry } from './hooks';
+import { useServiceLine, useTelemetry, useUptime } from './hooks';
 import { TelemetryQuery } from '@/services';
 import UplinkChart from './components/uplink-chart';
 import LatencyChart from './components/latency-chart';
@@ -87,6 +87,7 @@ function Dashboard() {
   const { data } = useTelemetry(telemeryQuery);
   const sln = 'AST-1887093-81918-61';
   const { data: slData } = useServiceLine(sln);
+  const { data: upData } = useUptime(sln);
 
   console.log(data);
   return (
@@ -101,13 +102,27 @@ function Dashboard() {
         </div>
         <div className="flex flex-row justify-between pt-4">
           {slData ? <h3>{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
-          <div className="flex flex-row gap-x-4 items-center">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-400"></span>
-            </span>
-            <h4>ONLINE</h4>
-          </div>
+
+          {upData && upData.checkOnline ? (
+            <>
+              <div className="flex flex-row gap-x-4 items-center">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-400" />
+                </span>
+                <h4>ONLINE</h4>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-row gap-x-4 items-center">
+                <span className="relative flex h-3 w-3"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-400" />
+                <h4>OFFLINE</h4>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="flex flex-row py-4 gap-x-4">

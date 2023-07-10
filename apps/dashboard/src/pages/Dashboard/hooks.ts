@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { TelemetryQuery, getTelemetry } from '@/services';
-import { getServiceLine } from '@/services/service-line';
+import { getServiceLine, getUptime } from '@/services/service-line';
 
 export function useTelemetry(telemetryQuery: TelemetryQuery) {
   return useQuery({
@@ -22,5 +22,12 @@ export function useServiceLine(serviceLineNumber: string) {
   return useQuery({
     queryKey: ['get-service-line', serviceLineNumber],
     queryFn: () => getServiceLine(serviceLineNumber),
+  });
+}
+
+export function useUptime(serviceLineNumber: string) {
+  return useQuery({
+    queryKey: ['get-uptime', serviceLineNumber],
+    queryFn: () => getUptime(serviceLineNumber),
   });
 }
