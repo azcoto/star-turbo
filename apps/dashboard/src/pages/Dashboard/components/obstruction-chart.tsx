@@ -1,18 +1,18 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
 import { TelemetryQuery } from '@/services';
 import { useTelemetry } from '../hooks';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
-interface LatencyChartProps {
+interface ObstructionChartProps {
   tq: TelemetryQuery;
 }
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
   if (active && payload && payload.length) {
-    const latency = payload[0].value as number;
+    const obstructionPercent = payload[0].value as number;
     const dateTime = format(new Date(label as number), 'dd/MM/yyyy HH:mm');
-    const formatted = `${latency} ms`;
+    const formatted = `${obstructionPercent.toFixed(2)} %`;
     return (
       <div className="custom-tooltip bg-white rounded-md p-4 border-2">
         <p className="font-bold">{`${dateTime}`}</p>
@@ -24,10 +24,9 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
   return null;
 };
 
-const LatencyChart = (props: LatencyChartProps) => {
+const ObstructionChart = (props: ObstructionChartProps) => {
   const { tq } = props;
   const { data } = useTelemetry(tq);
-
   const domain = data ? [data[0].time, data[data.length - 1].time] : [0, 0];
   const isSameDay = data && data[0].hari === data[data.length - 1].hari ? true : false;
 
@@ -88,15 +87,17 @@ const LatencyChart = (props: LatencyChartProps) => {
           }}
           dx={-10}
           width={70}
-          tickFormatter={latency => {
-            return `${latency} ms`;
+          tickFormatter={obstructionPercentTime => {
+            // const normalize = Math.round(obstructionPercentTime * 1000) / 1000;
+            // return `${normalize * 100}%`;
+            return `${obstructionPercentTime}%`;
           }}
         />
         <Tooltip content={<CustomTooltip />} />
-        <Area type="monotone" dataKey="pingLatencyMsAvg" stroke="#8884d8" fill="#8884d8" />
+        <Area type="monotone" dataKey="obstructionPercentTime" stroke="#8884d8" fill="#8884d8" />
       </AreaChart>
     </ResponsiveContainer>
   );
 };
 
-export default LatencyChart;
+export default ObstructionChart;
