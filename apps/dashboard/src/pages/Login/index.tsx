@@ -35,6 +35,9 @@ const LoginPage = () => {
     mutationFn: postLogin,
     onSuccess: data => {
       authTokenStore.setAccessToken(data.data.accessToken);
+      console.log(data.data);
+      authTokenStore.setUserUUID(data.data.uuid);
+      authTokenStore.setIsAuthenticated(true);
       //navigate to '/dashboard'
       navigate('/dashboard');
     },

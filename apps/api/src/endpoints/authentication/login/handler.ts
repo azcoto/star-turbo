@@ -12,7 +12,8 @@ const handler = async (req: LoginRequest, res: LoginResponse, next: NextFunction
     // prettier-ignore
     const resUser = await dbStarspace
     .select({
-      username: sql`${user.username}` ,
+      username: user.username,
+      uuid: user.uuid,
       password: user.password,
       fullname: user.fullName,
       email: user.email,
@@ -41,6 +42,7 @@ const handler = async (req: LoginRequest, res: LoginResponse, next: NextFunction
       success: true,
       message: 'Login Success',
       data: {
+        ...payload,
         accessToken: encodeAccessToken(payload),
       },
     });

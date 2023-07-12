@@ -2,7 +2,9 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 export interface AuthTokenState {
   accessToken: string;
+  userUUID: string;
   isAuthenticated: boolean;
+  setUserUUID: (userUUID: string) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setAccessToken: (token: string) => void;
   logout: () => void;
@@ -11,7 +13,12 @@ export interface AuthTokenState {
 export const useAuthTokenStore = create<AuthTokenState>()(
   devtools(set => ({
     accessToken: localStorage.getItem('accessToken') || '',
+    userUUID: localStorage.getItem('userUUID') || '',
     isAuthenticated: localStorage.getItem('accessToken') ? true : false,
+    setUserUUID: userUUID => {
+      localStorage.setItem('userUUID', userUUID);
+      return set({ userUUID });
+    },
     setIsAuthenticated: isAuthenticated => {
       return set({ isAuthenticated });
     },
@@ -28,6 +35,7 @@ export const useAuthTokenStore = create<AuthTokenState>()(
     logout: () => {
       useAuthTokenStore.getState().setIsAuthenticated(false);
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('userUUID');
     },
   }))
 );

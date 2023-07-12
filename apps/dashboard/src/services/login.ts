@@ -12,6 +12,12 @@ export type LoginResponse = {
 };
 
 export type LoginData = {
+  username: string;
+  uuid: string;
+  fullname: string;
+  email: string;
+  address: string;
+  phone: string;
   accessToken: string;
 };
 

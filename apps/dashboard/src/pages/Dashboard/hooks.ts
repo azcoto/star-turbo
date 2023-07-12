@@ -18,16 +18,18 @@ export function useTelemetry(telemetryQuery: TelemetryQuery) {
   });
 }
 
-export function useServiceLine(serviceLineNumber: string) {
+export function useServiceLine(serviceLineNumber: string | undefined) {
   return useQuery({
     queryKey: ['get-service-line', serviceLineNumber],
-    queryFn: () => getServiceLine(serviceLineNumber),
+    queryFn: () => getServiceLine(serviceLineNumber ?? ''),
+    enabled: serviceLineNumber !== undefined,
   });
 }
 
-export function useUptime(serviceLineNumber: string) {
+export function useUptime(serviceLineNumber: string | undefined) {
   return useQuery({
     queryKey: ['get-uptime', serviceLineNumber],
-    queryFn: () => getUptime(serviceLineNumber),
+    queryFn: () => getUptime(serviceLineNumber ?? ''),
+    enabled: serviceLineNumber !== undefined,
   });
 }

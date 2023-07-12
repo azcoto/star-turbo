@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'dashboard',
+        path: 'dashboard/:serviceLine',
         index: false,
         element: <Dashboard />,
       },

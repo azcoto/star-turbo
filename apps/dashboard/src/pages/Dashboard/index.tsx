@@ -21,8 +21,7 @@ import { format, subMonths, subSeconds } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { PopoverClose } from '@radix-ui/react-popover';
-import { useAuthTokenStore } from '@/store/auth';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 type RelativeTimeRange = {
   id: number;
@@ -31,8 +30,7 @@ type RelativeTimeRange = {
 };
 
 function Dashboard() {
-  const authTokenStore = useAuthTokenStore();
-  const navigate = useNavigate();
+  const { serviceLine } = useParams();
 
   const [isRelTimeRange, setIsRelTimeRange] = useState<boolean>(true);
 
@@ -45,7 +43,7 @@ function Dashboard() {
   });
 
   const [telemeryQuery, setTelemetryQuery] = useState<TelemetryQuery>({
-    serviceLineNumber: 'AST-1887093-81918-61',
+    serviceLineNumber: serviceLine ?? '',
     start: subDate(new Date(), { seconds: relTimeRange.value }),
     end: new Date(),
   });
@@ -102,14 +100,9 @@ function Dashboard() {
     );
   });
 
-  const sln = 'AST-1887093-81918-61';
-  const { data: slData } = useServiceLine(sln);
-  const { data: upData } = useUptime(sln);
+  const { data: slData } = useServiceLine(serviceLine);
+  const { data: upData } = useUptime(serviceLine);
 
-  const logout = () => {
-    authTokenStore.logout();
-    navigate('/');
-  };
   return (
     <>
       <div className="flex flex-row justify-between pt-4">

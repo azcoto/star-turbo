@@ -4,11 +4,15 @@ import { NextFunction } from 'express';
 import { DrizzleError, eq, and, isNotNull, sql, inArray } from 'drizzle-orm';
 import { dbStarspace, endCustomer, user } from '@/db/schema/starspace';
 import { dbFulfillment, vMasterNodelinkStarlink } from '@/db/schema/3easy';
-import { dbStarlink, telemetry } from '@/db/schema/starlink';
+import { dbStarlink, telemetry, terminals } from '@/db/schema/starlink';
 
 const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFunction) => {
   const { uuid } = res.locals;
   try {
+    /**
+     * * DB Starspace
+     * * Get user left join to end customer
+     */
     // prettier-ignore
     const result = await dbStarspace
       .select({
@@ -25,6 +29,11 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       return next(new ApiError('User not found', 404, { uuid: uuid }));
     }
 
+    /**
+     * * DB Fulfillment
+     * * Get nodelink where mCustomerId = trieasyId
+     */
+
     const nodes = await dbFulfillment
       .select()
       .from(vMasterNodelinkStarlink)
@@ -35,14 +44,26 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
         )
       );
 
+    /**
+     * * IF nodelink not found
+     * * throw 404
+     */
     if (nodes.length === 0) {
       return next(new ApiError('Nodelink not found', 404, { uuid: uuid }));
     }
 
+    /**
+     * * Prepare list of service line from v_master_nodelink_starlink
+     * * Query telemetry and terminals
+     */
+
     const slList = nodes.map(node => node.serviceline as string);
 
+    /**
+     * * get uptime and last updated from telemetry
+     */
     // prettier-ignore
-    const slUptime = await dbStarlink
+    const slUptimeQuery =  dbStarlink
       .select({
         serviceLineNumber: telemetry.serviceLineNumber,
         lastUpdated: sql`max(${telemetry.ts}::timestamp at time zone 'UTC+7')`,
@@ -57,10 +78,35 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       )
       .groupBy(telemetry.serviceLineNumber)
 
+    /**
+     * * Get current kit sn from terminals
+     */
+    //prettier-ignore
+    const currentTerminalsQuery =  dbStarlink
+      .select({
+        serviceLineNumber: terminals.serviceLineNumber,
+        kitSerialNumber: terminals.kitSerialNumber,
+      })
+      .from(terminals)
+      .where(
+        and(
+          inArray(terminals.serviceLineNumber, slList),
+          eq(terminals.active, true),
+          isNotNull(terminals.serviceLineNumber),
+        )
+      );
+
+    const [slUptime, currentTerminals] = await Promise.all([slUptimeQuery, currentTerminalsQuery]);
+
+    /**
+     * * Compose response Data
+     */
     const mergedData = nodes.map(node => {
       const uptime = slUptime.find(sl => sl.serviceLineNumber === node.serviceline);
+      const currentKit = currentTerminals.find(terminals => terminals.serviceLineNumber === node.serviceline);
       return {
         ...node,
+        currentKitSerialNumber: currentKit ? currentKit.kitSerialNumber : null,
         uptime: uptime ? uptime.uptimeFormatted : null,
         lastUpdated: uptime ? uptime.lastUpdated : null,
       };
@@ -72,6 +118,9 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       data: {
         ...result[0],
         nodes: {
+          up: mergedData.filter(node => node.lastUpdated !== null).length,
+          down: mergedData.filter(node => node.lastUpdated === null).length,
+          inactive: mergedData.filter(node => node.statusId !== 1).length,
           count: mergedData.length,
           data: mergedData,
         },
