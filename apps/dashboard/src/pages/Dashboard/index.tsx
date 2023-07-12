@@ -108,15 +108,15 @@ function Dashboard() {
       <div className="flex flex-row justify-between pt-4">
         {slData ? <h3>{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
 
-        {upData && upData.checkOnline && <OnlineIndicator isOnline={upData.checkOnline} />}
+        {upData && <OnlineIndicator isOnline={upData.checkOnline} />}
       </div>
 
       <div className="flex flex-row py-4 gap-x-4">
         <div className="flex flex-col w-1/2 p-4 border rounded-lg shadow-md">
-          <TerminalInfo />
+          {serviceLine && <TerminalInfo serviceLine={serviceLine} />}
         </div>
         <div className="flex flex-col w-1/2 h-96 border rounded-lg shadow-md z-0">
-          <GeoMap />
+          {serviceLine && <GeoMap serviceLine={serviceLine} />}
         </div>
       </div>
       <div className="flex flex-row justify-between items-center py-4 border-b">

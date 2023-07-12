@@ -39,7 +39,7 @@ const LoginPage = () => {
       authTokenStore.setUserUUID(data.data.uuid);
       authTokenStore.setIsAuthenticated(true);
       //navigate to '/dashboard'
-      navigate('/dashboard');
+      navigate('/');
     },
   });
 

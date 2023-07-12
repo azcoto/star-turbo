@@ -11,7 +11,6 @@ type Node = {
   serviceline: string | null;
   uptime: number | null;
   currentKitSerialNumber: string | null;
-  lastUpdated: Date | null;
 };
 const columns: ColumnDef<Node>[] = [
   {
@@ -49,11 +48,6 @@ const columns: ColumnDef<Node>[] = [
     header: 'Uptime',
     accessorFn: row => row.uptime,
   },
-  {
-    accessorKey: 'lastUpdated',
-    header: 'Last Updated',
-    accessorFn: row => row.lastUpdated,
-  },
 ];
 
 function Home() {
@@ -66,6 +60,10 @@ function Home() {
   const { data: dataTable } = useCustomerTable({
     uuid: authTokenStore.userUUID,
   });
+
+  const pagingDataTable = (page: number) => {
+    return dataTable?.slice(page * 10, page * 10 + 10);
+  };
 
   const table = useReactTable({
     data: dataTable || [],
@@ -93,38 +91,40 @@ function Home() {
       )}
 
       {dataTable && (
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                  ))}
+        <div className="p-4 rounded-lg border-2 shadow-md">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map(headerGroup => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map(header => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map(row => (
+                  <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                    {row.getVisibleCells().map(cell => (
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </>
   );

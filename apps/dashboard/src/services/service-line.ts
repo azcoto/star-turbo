@@ -33,20 +33,18 @@ type UptimeResponse = {
 };
 
 type Uptime = {
-  uptimeFormatted: string;
-  lastUpdated: string;
+  uptimeFormatted: string | null;
+  lastUpdated: string | null;
   checkOnline: boolean;
 };
 
 export const getServiceLine = async (serviceLineNumber: string) => {
   // add delay 2 second
-  await new Promise(resolve => setTimeout(resolve, 2000));
   const { data } = await ax.get<ServiceLineResponse>(`/service-line/${serviceLineNumber}`);
   return data.data;
 };
 
 export const getUptime = async (serviceLineNumber: string) => {
-  await new Promise(resolve => setTimeout(resolve, 2000));
   const { data } = await ax.get<UptimeResponse>(`/service-line/uptime/${serviceLineNumber}`);
   return data.data;
 };

@@ -1,11 +1,15 @@
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { useServiceLine } from '../hooks';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TelemetryQuery } from '@/services';
 
-function GeoMap() {
-  const sln = 'AST-1642430-93633-42';
+type Props = {
+  serviceLine: string;
+};
 
-  const { data: slData, isSuccess } = useServiceLine(sln);
+function GeoMap(props: Props) {
+  const { serviceLine } = props;
+  const { data: slData, isSuccess } = useServiceLine(serviceLine);
 
   const zoomLevel = 6;
   return slData && isSuccess ? (

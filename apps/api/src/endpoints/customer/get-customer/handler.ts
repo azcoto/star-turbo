@@ -66,7 +66,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
     const slUptimeQuery =  dbStarlink
       .select({
         serviceLineNumber: telemetry.serviceLineNumber,
-        lastUpdated: sql`max(${telemetry.ts}::timestamp at time zone 'UTC+7')`,
+        lastUpdated: sql`max(${telemetry.ts})`,
         uptimeFormatted: sql`max(${telemetry.uptime})`,
       })
       .from(telemetry)

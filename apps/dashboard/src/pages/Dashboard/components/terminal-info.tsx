@@ -1,11 +1,14 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { useServiceLine, useUptime } from '../hooks';
 
-const TerminalInfo = () => {
-  const sln = 'AST-1642430-93633-42';
+type Props = {
+  serviceLine: string;
+};
 
-  const { data: slData } = useServiceLine(sln);
-  const { data: uptimeData } = useUptime(sln);
+const TerminalInfo = (props: Props) => {
+  const { serviceLine } = props;
+  const { data: slData } = useServiceLine(serviceLine);
+  const { data: uptimeData } = useUptime(serviceLine);
 
   return (
     <div className="flex flex-row justify-between">
@@ -22,7 +25,11 @@ const TerminalInfo = () => {
         <br />
         <p className="text-xl text-muted-foreground">LAST UPDATED</p>
 
-        {uptimeData ? <p className="font-bold">{uptimeData.lastUpdated}</p> : <Skeleton className="w-48 h-4" />}
+        {uptimeData ? (
+          <p className="font-bold">{uptimeData.lastUpdated ? uptimeData.lastUpdated : '-'}</p>
+        ) : (
+          <Skeleton className="w-48 h-4" />
+        )}
       </div>
       <div className="flex flex-col w-1/2">
         <p className="text-xl text-muted-foreground">SERVICE ADDRESS</p>
@@ -34,7 +41,11 @@ const TerminalInfo = () => {
         <br />
         <p className="text-xl text-muted-foreground">UPTIME</p>
 
-        {uptimeData ? <p className="font-bold">3 DAYS 11 HOURS 50 MINUTES</p> : <Skeleton className="w-48 h-4" />}
+        {uptimeData ? (
+          <p className="font-bold">{uptimeData.uptimeFormatted ? uptimeData.uptimeFormatted : '-'}</p>
+        ) : (
+          <Skeleton className="w-48 h-4" />
+        )}
       </div>
     </div>
   );

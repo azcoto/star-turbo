@@ -11,7 +11,7 @@ const handler = async (req: ServiceLineRequest, res: ServiceLineResponse, next: 
     const result = await dbStarlink
     .select({
       uptimeFormatted: sql`to_char(justify_hours(interval '1 sec' * ${telemetry.uptime}), 'FMDD" DAYS "HH24" HOURS "MI" MINUTES')`,
-      lastUpdated : sql`to_char(${telemetry.ts}, 'DD/MM/YYY hh24:MI:ss')`,
+      lastUpdated : sql`to_char(${telemetry.ts}, 'DD/MM/YYYY hh24:MI:ss')`,
       checkOnline : sql`AGE(now(), ${telemetry.ts} ) < interval '15 minutes'`
     })
     .from(telemetry)
@@ -19,12 +19,17 @@ const handler = async (req: ServiceLineRequest, res: ServiceLineResponse, next: 
     .orderBy(desc(telemetry.ts))
     .limit(1);
 
-    if (result.length === 0) return next(new ApiError('Not Found', 404, { message: 'Service Line Not Found' }));
-
+    const dataUptime = result[0]
+      ? result[0]
+      : {
+          uptimeFormatted: null,
+          lastUpdated: null,
+          checkOnline: false,
+        };
     res.status(200).json({
       success: true,
       message: 'Success',
-      data: result[0],
+      data: dataUptime,
     });
   } catch (err) {
     console.log(err);
