@@ -2,6 +2,7 @@ import { mysqlTable, datetime, boolean, int, bigint, varchar } from 'drizzle-orm
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
 import config from '@/config';
+import { relations } from 'drizzle-orm';
 
 const { starspaceConnStr } = config;
 
@@ -30,4 +31,18 @@ export const user = mysqlTable('users', {
   updatedAt: datetime('updated_at'),
 });
 
-//
+export const endCustomer = mysqlTable('end_customers', {
+  id: bigint('id', { mode: 'number' }).primaryKey().autoincrement(),
+  trieasyId: bigint('trieasy_id', { mode: 'number' }),
+  uuid: varchar('uuid', { length: 36 }).notNull(),
+  name: varchar('name', { length: 191 }).notNull(),
+  createdAt: datetime('created_at'),
+  updatedAt: datetime('updated_at'),
+});
+
+export const userRelation = relations(user, ({ one }) => ({
+  endCustomer: one(endCustomer, {
+    fields: [user.endCustomerId],
+    references: [endCustomer.id],
+  }),
+}));

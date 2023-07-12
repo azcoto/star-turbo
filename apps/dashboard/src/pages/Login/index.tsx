@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { useAuthTokenStore } from '@/store/auth';
+import { useNavigate } from 'react-router-dom';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -21,7 +22,7 @@ type FormType = z.infer<typeof formSchema>;
 
 const LoginPage = () => {
   const authTokenStore = useAuthTokenStore();
-
+  const navigate = useNavigate();
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,10 +31,12 @@ const LoginPage = () => {
     },
   });
 
-  const { mutate: doLogin } = useMutation({
+  const { mutate: doLogin, isLoading } = useMutation({
     mutationFn: postLogin,
     onSuccess: data => {
       authTokenStore.setAccessToken(data.data.accessToken);
+      //navigate to '/dashboard'
+      navigate('/dashboard');
     },
   });
 
@@ -58,7 +61,7 @@ const LoginPage = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="username" {...field} />
+                      <Input autoFocus placeholder="username" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -77,8 +80,11 @@ const LoginPage = () => {
               />
             </div>
             <div className="flex flex-col">
-              <Button type="submit" className="bg-[#046A96]">
-                <p className="text-white">Login</p>
+              <Button type="submit" className="bg-[#046A96]" disabled={isLoading}>
+                <div className="flex flex-row justify-center items-center">
+                  {/* to-do add spinner loading */}
+                  <p className="text-white">Login</p>
+                </div>
               </Button>
             </div>
           </form>
