@@ -107,7 +107,6 @@ function Dashboard() {
     <>
       <div className="flex flex-row justify-between pt-4">
         {slData ? <h3>{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
-
         {upData && <OnlineIndicator isOnline={upData.checkOnline} />}
       </div>
 

@@ -11,6 +11,8 @@ export function useCustomer(customerParams: CustomerParams) {
 }
 
 export function useCustomerTable(customerParams: CustomerParams) {
+  // add delay 2  second
+
   return useQuery({
     queryKey: ['telemetry', customerParams],
     queryFn: () => getCustomer(customerParams),

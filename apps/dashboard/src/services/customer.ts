@@ -87,6 +87,8 @@ export type CustomerParams = {
 };
 
 export const getCustomer = async (params: CustomerParams) => {
+  // add delay 2  second
+  await new Promise(resolve => setTimeout(resolve, 2000));
   const { uuid } = params;
   const { data } = await ax.get<CustomerResponse>(`/customer/${uuid}`);
   return schema.parse(data.data);
