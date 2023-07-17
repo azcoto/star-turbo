@@ -11,7 +11,7 @@ const OnlineIndicator = (props: { isOnline: boolean }) => {
         />
         <span className={`relative inline-flex rounded-full h-3 w-3 ${isOnline ? 'bg-green-400' : 'bg-red-400'}`} />
       </span>
-      <h4>{isOnline ? 'ONLINE' : 'OFFLINE'}</h4>
+      <h4 className="text-[#66D1FF]">{isOnline ? 'ONLINE' : 'OFFLINE'}</h4>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useAuthTokenStore } from '@/store/auth';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import LogoStarspace from '@/assets/logo-starspace.png';
 import BackgroundImage from '@/assets/bg-landing.jpg';
 
@@ -27,12 +27,10 @@ function RootLayout(_props: Props) {
   return (
     <main className="px-8 pt-8 h-screen">
       {/* Image with opacity */}
-      {location.pathname.split('/')[1] !== 'dashboard' && (
-        <div className="absolute inset-0 -z-10">
-          <img src={BackgroundImage} alt="background" className="object-cover w-full h-full" />
-          <div className="absolute inset-0 bg-black opacity-80"></div>
-        </div>
-      )}
+      <div className="fixed inset-0 -z-10">
+        <img src={BackgroundImage} alt="background" className="object-cover w-full h-full" />
+        <div className="fixed inset-0 bg-black opacity-80"></div>
+      </div>
 
       <div className="flex flex-col rounded-lg shadow-lg px-6 ">
         <div className="flex flex-row  items-center py-4 mb-4">

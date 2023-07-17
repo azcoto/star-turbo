@@ -11,38 +11,42 @@ const TerminalInfo = (props: Props) => {
   const { data: uptimeData } = useUptime(serviceLine);
 
   return (
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-row justify-between ">
       <div className="flex flex-col w-1/2">
-        <p className="text-xl text-muted-foreground">SERVICE LINE NUMBER</p>
-        {slData ? <p className="font-bold">{slData.serviceLineNumber}</p> : <Skeleton className="w-48 h-4" />}
-        <br />
-        <p className="text-xl text-muted-foreground">KIT SERIAL NUMBER</p>
+        <p className="text-xl text-white">SERVICE LINE NUMBER</p>
         {slData ? (
-          <p className="font-bold">{slData.kitSerialNumber ? slData.kitSerialNumber : '-'}</p>
+          <p className="font-bold text-[#66D1FF]">{slData.serviceLineNumber}</p>
         ) : (
           <Skeleton className="w-48 h-4" />
         )}
         <br />
-        <p className="text-xl text-muted-foreground">LAST UPDATED</p>
+        <p className="text-xl text-white">KIT SERIAL NUMBER</p>
+        {slData ? (
+          <p className="font-bold text-[#66D1FF]">{slData.kitSerialNumber ? slData.kitSerialNumber : '-'}</p>
+        ) : (
+          <Skeleton className="w-48 h-4" />
+        )}
+        <br />
+        <p className="text-xl text-white">LAST UPDATED</p>
 
         {uptimeData ? (
-          <p className="font-bold">{uptimeData.lastUpdated ? uptimeData.lastUpdated : '-'}</p>
+          <p className="font-bold text-[#66D1FF]">{uptimeData.lastUpdated ? uptimeData.lastUpdated : '-'}</p>
         ) : (
           <Skeleton className="w-48 h-4" />
         )}
       </div>
       <div className="flex flex-col w-1/2">
-        <p className="text-xl text-muted-foreground">SERVICE ADDRESS</p>
+        <p className="text-xl text-white">SERVICE ADDRESS</p>
         {slData ? (
-          <p className="font-bold">{slData.formattedAddress ? slData.formattedAddress : '-'}</p>
+          <p className="font-bold text-[#66D1FF]">{slData.formattedAddress ? slData.formattedAddress : '-'}</p>
         ) : (
           <Skeleton className="w-48 h-4" />
         )}
         <br />
-        <p className="text-xl text-muted-foreground">UPTIME</p>
+        <p className="text-xl text-white">UPTIME</p>
 
         {uptimeData ? (
-          <p className="font-bold">{uptimeData.uptimeFormatted ? uptimeData.uptimeFormatted : '-'}</p>
+          <p className="font-bold text-[#66D1FF]">{uptimeData.uptimeFormatted ? uptimeData.uptimeFormatted : '-'}</p>
         ) : (
           <Skeleton className="w-48 h-4" />
         )}

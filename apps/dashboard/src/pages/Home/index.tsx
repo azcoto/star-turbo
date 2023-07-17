@@ -19,7 +19,7 @@ type Node = {
 const columns: ColumnDef<Node>[] = [
   {
     accessorKey: 'namaNodelink',
-    header: () => <h3 className="text-white">NAMA</h3>,
+    header: () => <h4 className="text-white">NAMA</h4>,
     accessorFn: row => row.namaNodelink,
     cell: ({ cell, row }) => (
       <Button
@@ -29,14 +29,14 @@ const columns: ColumnDef<Node>[] = [
           router.navigate(`/dashboard/${row.getValue<string>('serviceline')}`);
         }}
       >
-        <h4 className="text-white">{cell.getValue<string>()}</h4>
+        <p className="text-white">{cell.getValue<string>()}</p>
       </Button>
     ),
     size: 80,
   },
   {
     accessorKey: 'lastUpdated',
-    header: () => <h3 className="text-white">ONLINE</h3>,
+    header: () => <h4 className="text-white">ONLINE</h4>,
     accessorFn: row => row.lastUpdated,
     size: 80,
     cell: ({ cell, row }) => {
@@ -51,7 +51,7 @@ const columns: ColumnDef<Node>[] = [
             />
             <span className={`relative inline-flex rounded-full h-3 w-3 ${isOnline ? 'bg-green-400' : 'bg-red-400'}`} />
           </span>
-          <h4 className="text-white">{row.getValue<string>('currentKitSerialNumber')}</h4>
+          <p className="text-white">{row.getValue<string>('currentKitSerialNumber')}</p>
         </div>
       );
     },
@@ -59,17 +59,17 @@ const columns: ColumnDef<Node>[] = [
 
   {
     accessorKey: 'layanan',
-    header: () => <h3 className="text-white">LAYANAN</h3>,
+    header: () => <h4 className="text-white">LAYANAN</h4>,
     accessorFn: row => row.layanan,
     size: 80,
-    cell: ({ cell }) => <h4 className="font-normal text-white">{cell.getValue<string>()}</h4>,
+    cell: ({ cell }) => <p className="font-normal text-white">{cell.getValue<string>()}</p>,
   },
   {
     accessorKey: 'serviceline',
-    header: () => <h3 className="text-white">SERVICE LINE</h3>,
+    header: () => <h4 className="text-white">SERVICE LINE</h4>,
     accessorFn: row => row.serviceline,
     size: 80,
-    cell: ({ cell }) => <h4 className="font-normal text-white">{cell.getValue<string>()}</h4>,
+    cell: ({ cell }) => <p className="font-normal text-white">{cell.getValue<string>()}</p>,
   },
   {
     accessorKey: 'currentKitSerialNumber',
@@ -80,13 +80,13 @@ const columns: ColumnDef<Node>[] = [
   },
   {
     accessorKey: 'uptime',
-    header: () => <h3 className="text-white">UPTIME</h3>,
+    header: () => <h4 className="text-white">UPTIME</h4>,
     accessorFn: row => row.uptime,
     cell: ({ cell }) => {
-      if (cell.getValue<number | null>() === null) return <h4 className="font-normal">-</h4>;
+      if (cell.getValue<number | null>() === null) return <p className="font-normal text-white">-</p>;
       const uptimeDuration = intervalToDuration({ start: 0, end: cell.getValue<number>() * 1000 });
       return (
-        <h4 className="font-normal text-white">{`${uptimeDuration.days} DAYS ${uptimeDuration.hours} HOURS ${uptimeDuration.minutes} MINUTES`}</h4>
+        <p className="font-normal text-white">{`${uptimeDuration.days} DAYS ${uptimeDuration.hours} HOURS ${uptimeDuration.minutes} MINUTES`}</p>
       );
     },
   },

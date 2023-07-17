@@ -3,7 +3,7 @@ import { TelemetryQuery } from '@/services';
 import { useTelemetry } from '../hooks';
 import { format } from 'date-fns';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Spinner } from '@/components/ui/spinner';
 
 interface LatencyChartProps {
   tq: TelemetryQuery;
@@ -27,7 +27,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
 
 const LatencyChart = (props: LatencyChartProps) => {
   const { tq } = props;
-  const { data } = useTelemetry(tq);
+  const { data, isLoading } = useTelemetry(tq);
 
   const domain = data && data.length > 0 ? [data[0].time, data[data.length - 1].time] : [0, 0];
   const isSameDay = data && data.length > 0 && data[0].hari === data[data.length - 1].hari ? true : false;
@@ -35,23 +35,30 @@ const LatencyChart = (props: LatencyChartProps) => {
   return (
     <>
       {data && data?.length > 0 ? (
-        <ResponsiveContainer width="100%" height="100%" className="h-full w-full">
+        <ResponsiveContainer width="100%" height="100%" className="h-full w-full bg-gray-900 rounded-md">
           <AreaChart
             width={500}
             height={800}
             data={data}
             margin={{
-              top: 10,
+              top: 20,
               right: 20,
-              left: 0,
+              left: 10,
               bottom: 0,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="1" strokeOpacity={0.3} />
             <XAxis
               style={{
                 fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
                 fontSize: '12px',
+              }}
+              stroke="white"
+              tick={{
+                fill: 'white',
+              }}
+              tickLine={{
+                stroke: 'white',
               }}
               tickFormatter={time => {
                 const date = new Date(time);
@@ -72,10 +79,18 @@ const LatencyChart = (props: LatencyChartProps) => {
                   fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
                   fontSize: '12px',
                 }}
+                stroke="white"
+                tick={{
+                  fill: 'white',
+                }}
+                tickLine={{
+                  stroke: 'white',
+                }}
                 tickFormatter={time => {
                   const date = new Date(time);
                   const day = `${date.getDate()}`.padStart(2, '0');
                   const month = `${date.getMonth()}`.padStart(2, '0');
+
                   return `${day}/${month}`;
                 }}
                 dataKey="hari"
@@ -85,6 +100,13 @@ const LatencyChart = (props: LatencyChartProps) => {
               />
             )}
             <YAxis
+              stroke="white"
+              tick={{
+                fill: 'white',
+              }}
+              tickLine={{
+                stroke: 'white',
+              }}
               style={{
                 fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
                 fontSize: '12px',
@@ -96,12 +118,16 @@ const LatencyChart = (props: LatencyChartProps) => {
               }}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Area type="monotone" dataKey="pingLatencyMsAvg" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="pingLatencyMsAvg" stroke="#8884d8" fill="#42C2F8" />
           </AreaChart>
         </ResponsiveContainer>
       ) : (
-        <div className=" flex flex-row justify-center items-center w-full h-72 bg-slate-100 rounded-xl">
-          <h3>No Data</h3>
+        <div className=" flex flex-row justify-center items-center w-full h-72 bg-gray-900 rounded-xl">
+          {isLoading ? (
+            <Spinner className="w-32 h-32"></Spinner>
+          ) : (
+            <h3 className="text-white text-lg font-semibold">No data available</h3>
+          )}
         </div>
       )}
     </>

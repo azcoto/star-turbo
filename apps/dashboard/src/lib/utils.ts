@@ -9,3 +9,9 @@ export function cn(...inputs: ClassValue[]) {
 export function humanDuration(time: number) {
   return formatDuration(intervalToDuration({ start: 0, end: time * 1000 }));
 }
+
+export function maxValue(x: number[]) {
+  return x.reduce((prev, curr) => {
+    return Math.max(prev, curr);
+  });
+}

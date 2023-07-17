@@ -15,9 +15,9 @@ import subDate from 'date-fns/sub';
 import ObstructionChart from './components/obstruction-chart';
 import OnlineIndicator from './components/online-indicator';
 
-import { DateRange } from 'react-day-picker';
+import { DateRange, SelectRangeEventHandler } from 'react-day-picker';
 import { MdCalendarMonth as CalendarIcon, MdFileDownload as DownloadIcon } from 'react-icons/md';
-import { format, subMonths, subSeconds } from 'date-fns';
+import { addDays, format, subMonths, subSeconds } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { PopoverClose } from '@radix-ui/react-popover';
@@ -82,6 +82,7 @@ function Dashboard() {
         key={index}
         defaultPressed={relTimeRange.id === relativeTimeRange[index].id}
         pressed={isRelTimeRange && relTimeRange.id === relativeTimeRange[index].id}
+        className="hover:bg-[#66D1FF] data-[state=on]:bg-[#66D1FF] "
         onPressedChange={() => {
           setRelTimeRange(relativeTimeRange[index]);
           setTelemetryQuery(state => {
@@ -95,7 +96,7 @@ function Dashboard() {
           setIsRelTimeRange(true);
         }}
       >
-        <p>{range.label}</p>
+        <p className="text-white">{range.label}</p>
       </Toggle>
     );
   });
@@ -103,15 +104,26 @@ function Dashboard() {
   const { data: slData } = useServiceLine(serviceLine);
   const { data: upData } = useUptime(serviceLine);
 
+  const calendarOnChange: SelectRangeEventHandler = (range: DateRange | undefined) => {
+    console.log(range);
+    if (range) {
+      if (range.to) console.log(subSeconds(addDays(range.to, 1), 1));
+      setAbsTimeRange({
+        from: range.from,
+        to: range.to ? subSeconds(addDays(range.to, 1), 1) : undefined,
+      });
+    }
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between pt-4">
-        {slData ? <h3>{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
+        {slData ? <h3 className="text-white">{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
         {upData && <OnlineIndicator isOnline={upData.checkOnline} />}
       </div>
 
       <div className="flex flex-row py-4 gap-x-4">
-        <div className="flex flex-col w-1/2 p-4 border rounded-lg shadow-md">
+        <div className="flex flex-col w-1/2 p-4  rounded-lg shadow-md bg-[#57B5DD66]">
           {serviceLine && <TerminalInfo serviceLine={serviceLine} />}
         </div>
         <div className="flex flex-col w-1/2 h-96 border rounded-lg shadow-md z-0">
@@ -120,7 +132,7 @@ function Dashboard() {
       </div>
       <div className="flex flex-row justify-between items-center py-4 border-b">
         <div className="flex flex-row items-center gap-4">
-          <h3>NETWORK STATISTICS</h3>
+          <h3 className="text-[#66D1FF]">NETWORK STATISTICS</h3>
           <DownloadIcon className="w-7 h-7" />
         </div>
 
@@ -157,42 +169,40 @@ function Dashboard() {
               mode="range"
               defaultMonth={subMonths(new Date(), 1)}
               selected={absTimeRange}
-              onSelect={setAbsTimeRange}
+              onSelect={calendarOnChange}
               numberOfMonths={2}
-              toDate={subSeconds(new Date(), 1)}
+              toDate={subDate(new Date(), { days: 1 })}
             />
-            <PopoverClose>
-              <div className="px-4 py-4 w-full">
-                <Button className="w-full">Filter Date</Button>
-              </div>
-            </PopoverClose>
+            <div className="px-4 py-4">
+              <PopoverClose className="rounded-md bg-sky-400 px-4 py-4">Filter Date</PopoverClose>
+            </div>
           </PopoverContent>
         </Popover>
       </div>
 
       <div className="grid grid-cols-3 gap-4 py-4">
         <div className="flex flex-col h-72 gap-y-4">
-          <h4 className="text-muted-foreground">DOWNLINK THROUGHPUT</h4>
+          <h4 className="text-[#66D1FF]">DOWNLINK THROUGHPUT</h4>
           <DownlinkChart tq={telemeryQuery} />
         </div>
         <div className="flex flex-col h-72 gap-y-4">
-          <h4 className="text-muted-foreground">UPLINK THROUGHPUT</h4>
+          <h4 className="text-[#66D1FF]">UPLINK THROUGHPUT</h4>
           <UplinkChart tq={telemeryQuery} />
         </div>
         <div className="flex flex-col h-72 gap-y-4">
-          <h4 className="text-muted-foreground">LATENCY</h4>
+          <h4 className="text-[#66D1FF]">LATENCY</h4>
           <LatencyChart tq={telemeryQuery} />
         </div>
-        <div className="flex flex-col h-72 gap-y-4">
-          <h4 className="text-muted-foreground">PING DROP RATE</h4>
+        <div className="flex flex-col h-72">
+          <h4 className="text-[#66D1FF]">PING DROP RATE</h4>
           <PingDropChart tq={telemeryQuery} />
         </div>
         <div className="flex flex-col h-72 gap-y-4">
-          <h4 className="text-muted-foreground">SIGNAL QUALITY</h4>
+          <h4 className="text-[#66D1FF]">SIGNAL QUALITY</h4>
           <SignalChart tq={telemeryQuery} />
         </div>
         <div className="flex flex-col h-72 gap-y-4">
-          <h4 className="text-muted-foreground">OBSTRUCTION</h4>
+          <h4 className="text-[#66D1FF]">OBSTRUCTION</h4>
           <ObstructionChart tq={telemeryQuery} />
         </div>
       </div>
