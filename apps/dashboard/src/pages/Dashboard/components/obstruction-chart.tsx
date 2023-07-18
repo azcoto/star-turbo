@@ -112,10 +112,11 @@ const ObstructionChart = (props: ObstructionChartProps) => {
               dx={-10}
               width={70}
               tickFormatter={obstructionPercentTime => {
-                // const normalize = Math.round(obstructionPercentTime * 1000) / 1000;
+                const normalize = Math.round(obstructionPercentTime * 100) / 10;
                 // return `${normalize * 100}%`;
-                return `${obstructionPercentTime}%`;
+                return `${normalize}%`;
               }}
+              domain={() => [0, 10]}
             />
             <Tooltip content={<CustomTooltip />} />
             <Area type="monotone" dataKey="obstructionPercentTime" stroke="#8884d8" fill="#42C2F8" />

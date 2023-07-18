@@ -10,7 +10,7 @@ import PingDropChart from './components/ping-drop-chart';
 import SignalChart from './components/signal-chart';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Toggle } from '@/components/ui/toggle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import subDate from 'date-fns/sub';
 import ObstructionChart from './components/obstruction-chart';
 import OnlineIndicator from './components/online-indicator';
@@ -47,6 +47,17 @@ function Dashboard() {
     start: subDate(new Date(), { seconds: relTimeRange.value }),
     end: new Date(),
   });
+
+  useEffect(() => {
+    if (serviceLine) {
+      setTelemetryQuery(state => {
+        return {
+          ...state,
+          serviceLineNumber: serviceLine,
+        };
+      });
+    }
+  }, [serviceLine]);
 
   const relativeTimeRange = [
     {

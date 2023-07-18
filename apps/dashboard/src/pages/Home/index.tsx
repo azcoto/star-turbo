@@ -1,12 +1,21 @@
 import { useAuthTokenStore } from '@/store/auth';
 import { useCustomer, useCustomerTable } from './hooks';
-import { ColumnDef, useReactTable, getCoreRowModel, flexRender, getPaginationRowModel } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  useReactTable,
+  getCoreRowModel,
+  flexRender,
+  getPaginationRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
+} from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import router from '@/router';
-import { differenceInMinutes, intervalToDuration } from 'date-fns';
+import { intervalToDuration } from 'date-fns';
+import { useState } from 'react';
 
 type Node = {
   namaNodelink: string | null;
@@ -15,6 +24,7 @@ type Node = {
   serviceline: string | null;
   uptime: number | null;
   currentKitSerialNumber: string | null;
+  isOnline: boolean;
 };
 const columns: ColumnDef<Node>[] = [
   {
@@ -35,21 +45,24 @@ const columns: ColumnDef<Node>[] = [
     size: 80,
   },
   {
-    accessorKey: 'lastUpdated',
+    accessorKey: 'isOnline',
     header: () => <h4 className="text-white">ONLINE</h4>,
-    accessorFn: row => row.lastUpdated,
+    accessorFn: row => row.isOnline,
     size: 80,
     cell: ({ cell, row }) => {
-      const isOnline = differenceInMinutes(new Date(), cell.getValue<Date>()) <= 15;
       return (
         <div className="flex flex-row gap-x-4 items-center">
           <span className="relative flex h-3 w-3">
             <span
               className={`animate-ping absolute inline-flex h-full w-full rounded-full ${
-                isOnline ? 'bg-green-400' : 'bg-red-400'
+                cell.getValue<boolean>() ? 'bg-green-400' : 'bg-red-400'
               } opacity-75`}
             />
-            <span className={`relative inline-flex rounded-full h-3 w-3 ${isOnline ? 'bg-green-400' : 'bg-red-400'}`} />
+            <span
+              className={`relative inline-flex rounded-full h-3 w-3 ${
+                cell.getValue<boolean>() ? 'bg-green-400' : 'bg-red-400'
+              }`}
+            />
           </span>
           <p className="text-white">{row.getValue<string>('currentKitSerialNumber')}</p>
         </div>
@@ -94,7 +107,7 @@ const columns: ColumnDef<Node>[] = [
 
 function Home() {
   const authTokenStore = useAuthTokenStore();
-
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const { data } = useCustomer({
     uuid: authTokenStore.userUUID,
   });
@@ -102,10 +115,16 @@ function Home() {
   const { data: dataTable, isLoading: customerIsLoading } = useCustomerTable({
     uuid: authTokenStore.userUUID,
   });
-
   const table = useReactTable({
     data: dataTable || [],
     columns,
+    state: {
+      columnFilters,
+    },
+    getFilteredRowModel: getFilteredRowModel(),
+    enableFilters: true,
+    enableColumnFilters: true,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
@@ -113,22 +132,37 @@ function Home() {
   return (
     <div className=" rounded-lg bg-opacity-20 bg-[#57B5DD]">
       <div className="flex flex-row justify-center gap-x-8 py-4 ">
-        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#50C260] p-12 rounded-lg shadow-lg">
+        <div
+          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#50C260] p-12 rounded-lg shadow-lg"
+          onClick={() => {
+            setColumnFilters(() => [{ id: 'isOnline', value: true }]);
+          }}
+        >
           {customerIsLoading && <Spinner className="w-16 h-16" />}
           {data && <h1 className="text-white">{data.nodes.up}</h1>}
           <h3 className="text-white">ONLINE</h3>
         </div>
-        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#F63C30] p-12 rounded-lg shadow-lg">
+        <div
+          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#F63C30] p-12 rounded-lg shadow-lg"
+          onClick={() => {
+            setColumnFilters(() => [{ id: 'isOnline', value: false }]);
+          }}
+        >
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
           {data && <h1 className="text-white">{data.nodes.down}</h1>}
           <h3 className="text-white">OFFLINE</h3>
         </div>
-        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#E4AD20] p-12 rounded-lg shadow-lg">
+        <div
+          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#E4AD20] p-12 rounded-lg shadow-lg"
+          onClick={() => {
+            setColumnFilters(() => []);
+          }}
+        >
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
-          {data && <h1 className="text-white">{data.nodes.inactive}</h1>}
-          <h3 className="text-white">INACTIVE</h3>
+          {data && <h1 className="text-white">{data.nodes.up + data.nodes.down}</h1>}
+          <h3 className="text-white">ACTIVE</h3>
         </div>
       </div>
 

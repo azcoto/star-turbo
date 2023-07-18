@@ -28,7 +28,6 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
 const DownlinkChart = (props: DownlinkChartProps) => {
   const { tq } = props;
   const { data, isLoading } = useTelemetry(tq);
-
   const domain = data && data.length > 0 ? [data[0].time, data[data.length - 1].time] : [0, 0];
   const isSameDay = data && data.length > 0 && data[0].hari === data[data.length - 1].hari ? true : false;
 
