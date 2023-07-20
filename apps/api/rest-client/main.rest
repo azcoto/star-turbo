@@ -26,3 +26,7 @@ GET http://localhost:8000/customer/71fed8cc-ba7e-439d-9802-d2b9e993ba43
 
 ### GET Customer
 GET http://localhost:8000/customer/8cc0cdb8-2760-4a6c-9175-bc0b0e581fbd
+
+
+### GET Raw Data
+GET http://localhost:8000/telemetry/raw-data?serviceLine=AST-1642430-93633-42&month=7&year=2023
