@@ -6,17 +6,16 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import LogoStarspace from '@/assets/logo-starspace.png';
 import BackgroundImage from '@/assets/bg-landing.jpg';
 import { cn, getInitials } from '@/lib/utils';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useCustomerCombo } from '../Home/hooks';
-import { Command, CommandGroup, CommandInput, CommandItem, CommandEmpty } from '@/components/ui/command';
+import { Command, CommandInput, CommandItem, CommandEmpty } from '@/components/ui/command';
 import { CheckIcon } from 'lucide-react';
 import { CommandList } from 'cmdk';
 import router from '@/router';
-import OnlineIndicator from '../Dashboard/components/online-indicator';
 import MiniOnlineIndicator from '../Dashboard/components/mini-online-indicator';
 
 type Props = {
-  children: React.ReactNode; // 👈️ type children
+  children: ReactNode;
 };
 
 function RootLayout(_props: Props) {
@@ -26,7 +25,7 @@ function RootLayout(_props: Props) {
 
   const navigate = useNavigate();
 
-  const { data, isLoading: customerIsLoading } = useCustomerCombo({
+  const { data } = useCustomerCombo({
     uuid: authTokenStore.userUUID,
   });
 

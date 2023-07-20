@@ -9,7 +9,6 @@ import LatencyChart from './components/latency-chart';
 import PingDropChart from './components/ping-drop-chart';
 import SignalChart from './components/signal-chart';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Toggle } from '@/components/ui/toggle';
 import { useEffect, useState } from 'react';
 import subDate from 'date-fns/sub';
 import ObstructionChart from './components/obstruction-chart';
@@ -22,8 +21,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { PopoverClose } from '@radix-ui/react-popover';
 import { useParams } from 'react-router-dom';
+import RelativeTimeRangeSelector from './components/relative-time-range';
 
-type RelativeTimeRange = {
+export type RelativeTimeRange = {
   id: number;
   label: string;
   value: number;
@@ -59,58 +59,18 @@ function Dashboard() {
     }
   }, [serviceLine]);
 
-  const relativeTimeRange = [
-    {
-      id: 1,
-      label: '15m',
-      value: 15 * 60,
-    },
-    {
-      id: 2,
-      label: '1h',
-      value: 60 * 60,
-    },
-    {
-      id: 3,
-      label: '3h',
-      value: 3 * 60 * 60,
-    },
-    {
-      id: 4,
-      label: '12h',
-      value: 12 * 60 * 60,
-    },
-    {
-      id: 5,
-      label: '24h',
-      value: 24 * 60 * 60,
-    },
-  ];
-
-  const relativeTimeRangeEl = relativeTimeRange.map((range, index) => {
-    return (
-      <Toggle
-        key={index}
-        defaultPressed={relTimeRange.id === relativeTimeRange[index].id}
-        pressed={isRelTimeRange && relTimeRange.id === relativeTimeRange[index].id}
-        className="hover:bg-[#66D1FF] data-[state=on]:bg-[#66D1FF] "
-        onPressedChange={() => {
-          setRelTimeRange(relativeTimeRange[index]);
-          setTelemetryQuery(state => {
-            return {
-              ...state,
-              start: subDate(new Date(), { seconds: relativeTimeRange[index].value }),
-              end: new Date(),
-            };
-          });
-          setAbsTimeRange(undefined);
-          setIsRelTimeRange(true);
-        }}
-      >
-        <p className="text-white">{range.label}</p>
-      </Toggle>
-    );
-  });
+  const relativeTimeRangeChanged = (tr: RelativeTimeRange) => {
+    setRelTimeRange(tr);
+    setTelemetryQuery(state => {
+      return {
+        ...state,
+        start: subDate(new Date(), { seconds: tr.value }),
+        end: new Date(),
+      };
+    });
+    setAbsTimeRange(undefined);
+    setIsRelTimeRange(true);
+  };
 
   const { data: slData } = useServiceLine(serviceLine);
   const { data: upData } = useUptime(serviceLine);
@@ -142,53 +102,76 @@ function Dashboard() {
         </div>
       </div>
       <div className="flex flex-row justify-between items-center py-4 border-b">
-        <div className="flex flex-row items-center gap-4">
+        <div className="flex flex-row items-center basis-1/3">
           <h3 className="text-[#66D1FF]">NETWORK STATISTICS</h3>
-          <DownloadIcon className="w-7 h-7" />
         </div>
 
-        <div className="flex flex-row justify-between w-64">{relativeTimeRangeEl}</div>
-        <Popover
-          onOpenChange={open => {
-            if (!open && absTimeRange && absTimeRange.from && absTimeRange.to) {
-              setIsRelTimeRange(false);
-              setTelemetryQuery(state => {
-                return {
-                  ...state,
-                  start: absTimeRange.from as Date,
-                  end: absTimeRange.to as Date,
-                };
-              });
-            }
-          }}
-        >
-          <PopoverTrigger asChild>
-            <Button variant="outline">
-              <div className="flex flex-row gap-2 items-center justify-start">
-                <CalendarIcon />
-                {absTimeRange && absTimeRange.from && absTimeRange.to ? (
-                  <p>{`${format(absTimeRange.from, 'dd/MM/yyyy')} - ${format(absTimeRange.to, 'dd/MM/yyyy')}`}</p>
-                ) : (
-                  <p>Pick a date</p>
-                )}
+        <div className="flex flex-row items-center justify-center gap-4 basis-1/3">
+          <RelativeTimeRangeSelector
+            onToggleChange={relativeTimeRangeChanged}
+            isRelTimeRange={isRelTimeRange}
+            relTimeRange={relTimeRange}
+          />
+          <Popover
+            onOpenChange={open => {
+              if (!open && absTimeRange && absTimeRange.from && absTimeRange.to) {
+                setIsRelTimeRange(false);
+                setTelemetryQuery(state => {
+                  return {
+                    ...state,
+                    start: absTimeRange.from as Date,
+                    end: absTimeRange.to as Date,
+                  };
+                });
+              }
+            }}
+          >
+            <PopoverTrigger asChild>
+              <Button variant="ghost" className="hover:bg-[#66D1FF]">
+                <div className="flex flex-row gap-2 items-center justify-start">
+                  <CalendarIcon className="fill-white" />
+                  {absTimeRange && absTimeRange.from && absTimeRange.to ? (
+                    <p className="text-white">{`${format(absTimeRange.from, 'dd/MM/yyyy')} - ${format(
+                      absTimeRange.to,
+                      'dd/MM/yyyy'
+                    )}`}</p>
+                  ) : (
+                    <p className="text-white">Pick a date</p>
+                  )}
+                </div>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start" side="left">
+              <Calendar
+                initialFocus
+                mode="range"
+                defaultMonth={subMonths(new Date(), 1)}
+                selected={absTimeRange}
+                onSelect={calendarOnChange}
+                numberOfMonths={2}
+                toDate={subDate(new Date(), { days: 1 })}
+              />
+              <div className="px-4 py-4">
+                <PopoverClose className="rounded-md bg-sky-400 px-4 py-4">Filter Date</PopoverClose>
               </div>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start" side="left">
-            <Calendar
-              initialFocus
-              mode="range"
-              defaultMonth={subMonths(new Date(), 1)}
-              selected={absTimeRange}
-              onSelect={calendarOnChange}
-              numberOfMonths={2}
-              toDate={subDate(new Date(), { days: 1 })}
-            />
-            <div className="px-4 py-4">
-              <PopoverClose className="rounded-md bg-sky-400 px-4 py-4">Filter Date</PopoverClose>
-            </div>
-          </PopoverContent>
-        </Popover>
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div className="flex flex-row items-center justify-end basis-1/3">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">
+                DOWNLOAD CSV
+                <DownloadIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start" side="bottom">
+              <div className="px-4 py-4">
+                <PopoverClose className="rounded-md bg-sky-400 px-4 py-4">Download</PopoverClose>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4 py-4">

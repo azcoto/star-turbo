@@ -1,7 +1,6 @@
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { useServiceLine } from '../hooks';
 import { Skeleton } from '@/components/ui/skeleton';
-import { TelemetryQuery } from '@/services';
 
 type Props = {
   serviceLine: string;

@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:8900', 'http://127.0.0.1:8900'],
+    origin: ['http://localhost', 'http://localhost:8900', 'http://127.0.0.1:8900'],
   })
 );
 

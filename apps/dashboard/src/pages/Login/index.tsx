@@ -12,6 +12,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/components/ui/use-toast';
 import { useLogin } from './hooks';
 import { AppError } from '@/lib/AppError';
+import LogoStarspace from '@/assets/logo-starspace.png';
 
 const formSchema = z.object({
   username: z.string().nonempty('Username could not be empty').min(2, {
@@ -63,7 +64,7 @@ const LoginPage = () => {
       <Toaster />
       <div className="flex flex-col bg-gradient-to-br from-[#439DC4] to-transparent rounded-lg xl:w-3/12 h-1/2 py-4 px-12 gap-4">
         <div className="flex flex-col justify-center items-center ">
-          <img src="src/assets/logo-starspace.png" alt="logo" className="h-16 w-64" />
+          <img src={LogoStarspace} alt="logo" className="h-16 w-64" />
           <h3 className="text-white font-normal">Dashboard</h3>
         </div>
 
