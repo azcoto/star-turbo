@@ -41,7 +41,7 @@ export const handler = async (req: RawDataRequest, res: RawDataResponse) => {
       latencyms: row.pingLatencyMsAvg !== null ? row.pingLatencyMsAvg : null,
       pingDropRate: row.pingDropRateAvg !== null ? row.pingDropRateAvg * 100 : null,
       signalQuality: row.signalQuality !== null ? row.signalQuality * 100 : null,
-      obstructionPercentTime: row.obstructionPercentTime !== null ? row.obstructionPercentTime * 100 : null,
+      obstructionPercentTime: row.obstructionPercentTime !== null ? row.obstructionPercentTime : null,
     };
   });
   const csv = stringify(normalized, { header: true });
