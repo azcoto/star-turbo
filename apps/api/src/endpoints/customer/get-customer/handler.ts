@@ -5,6 +5,9 @@ import { DrizzleError, eq, and, isNotNull, sql, inArray } from 'drizzle-orm';
 import { dbStarspace, endCustomer, user } from '@/db/schema/starspace';
 import { dbFulfillment, vMasterNodelinkStarlink } from '@/db/schema/3easy';
 import { dbStarlink, telemetry, terminals } from '@/db/schema/starlink';
+import config from '@/config';
+
+const { fulfillmentConnStr } = config;
 
 const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFunction) => {
   const { uuid } = res.locals;
@@ -33,7 +36,6 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
      * * DB Fulfillment
      * * Get nodelink where mCustomerId = trieasyId
      */
-
     const nodes = await dbFulfillment
       .select()
       .from(vMasterNodelinkStarlink)

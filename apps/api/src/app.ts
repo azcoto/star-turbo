@@ -3,8 +3,11 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import routes from './routes';
 import { errorHandler } from './errorHandler';
+import env from './config';
 import logger from './logger';
+import 'dotenv/config';
 
+const { nodeEnv } = env;
 const app = express();
 
 app.use(
@@ -18,6 +21,8 @@ app.use(bodyParser.json());
 app.use(routes);
 app.use(errorHandler);
 
-if (import.meta.env.PROD) app.listen(8000);
-console.log('Server listening on port 8000');
+if (nodeEnv === 'production')
+  app.listen(8000, () => {
+    console.log('Server listening on port 8000');
+  });
 export const viteNodeApp = app;

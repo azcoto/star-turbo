@@ -3,7 +3,6 @@ import { dbStarlink, telemetry } from '@/db/schema/starlink';
 import { TelemetryRequest, TelemetryResponse } from './dtos';
 
 export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => {
-  console.log('req.body', res.locals);
   const { start, end, serviceLineNumber } = res.locals;
   // epoch to date
   const startDate = new Date(start);
@@ -16,8 +15,6 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
   const delta = (end - start) / 1000;
   const mult = Math.floor(delta / 3600) * 15;
   const bucketSize = mult ? `${mult}s` : `15s`;
-  console.log(delta, mult, bucketSize);
-  console.log(serviceLineNumber);
   // prettier-ignore
   const query = dbStarlink
     .select({
@@ -39,8 +36,8 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
     .orderBy(desc(sql`tsb`))
     .groupBy(sql`tsb`);
 
-  console.log(query.toSQL());
   const result = await query;
+  console.log('hitted');
   return res.json({
     success: true,
     message: 'Success!',
