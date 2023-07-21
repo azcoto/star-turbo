@@ -4,29 +4,34 @@ FROM base as builder
 RUN apt update
 WORKDIR /app
 RUN npm install --global turbo
-
 COPY . .
-RUN turbo prune --scope=dashboard --docker
+RUN turbo prune --scope=api --docker
+# remove all empty node_modules folder structure
 RUN rm -rf /app/out/full/*/*/node_modules
 
 FROM base AS installer
-RUN apt update
 WORKDIR /app
+
+RUN apt update
 RUN npm install --global pnpm && npm install --global turbo
 
-COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-RUN pnpm fetch
-RUN pnpm install
-COPY --from=builder /app/out/full/ .
-COPY turbo.json turbo.json
-RUN turbo run build --filter=dashboard
 
-# Don't run production as root
-FROM nginx:stable-alpine AS nginx
-WORKDIR /app
-COPY nginx-default.conf /etc/nginx/conf.d/default.conf
-COPY --from=installer --chown=node:nodejs /app/apps/dashboard/dist .
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;" ]
+RUN pnpm fetch
+RUN pnpm install --frozen-lockfile
+COPY --from=builder /app/out/full/ .
+
+
+COPY turbo.json turbo.json
+RUN turbo run build --filter=api
+
+# FROM base AS runner
+# WORKDIR /app
+
+# RUN apt update
+
+# COPY --from=builder /app/apps/api/dist/ .
+
+EXPOSE 8000
+CMD ["node", "/app/apps/api/dist/app.mjs" ]

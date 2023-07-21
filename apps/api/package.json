@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc",
     "test": "vitest"
   },
   "dependencies": {
@@ -36,6 +36,7 @@
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",
     "tsconfig": "workspace:*",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.6",
     "vite": "^4.3.9",
     "vite-plugin-node": "^3.0.2"

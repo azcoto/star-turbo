@@ -1,5 +1,5 @@
 ### root
-GET http://localhost:8000
+GET http://172.17.0.1:8000
 
 ### Authentication -  Login
 POST http://localhost:8000/auth/login

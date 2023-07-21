@@ -19,5 +19,5 @@ app.use(routes);
 app.use(errorHandler);
 
 if (import.meta.env.PROD) app.listen(8000);
-
+console.log('Server listening on port 8000');
 export const viteNodeApp = app;

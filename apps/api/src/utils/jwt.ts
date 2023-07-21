@@ -1,6 +1,7 @@
 import config from '@/config';
-import { sign } from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 
+const { sign } = jsonwebtoken;
 const { accessTokenSecret } = config;
 
 export const encodeAccessToken = (payload: Record<string, unknown>) => {

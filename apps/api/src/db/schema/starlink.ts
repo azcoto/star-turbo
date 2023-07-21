@@ -1,8 +1,9 @@
 import config from '@/config';
 import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer, smallint } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
+import pg from 'pg';
 
+const { Pool } = pg;
 const { starlinkConnStr } = config;
 const queryClient = new Pool({
   connectionString: starlinkConnStr,
