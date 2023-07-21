@@ -22,6 +22,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { PopoverClose } from '@radix-ui/react-popover';
 import { useParams } from 'react-router-dom';
 import RelativeTimeRangeSelector from './components/relative-time-range';
+import DownloadCSVDialog from './components/download-csv-dialog';
 
 export type RelativeTimeRange = {
   id: number;
@@ -31,7 +32,7 @@ export type RelativeTimeRange = {
 
 function Dashboard() {
   const { serviceLine } = useParams();
-
+  const [csvOpen, setCsvOpen] = useState<boolean>(false);
   const [isRelTimeRange, setIsRelTimeRange] = useState<boolean>(true);
 
   const [absTimeRange, setAbsTimeRange] = useState<DateRange | undefined>(undefined);
@@ -158,7 +159,7 @@ function Dashboard() {
           </Popover>
         </div>
         <div className="flex flex-row items-center justify-end basis-1/3">
-          <Popover>
+          <Popover onOpenChange={open => setCsvOpen(open)} open={csvOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline">
                 DOWNLOAD CSV
@@ -166,9 +167,7 @@ function Dashboard() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start" side="bottom">
-              <div className="px-4 py-4">
-                <PopoverClose className="rounded-md bg-sky-400 px-4 py-4">Download</PopoverClose>
-              </div>
+              <DownloadCSVDialog serviceLine={serviceLine ?? ''} setCsvOpen={setCsvOpen} />
             </PopoverContent>
           </Popover>
         </div>

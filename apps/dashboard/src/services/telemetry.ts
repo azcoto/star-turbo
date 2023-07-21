@@ -46,3 +46,23 @@ export const getTelemetry = async (query: TelemetryQuery) => {
   );
   return schema.parse(data.data);
 };
+
+type RawDataQuery = {
+  serviceLine: string;
+  month: number;
+  year: number;
+};
+
+export const getRawData = async (query: RawDataQuery) => {
+  const { serviceLine, month, year } = query;
+  // convert date to epoch
+  const response = await ax.get(`/telemetry/raw-data?serviceLine=${serviceLine}&month=${month}&year=${year}`, {
+    responseType: 'blob',
+  });
+  const url = window.URL.createObjectURL(response.data);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `telemetry-${serviceLine}-${year}-${month}.csv`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};

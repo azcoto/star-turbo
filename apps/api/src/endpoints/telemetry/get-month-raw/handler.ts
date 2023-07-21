@@ -45,6 +45,7 @@ export const handler = async (req: RawDataRequest, res: RawDataResponse) => {
     };
   });
   const csv = stringify(normalized, { header: true });
+  res.setHeader('Content-Disposition', `attachment;filename=telemetry-${serviceLineNumber}-${year}-${month}.csv`);
   res.setHeader('Content-Type', 'text/csv');
   return res.status(200).send(csv);
 };
