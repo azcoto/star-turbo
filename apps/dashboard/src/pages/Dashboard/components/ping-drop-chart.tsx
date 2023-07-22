@@ -32,28 +32,48 @@ const PingDropChart = (props: PingDropChartProps) => {
   const isSameDay = data && data.length > 0 && data[0].hari === data[data.length - 1].hari ? true : false;
 
   return (
-    <div className="flex flex-col h-72">
+    <>
       {data && data?.length > 0 ? (
-        <>
-          <div className="flex flex-row gap-x-2 w-full">
-            <p className="text-white text-xs font-normal">MIN : </p>
-            <p className="text-white text-xs font-normal">MAX : </p>
-            <p className="text-white text-xs font-normal">AVG : </p>
-          </div>
-          <ResponsiveContainer width="100%" height="100%" className="h-full w-full bg-gray-900 rounded-md">
-            <AreaChart
-              width={500}
-              height={800}
-              data={data}
-              margin={{
-                top: 20,
-                right: 20,
-                left: 10,
-                bottom: 0,
+        <ResponsiveContainer width="100%" height="100%" className="h-full w-full bg-gray-900 rounded-md">
+          <AreaChart
+            width={500}
+            height={800}
+            data={data}
+            margin={{
+              top: 20,
+              right: 20,
+              left: 10,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="1" strokeOpacity={0.3} />
+            <XAxis
+              style={{
+                fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
+                fontSize: '12px',
               }}
-            >
-              <CartesianGrid strokeDasharray="1" strokeOpacity={0.3} />
+              stroke="white"
+              tick={{
+                fill: 'white',
+              }}
+              tickLine={{
+                stroke: 'white',
+              }}
+              tickFormatter={time => {
+                const date = new Date(time);
+                const hours = `${date.getHours()}`.padStart(2, '0');
+                const minutes = `${date.getMinutes()}`.padStart(2, '0');
+                //add 0 pad
+                return `${hours}:${minutes}`;
+              }}
+              dataKey="time"
+              scale="time"
+              type="number"
+              domain={domain}
+            />
+            {!isSameDay && (
               <XAxis
+                xAxisId={1}
                 style={{
                   fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
                   fontSize: '12px',
@@ -67,65 +87,38 @@ const PingDropChart = (props: PingDropChartProps) => {
                 }}
                 tickFormatter={time => {
                   const date = new Date(time);
-                  const hours = `${date.getHours()}`.padStart(2, '0');
-                  const minutes = `${date.getMinutes()}`.padStart(2, '0');
-                  //add 0 pad
-                  return `${hours}:${minutes}`;
+                  const day = `${date.getDate()}`.padStart(2, '0');
+                  const month = `${date.getMonth()}`.padStart(2, '0');
+                  return `${day}/${month}`;
                 }}
-                dataKey="time"
+                dataKey="hari"
                 scale="time"
                 type="number"
                 domain={domain}
               />
-              {!isSameDay && (
-                <XAxis
-                  xAxisId={1}
-                  style={{
-                    fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
-                    fontSize: '12px',
-                  }}
-                  stroke="white"
-                  tick={{
-                    fill: 'white',
-                  }}
-                  tickLine={{
-                    stroke: 'white',
-                  }}
-                  tickFormatter={time => {
-                    const date = new Date(time);
-                    const day = `${date.getDate()}`.padStart(2, '0');
-                    const month = `${date.getMonth()}`.padStart(2, '0');
-                    return `${day}/${month}`;
-                  }}
-                  dataKey="hari"
-                  scale="time"
-                  type="number"
-                  domain={domain}
-                />
-              )}
-              <YAxis
-                style={{
-                  fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
-                  fontSize: '12px',
-                }}
-                stroke="white"
-                tick={{
-                  fill: 'white',
-                }}
-                tickLine={{
-                  stroke: 'white',
-                }}
-                dx={-10}
-                width={70}
-                tickFormatter={pingDropRate => {
-                  return `${(pingDropRate * 100).toFixed(2)}%`;
-                }}
-              />
-              <Tooltip content={<CustomTooltip />}></Tooltip>
-              <Area type="monotone" dataKey="pingDropRateAvg" stroke="#42C2F8" fill="#42C2F8" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </>
+            )}
+            <YAxis
+              style={{
+                fontFamily: 'Segoe UI, -apple-system, BlinkMacSystemFont',
+                fontSize: '12px',
+              }}
+              stroke="white"
+              tick={{
+                fill: 'white',
+              }}
+              tickLine={{
+                stroke: 'white',
+              }}
+              dx={-10}
+              width={70}
+              tickFormatter={pingDropRate => {
+                return `${(pingDropRate * 100).toFixed(2)}%`;
+              }}
+            />
+            <Tooltip content={<CustomTooltip />}></Tooltip>
+            <Area type="monotone" dataKey="pingDropRateAvg" stroke="#42C2F8" fill="#42C2F8" />
+          </AreaChart>
+        </ResponsiveContainer>
       ) : (
         <div className=" flex flex-row justify-center items-center w-full h-72 bg-gray-900 rounded-xl">
           {isLoading ? (
@@ -135,7 +128,7 @@ const PingDropChart = (props: PingDropChartProps) => {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

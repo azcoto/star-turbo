@@ -5,7 +5,6 @@ import RootLayout from './pages/RootLayout';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PrivateRoute = () => {
   const isAuthenticated = useAuthTokenStore.getState().isAuthenticated;
-  console.log(isAuthenticated);
   return isAuthenticated ? (
     <>
       <RootLayout>

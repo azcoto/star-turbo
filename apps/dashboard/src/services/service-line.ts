@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import ax from './axios';
 
 export type ServiceLineResponse = {
@@ -34,9 +35,18 @@ type UptimeResponse = {
 
 type Uptime = {
   uptimeFormatted: string | null;
-  lastUpdated: string | null;
+  lastUpdated: Date | null;
   checkOnline: boolean;
 };
+
+const uptimeSchema = z.object({
+  uptimeFormatted: z.string().nullable(),
+  lastUpdated: z
+    .string()
+    .nullable()
+    .transform(value => (value ? new Date(value) : null)),
+  checkOnline: z.boolean(),
+});
 
 export const getServiceLine = async (serviceLineNumber: string) => {
   // add delay 2 second
@@ -46,5 +56,7 @@ export const getServiceLine = async (serviceLineNumber: string) => {
 
 export const getUptime = async (serviceLineNumber: string) => {
   const { data } = await ax.get<UptimeResponse>(`/service-line/uptime/${serviceLineNumber}`);
-  return data.data;
+  const parsed = uptimeSchema.parse(data.data);
+
+  return parsed;
 };

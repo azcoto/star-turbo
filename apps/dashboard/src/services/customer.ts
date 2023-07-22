@@ -41,6 +41,7 @@ export type Node = {
   orderNumber: string;
   psbTeknisId: number;
   currentKitSerialNumber: string;
+  startDate: Date;
   uptime: number;
   lastUpdated: Date;
 };
@@ -75,6 +76,7 @@ const schema = z.object({
         orderNumber: z.string().nullable(),
         psbTeknisId: z.number().nullable(),
         currentKitSerialNumber: z.string().nullable(),
+        starDate: z.coerce.date(),
         uptime: z.number().nullable(),
         lastUpdated: z.coerce.date(),
       })

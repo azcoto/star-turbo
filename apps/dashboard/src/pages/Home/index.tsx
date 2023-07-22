@@ -16,6 +16,8 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import router from '@/router';
 import { intervalToDuration } from 'date-fns';
 import { useState } from 'react';
+import NewNodeTable from './components/new-node-table';
+import OfflineNodeTable from './components/offline-node-table';
 
 type Node = {
   namaNodelink: string | null;
@@ -130,8 +132,12 @@ function Home() {
   });
 
   return (
-    <div className=" rounded-lg bg-opacity-20 bg-[#57B5DD]">
-      <div className="flex flex-row justify-center gap-x-8 py-4 ">
+    <div className="rounded-lg bg-opacity-20 bg-[#57B5DD] pb-8">
+      <div className="flex flex-row gap-x-8 py-4 px-8 ">
+        <NewNodeTable />
+        <OfflineNodeTable />
+      </div>
+      <div className="flex flex-row justify-center gap-x-16 py-4 ">
         <div
           className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#50C260] p-12 rounded-lg shadow-lg"
           onClick={() => {
@@ -164,10 +170,22 @@ function Home() {
           {data && <h1 className="text-white">{data.nodes.up + data.nodes.down}</h1>}
           <h3 className="text-white">ACTIVE</h3>
         </div>
+        <div
+          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#6F6666] p-12 rounded-lg shadow-lg"
+          onClick={() => {
+            setColumnFilters(() => []);
+          }}
+        >
+          {customerIsLoading && <Spinner className="w-16 h-16" />}
+
+          {data && <h1 className="text-white">{data.nodes.inactive}</h1>}
+          <h3 className="text-white">INACTIVE</h3>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-2 p-4">
-        <div className="flex flex-row gap-2">
+      <div className="flex flex-col gap-2 px-8 py-4">
+        <div className="flex flex-row items-center gap-2 h-12">
+          <h3 className="text-white">NODELINK</h3>
           <Button
             variant="ghost"
             className="hover:bg-white hover:bg-opacity-10 p-0"
@@ -221,7 +239,7 @@ function Home() {
                   <TableCell colSpan={columns.length} className="h-24 text-center">
                     <div className="flex flex-col gap-4 justify-center items-center">
                       <Spinner className="w-16 h-16" />
-                      <h3>Loading...</h3>
+                      <h3 className="text-white">Loading...</h3>
                     </div>
                   </TableCell>
                 </TableRow>

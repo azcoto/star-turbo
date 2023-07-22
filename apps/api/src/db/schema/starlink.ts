@@ -49,7 +49,7 @@ export const terminals = pgTable('terminals', {
   userTerminalId: varchar('user_terminal_id', { length: 30 }).primaryKey(),
   kitSerialNumber: varchar('kit_serial_number', { length: 20 }).notNull(),
   dishSerialNumber: varchar('dish_serial_number', { length: 20 }),
-  serviceLineNumber: varchar('service_line_number', { length: 30 }),
+  serviceLineNumber: varchar('service_line_number', { length: 30 }).references(() => subscriptions.serviceLineNumber),
   active: boolean('active').notNull(),
 });
 

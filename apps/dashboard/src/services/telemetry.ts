@@ -37,10 +37,8 @@ const schema = z.array(
 );
 
 export const getTelemetry = async (query: TelemetryQuery) => {
-  console.log(query);
   const { serviceLineNumber, start, end } = query;
   // convert date to epoch
-
   const { data } = await ax.get<TelemetryResponse>(
     `/telemetry?serviceLineNumber=${serviceLineNumber}&start=${start.valueOf()}&end=${end.valueOf()}`
   );

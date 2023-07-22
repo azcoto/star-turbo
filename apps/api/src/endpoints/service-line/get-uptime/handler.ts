@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ServiceLineRequest, ServiceLineResponse } from './dto';
 import { addressLine, dbStarlink, serviceLine, telemetry, terminals } from '@/db/schema/starlink';
-import { DrizzleError, desc, eq, sql } from 'drizzle-orm';
+import { DrizzleError, and, desc, eq, sql } from 'drizzle-orm';
 import { ApiError } from '@/api-error';
 
 const handler = async (req: ServiceLineRequest, res: ServiceLineResponse, next: NextFunction) => {
@@ -11,11 +11,16 @@ const handler = async (req: ServiceLineRequest, res: ServiceLineResponse, next: 
     const result = await dbStarlink
     .select({
       uptimeFormatted: sql`to_char(justify_hours(interval '1 sec' * ${telemetry.uptime}), 'FMDD" DAYS "HH24" HOURS "MI" MINUTES')`,
-      lastUpdated : sql`to_char(${telemetry.ts}, 'DD/MM/YYYY hh24:MI:ss')`,
+      lastUpdated : telemetry.ts,
       checkOnline : sql`AGE(now(), ${telemetry.ts} ) < interval '15 minutes'`
     })
     .from(telemetry)
-    .where(eq(telemetry.serviceLineNumber, serviceLineNumber))
+    .where(
+      and(
+        sql`${telemetry.ts} >= NOW() - INTERVAL '1 Month'`,
+        eq(telemetry.serviceLineNumber, serviceLineNumber)
+      )
+    )
     .orderBy(desc(telemetry.ts))
     .limit(1);
 

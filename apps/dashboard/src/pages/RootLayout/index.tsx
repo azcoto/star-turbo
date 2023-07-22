@@ -42,7 +42,7 @@ function RootLayout(_props: Props) {
         <div className="fixed inset-0 bg-black opacity-80"></div>
       </div>
 
-      <div className="flex flex-col rounded-lg shadow-lg px-6 ">
+      <div className="flex flex-col rounded-lg shadow-lg px-6 pb-8 ">
         <div className="flex flex-row  items-center py-4 mb-4">
           <div className="flex-grow basis-0">
             <img src={LogoStarspace} alt="logo" className="w-64 h-14 cursor-pointer" onClick={() => navigate('/')} />

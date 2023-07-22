@@ -4,8 +4,9 @@ import { NextFunction } from 'express';
 import { DrizzleError, eq, and, isNotNull, sql, inArray } from 'drizzle-orm';
 import { dbStarspace, endCustomer, user } from '@/db/schema/starspace';
 import { dbFulfillment, vMasterNodelinkStarlink } from '@/db/schema/3easy';
-import { dbStarlink, telemetry, terminals } from '@/db/schema/starlink';
+import { dbStarlink, subscriptions, telemetry, terminals } from '@/db/schema/starlink';
 import config from '@/config';
+import { compareDesc } from 'date-fns';
 
 const { fulfillmentConnStr } = config;
 
@@ -74,7 +75,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       .from(telemetry)
       .where(
         and(
-          sql`${telemetry.ts} >= NOW() - INTERVAL '20 minutes'`,
+          sql`${telemetry.ts} >= NOW() - INTERVAL '7 days'`,
           inArray(telemetry.serviceLineNumber, slList)
         )
       )
@@ -88,8 +89,10 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       .select({
         serviceLineNumber: terminals.serviceLineNumber,
         kitSerialNumber: terminals.kitSerialNumber,
+        startDate : subscriptions.startDate,
       })
       .from(terminals)
+      .leftJoin(subscriptions, eq(terminals.serviceLineNumber, subscriptions.serviceLineNumber))
       .where(
         and(
           inArray(terminals.serviceLineNumber, slList),
@@ -109,6 +112,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       return {
         ...node,
         currentKitSerialNumber: currentKit ? currentKit.kitSerialNumber : null,
+        starDate: currentKit ? currentKit.startDate : null,
         uptime: uptime ? uptime.uptimeFormatted : null,
         lastUpdated: uptime ? uptime.lastUpdated : null,
       };
@@ -122,7 +126,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
         nodes: {
           up: mergedData.filter(node => node.lastUpdated !== null).length,
           down: mergedData.filter(node => node.lastUpdated === null).length,
-          inactive: mergedData.filter(node => node.statusId !== 1).length,
+          inactive: mergedData.filter(node => node.currentKitSerialNumber === null).length,
           count: mergedData.length,
           data: mergedData,
         },

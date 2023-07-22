@@ -1,5 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { useServiceLine, useUptime } from '../hooks';
+import { format } from 'date-fns';
 
 type Props = {
   serviceLine: string;
@@ -30,7 +31,9 @@ const TerminalInfo = (props: Props) => {
         <p className="text-xl text-white">LAST UPDATED</p>
 
         {uptimeData ? (
-          <p className="font-bold text-[#66D1FF]">{uptimeData.lastUpdated ? uptimeData.lastUpdated : '-'}</p>
+          <p className="font-bold text-[#66D1FF]">
+            {uptimeData.lastUpdated ? format(uptimeData.lastUpdated, 'dd/MM/yyyy HH:mm') : '-'}
+          </p>
         ) : (
           <Skeleton className="w-48 h-4" />
         )}
