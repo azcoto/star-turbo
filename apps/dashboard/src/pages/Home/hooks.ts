@@ -5,8 +5,8 @@ export function useCustomer(customerParams: CustomerParams) {
   return useQuery({
     queryKey: ['telemetry', customerParams],
     queryFn: () => getCustomer(customerParams),
-    staleTime: 1000 * 60 * 20,
-    enabled: customerParams.uuid !== '', // 20 minutes
+    refetchInterval: 1000 * 60 * 5, // 20 minutes
+    enabled: customerParams.uuid !== '',
   });
 }
 
@@ -16,7 +16,7 @@ export function useCustomerTable(customerParams: CustomerParams) {
   return useQuery({
     queryKey: ['telemetry', customerParams],
     queryFn: () => getCustomer(customerParams),
-    staleTime: 1000 * 60 * 20,
+    refetchInterval: 1000 * 60 * 5,
     enabled: customerParams.uuid !== '', // 20 minutes
     select: data => {
       const nodes = data.nodes.data;
@@ -41,7 +41,7 @@ export function useCustomerCombo(customerParams: CustomerParams) {
   return useQuery({
     queryKey: ['telemetry', customerParams],
     queryFn: () => getCustomer(customerParams),
-    staleTime: 1000 * 60 * 20,
+    refetchInterval: 1000 * 60 * 5,
     enabled: customerParams.uuid !== '', // 20 minutes
     select: data => {
       const nodes = data.nodes.data;

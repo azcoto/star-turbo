@@ -6,6 +6,8 @@ export function useTelemetry(telemetryQuery: TelemetryQuery) {
   return useQuery({
     queryKey: ['telemetry', telemetryQuery],
     queryFn: () => getTelemetry(telemetryQuery),
+    refetchInterval: 1000 * 60 * 5, // 20 minutes
+
     select: data => {
       return data.map(d => {
         return {
@@ -21,6 +23,7 @@ export function useTelemetry(telemetryQuery: TelemetryQuery) {
 export function useServiceLine(serviceLineNumber: string | undefined) {
   return useQuery({
     queryKey: ['get-service-line', serviceLineNumber],
+    refetchInterval: 1000 * 60 * 5, // 20 minutes
     queryFn: () => getServiceLine(serviceLineNumber ?? ''),
     enabled: serviceLineNumber !== undefined,
   });
@@ -29,6 +32,7 @@ export function useServiceLine(serviceLineNumber: string | undefined) {
 export function useUptime(serviceLineNumber: string | undefined) {
   return useQuery({
     queryKey: ['get-uptime', serviceLineNumber],
+    refetchInterval: 1000 * 60 * 5, // 20 minutes
     queryFn: () => getUptime(serviceLineNumber ?? ''),
     enabled: serviceLineNumber !== undefined,
   });
