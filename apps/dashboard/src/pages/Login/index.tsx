@@ -62,7 +62,7 @@ const LoginPage = () => {
   return (
     <main className="flex flex-col h-screen justify-center items-center bg-cover bg-[url('assets/bg-landing.jpg')]">
       <Toaster />
-      <div className="flex flex-col bg-gradient-to-br from-[#439DC4] to-transparent rounded-lg xl:w-3/12 h-1/2 py-4 px-12 gap-4">
+      <div className="flex flex-col bg-gradient-to-br from-[#439DC4] to-transparent rounded-lg xl:w-3/12 py-4 px-12 gap-4">
         <div className="flex flex-col justify-center items-center ">
           <img src={LogoStarspace} alt="logo" className="h-16 w-64" />
           <h3 className="text-white font-normal">Dashboard</h3>
