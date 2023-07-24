@@ -36,6 +36,7 @@ export type Node = {
   notaAktivasi: string;
   statusId: number;
   anId: number;
+  ipKit?: string;
   snStarlinkKit: string;
   serviceline: string;
   orderNumber: string;
@@ -71,6 +72,7 @@ const schema = z.object({
         notaAktivasi: z.string().nullable(),
         statusId: z.number().nullable(),
         anId: z.number().nullable(),
+        ipKit: z.string().nullable(),
         snStarlinkKit: z.string().nullable(),
         serviceline: z.string().nullable(),
         orderNumber: z.string().nullable(),

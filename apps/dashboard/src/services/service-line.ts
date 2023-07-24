@@ -19,8 +19,8 @@ export type ServiceLineData = {
   postalCode?: string;
   metadata?: string;
   formattedAddress?: string;
-  latitude: 3.286096;
-  longitude: 99.109859;
+  latitude: number;
+  longitude: number;
   userTerminalId: string;
   kitSerialNumber?: string;
   dishSerialNumber?: string;
