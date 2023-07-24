@@ -48,7 +48,7 @@ const TerminalInfo = (props: Props) => {
         {cData ? (
           <>
             <p className="text-xl text-white">IP KIT</p>
-            <p className="font-bold text-[#66D1FF]">{cData.ipKit ? '-' : cData.ipKit}</p>
+            <p className="font-bold text-[#66D1FF]">{cData.ipKit ? cData.ipKit : '-'}</p>
           </>
         ) : (
           <Skeleton className="w-48 h-8" />
