@@ -34,4 +34,4 @@ RUN turbo run build --filter=api
 # COPY --from=builder /app/apps/api/dist/ .
 
 EXPOSE 8000
-CMD ["node", "/app/apps/api/dist/app.mjs" ]
+CMD ["npm run prod"]
