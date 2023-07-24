@@ -8,7 +8,7 @@ services:
       dockerfile: ./apps/dashboard/Dockerfile
     restart: always
     ports:
-      - 80:80
+      - 8900:80
     networks:
       - app_network
   api:
