@@ -52,7 +52,7 @@ const columns: ColumnDef<NewNode>[] = [
   },
   {
     accessorKey: 'isOnline',
-    header: () => <h4 className="text-white">ONLINE</h4>,
+    header: () => <h4 className="text-white">STATUS</h4>,
     accessorFn: row => row.isOnline,
     size: 80,
     cell: ({ cell, row }) => {
