@@ -37,7 +37,7 @@ services:
       - starmon_network
     labels:
       - traefik.enable=true
-      - traefik.http.routers.starmon-api.rule=(Host(`localhost`) || Host(`starmon1.telkomsat.co.id`)) && PathPrefix(`/api`)
+      - traefik.http.routers.starmon-api.rule=(Host(`10.83.253.39`) || Host(`localhost`) || Host(`starmon1.telkomsat.co.id`)) && PathPrefix(`/api`)
       - traefik.http.routers.starmon-api.priority=20
       - traefik.http.middlewares.starmon-api-strip.stripprefix.prefixes=/api
       - "traefik.http.routers.starmon-api.middlewares=starmon-api-strip@docker" 
@@ -53,7 +53,7 @@ services:
       - starmon_network
     labels:
       - traefik.enable=true
-      - traefik.http.routers.dashboard.rule=(Host(`localhost`) || Host(`starmon1.telkomsat.co.id`)) && Pathprefix(`/`)
+      - traefik.http.routers.dashboard.rule=(Host(`10.83.253.39`) || Host(`localhost`) || Host(`starmon1.telkomsat.co.id`)) && Pathprefix(`/`)
       - traefik.http.routers.dashboard.priority=10
       - traefik.http.services.dashboard.loadbalancer.server.port=80
  
