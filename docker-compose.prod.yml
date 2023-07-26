@@ -33,7 +33,10 @@ services:
     networks:
       - starmon_network
     labels:
-      - traefik.http.routers.starmon-dashboard.rule=Host(`telkomsat.co.id/starmon`, `10.83.253.43`)
+      - traefik.enable=true
+      - traefik.docker.network=starmon_network
+      - traefik.http.routers.starmon-dashboard.rule=((Host(`telkomsat.co.id/starmon`) || Host(`10.83.253.43`)))
+           
       - traefik.http.services.starmon-dashboard.loadbalancer.server.port=8900
   api:
     container_name: star-api
@@ -48,7 +51,9 @@ services:
     networks:
       - starmon_network
     labels:
-      - traefik.http.routers.starmon-api.rule=Host(`telkomsat.co.id/starmon/api`, `10.83.253.43/api`)
+      - traefik.http.routers.starmon-api.rule=((Host(`telkomsat.co.id/starmon`) || Host(`10.83.253.43`)) && PathPrefix(`/api`)
+      - traefik.http.middlewares.starmon-api-strip.stripprefix.prefixes=/api
+      - "traefik.http.routers.loccmsapi.middlewares=starmon-api-strip@docker" 
       - traefik.http.services.starmon-api.loadbalancer.server.port=8000
 networks:
   starmon_network:
