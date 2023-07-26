@@ -1,7 +1,7 @@
 version: "3"
 
 services:
- traefik:
+  traefik:
     container_name: traefik
     image: traefik:v2.10.4
     command:
@@ -19,11 +19,30 @@ services:
       - ~/traefik/logs:/logs:rw
     labels:
       - 'traefik.enable=true'
+      - traefik.docker.network=starmon_network
     # Join to existing network : tsatnet
     networks:
       starmon_network:
     # Restart policy : unless-stopped
     restart: unless-stopped
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    deploy:
+      mode: replicated
+      replicas: 4
+    restart: always
+    networks:
+      - starmon_network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.starmon-api.rule=(Host(`localhost`) || Host(`starmon1.telkomsat.co.id`)) && PathPrefix(`/api`)
+      - traefik.http.routers.starmon-api.priority=20
+      - traefik.http.middlewares.starmon-api-strip.stripprefix.prefixes=/api
+      - "traefik.http.routers.starmon-api.middlewares=starmon-api-strip@docker" 
+      - traefik.http.services.starmon-api.loadbalancer.server.port=8000
+  
   dashboard:
     container_name: star-dashboard
     build:
@@ -34,27 +53,10 @@ services:
       - starmon_network
     labels:
       - traefik.enable=true
-      - traefik.docker.network=starmon_network
-      - traefik.http.routers.starmon-dashboard.rule=((Host(`telkomsat.co.id/starmon`) || Host(`10.83.253.43`)))
-           
-      - traefik.http.services.starmon-dashboard.loadbalancer.server.port=8900
-  api:
-    container_name: star-api
-    build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile
-    deploy:
-      mode: replicated
-      replicas: 4
-    restart: always
-    ports:
-    networks:
-      - starmon_network
-    labels:
-      - traefik.http.routers.starmon-api.rule=((Host(`telkomsat.co.id/starmon`) || Host(`10.83.253.43`)) && PathPrefix(`/api`)
-      - traefik.http.middlewares.starmon-api-strip.stripprefix.prefixes=/api
-      - "traefik.http.routers.loccmsapi.middlewares=starmon-api-strip@docker" 
-      - traefik.http.services.starmon-api.loadbalancer.server.port=8000
+      - traefik.http.routers.dashboard.rule=(Host(`localhost`) || Host(`starmon1.telkomsat.co.id`)) && Pathprefix(`/`)
+      - traefik.http.routers.dashboard.priority=10
+      - traefik.http.services.dashboard.loadbalancer.server.port=80
+ 
 networks:
   starmon_network:
     external: true

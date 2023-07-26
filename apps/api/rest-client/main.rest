@@ -9,6 +9,15 @@ content-type : application/json
   "username": "user",
   "password": "telkomsat"
 }
+
+### Authentication -  Login
+POST http://localhost/api/auth/login
+content-type : application/json
+
+{
+  "username": "user",
+  "password": "telkomsat"
+}
       
 ### Get Telemetry
 GET http://localhost:8000/telemetry?start=1688662800000&end=1688673600000&serviceLineNumber=AST-1642430-93633-42
