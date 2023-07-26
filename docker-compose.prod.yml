@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+ traefik:
+    container_name: traefik
+    image: traefik:v2.10.4
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=starmon_network
+      - --entrypoints.web.address=:80
+      - --accesslog.filepath=/logs/access.log
+      - --accesslog.bufferingsize=100
+      - --log.level=INFO
+    ports:
+      - '80:80'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ~/traefik/logs:/logs:rw
+    labels:
+      - 'traefik.enable=true'
+    # Join to existing network : tsatnet
+    networks:
+      starmon_network:
+    # Restart policy : unless-stopped
+    restart: unless-stopped
+  dashboard:
+    container_name: star-dashboard
+    build:
+      context: .
+      dockerfile: ./apps/dashboard/Dockerfile
+    restart: always
+    networks:
+      - starmon_network
+    labels:
+      - traefik.http.routers.starmon-dashboard.rule=Host(`telkomsat.co.id/starmon`, `10.83.253.43`)
+      - traefik.http.services.starmon-dashboard.loadbalancer.server.port=8900
+  api:
+    container_name: star-api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    deploy:
+      mode: replicated
+      replicas: 4
+    restart: always
+    ports:
+    networks:
+      - starmon_network
+    labels:
+      - traefik.http.routers.starmon-api.rule=Host(`telkomsat.co.id/starmon/api`, `10.83.253.43/api`)
+      - traefik.http.services.starmon-api.loadbalancer.server.port=8000
+networks:
+  starmon_network:
+    external: true
