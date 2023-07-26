@@ -1,81 +1,42 @@
-# Turborepo starter
+## Adding Packages To Project
 
-This is an official starter Turborepo.
+Example adding package mysql2 to api (backend)
 
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
+```bash
+pn i mysql2 --filter api
 ```
 
-## What's inside?
+Example adding package date-fns to dashboard (frontend)
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```bash
+pn i date-fns --filter dashboard
 ```
 
-### Develop
+Example adding shadcn/ui components to dashboard (frontend)
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```bash
+cd app/dashboard
+pn dlx shadcn-ui@latest add calendar
 ```
 
-### Remote Caching
+## Running Project
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```bash
+pn run dev
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## ENV File
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Must have VITE_ prefix because we are not using dotenv.
 
+### API
+```env
+VITE_DB_STARLINK_URL="postgresql://user:pass@10.45.253.245:5432/starlink" 
+VITE_DB_STARSPACE_URL="mysql://user:pass@10.80.253.86:3306/dtp_star" 
+VITE_ACCESS_TOKEN_SECRET="4fefb646a38af35f1fc030810dbcc8f8c090776811135c981eb8ec25fd302458"
 ```
-npx turbo link
+
+### Dashboard
+```env
+VITE_API_URL="http://localhost:8000"
 ```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)

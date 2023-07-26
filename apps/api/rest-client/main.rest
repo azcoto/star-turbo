@@ -1,1 +1,32 @@
-GET http://localhost:8000
+### root
+GET http://172.17.0.1:8000
+
+### Authentication -  Login
+POST http://localhost:8000/auth/login
+content-type : application/json
+
+{
+  "username": "user",
+  "password": "telkomsat"
+}
+      
+### Get Telemetry
+GET http://localhost:8000/telemetry?start=1688662800000&end=1688673600000&serviceLineNumber=AST-1642430-93633-42
+
+
+### Get Service Line
+GET http://localhost:8000/service-line/AST-1642430-93633-42
+
+### GET Uptime
+GET http://localhost:8000/service-line/uptime/AST-1642430-93633-42
+
+### GET Customer
+GET http://localhost:8000/customer/8cc0cdb8-2760-4a6c-9175-bc0b0e581fbd
+
+
+### GET Customer
+GET http://localhost:8000/customer/8cc0cdb8-2760-4a6c-9175-bc0b0e581fbd
+
+
+### GET Raw Data
+GET http://localhost:8000/telemetry/raw-data?serviceLine=AST-1642430-93633-42&month=7&year=2023

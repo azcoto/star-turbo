@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  dashboard:
+    container_name: star-dashboard
+    build:
+      context: .
+      dockerfile: ./apps/dashboard/Dockerfile
+    restart: always
+    ports:
+      - 8900:80
+    networks:
+      - app_network
+  api:
+    container_name: star-api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    restart: always
+    ports:
+      - 8000:8000
+    networks:
+      - app_network
+networks:
+  app_network:
+    external: true

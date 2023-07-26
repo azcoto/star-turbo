@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { TelemetryRequest, TelemetryResponse } from './dtos';
 
 const schema = z.object({
-  terminalId: z.string(),
+  serviceLineNumber: z.string(),
   start: z.coerce.number().int(),
   end: z.coerce.number().int(),
 });

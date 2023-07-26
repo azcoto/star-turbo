@@ -1,4 +1,15 @@
-import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer } from 'drizzle-orm/pg-core';
+import config from '@/config';
+import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer, smallint } from 'drizzle-orm/pg-core';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import pg from 'pg';
+
+const { Pool } = pg;
+const { starlinkConnStr } = config;
+const queryClient = new Pool({
+  connectionString: starlinkConnStr,
+});
+
+export const dbStarlink = drizzle(queryClient);
 
 export const serviceLine = pgTable('service_line', {
   serviceLineNumber: varchar('service_line_number', { length: 30 }).primaryKey(),
@@ -38,7 +49,7 @@ export const terminals = pgTable('terminals', {
   userTerminalId: varchar('user_terminal_id', { length: 30 }).primaryKey(),
   kitSerialNumber: varchar('kit_serial_number', { length: 20 }).notNull(),
   dishSerialNumber: varchar('dish_serial_number', { length: 20 }),
-  serviceLineNumber: varchar('service_line_number', { length: 30 }),
+  serviceLineNumber: varchar('service_line_number', { length: 30 }).references(() => subscriptions.serviceLineNumber),
   active: boolean('active').notNull(),
 });
 
@@ -49,8 +60,9 @@ export const telemetry = pgTable('telemetry', {
   downlinkThroughput: doublePrecision('downlink_throughput'),
   uplinkThroughput: doublePrecision('uplink_throughput'),
   pingDropRateAvg: doublePrecision('ping_drop_rate_avg'),
-  pingLatencyMsAvg: integer('ping_latency_ms_avg'),
+  pingLatencyMsAvg: doublePrecision('ping_latency_ms_avg'),
   obstructionPercentTime: doublePrecision('obstruction_percent_time'),
   uptime: integer('uptime'),
   signalQuality: doublePrecision('signal_quality'),
+  serviceLineNumber: varchar('service_line_number', { length: 30 }),
 });

@@ -1,0 +1,1 @@
+export { encodeAccessToken } from './jwt';

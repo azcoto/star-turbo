@@ -1,8 +1,8 @@
 import { Router } from 'express';
-
-import getTelemetry from './get-telemetry';
+import getCustomerRoute from './get-customer';
 
 const router = Router();
 
-router.use(getTelemetry);
+router.use(getCustomerRoute);
+
 export default router;
