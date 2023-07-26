@@ -77,9 +77,7 @@ function Dashboard() {
   const { data: upData } = useUptime(serviceLine);
 
   const calendarOnChange: SelectRangeEventHandler = (range: DateRange | undefined) => {
-    console.log(range);
     if (range) {
-      if (range.to) console.log(subSeconds(addDays(range.to, 1), 1));
       setAbsTimeRange({
         from: range.from,
         to: range.to ? subSeconds(addDays(range.to, 1), 1) : undefined,
