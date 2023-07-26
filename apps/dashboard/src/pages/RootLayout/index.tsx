@@ -13,7 +13,6 @@ import { CheckIcon } from 'lucide-react';
 import { CommandList } from 'cmdk';
 import router from '@/router';
 import MiniOnlineIndicator from '../Dashboard/components/mini-online-indicator';
-import { Node } from '@/services';
 
 type Props = {
   children: ReactNode;
@@ -69,17 +68,18 @@ function RootLayout(_props: Props) {
           <div className="flex-grow basis-0">
             <img src={LogoStarspace} alt="logo" className="w-64 h-14 cursor-pointer" onClick={() => navigate('/')} />
           </div>
+          {/*
+           * TO DO: Refactor this to a component
+           */}
           <div className="flex-grow basis-0">
             {data && (
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
                     {serviceLine ? data.find(node => node.serviceline === serviceLine)?.namaNodelink : 'Cari Node...'}
-                    {/* <p>Cari Node ...</p> */}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[600px] p-0">
-                  {/* <Command shouldFilter={serviceLine && serviceLine.length > 2 ? true : false}> */}
                   <Command shouldFilter={false}>
                     <CommandInput placeholder="Search by name..." className="h-9" onChangeCapture={onSearchChanged} />
                     <CommandList
@@ -88,28 +88,6 @@ function RootLayout(_props: Props) {
                       }}
                     >
                       <CommandEmpty>No site found.</CommandEmpty>
-
-                      {/* {data.map(data => (
-                        <CommandItem
-                          key={data.serviceline}
-                          onSelect={() => {
-                            setServiceLine(data.serviceline);
-                            setOpen(false);
-                            router.navigate(`/dashboard/${data.serviceline}`);
-                          }}
-                        >
-                          {data.namaNodelink} - {data.currentKitSerialNumber}
-                          <div className="ml-4">
-                            <MiniOnlineIndicator isOnline={data.isOnline} />
-                          </div>
-                          <CheckIcon
-                            className={cn(
-                              'ml-auto h-4 w-4',
-                              serviceLine === data.serviceline ? 'opacity-100' : 'opacity-0'
-                            )}
-                          />
-                        </CommandItem>
-                      ))} */}
                       {filteredCustomer.map(data => (
                         <CommandItem
                           key={data.serviceline}
