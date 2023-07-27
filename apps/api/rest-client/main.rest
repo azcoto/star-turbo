@@ -30,7 +30,7 @@ GET http://localhost:8000/service-line/AST-1642430-93633-42
 GET http://localhost:8000/service-line/uptime/AST-1642430-93633-42
 
 ### GET Customer
-GET http://localhost:8000/customer/8cc0cdb8-2760-4a6c-9175-bc0b0e581fbd
+GET http://localhost:8000/customer/f9544a2b-981f-4bb7-b451-218fa7c23c13
 
 
 ### GET Customer

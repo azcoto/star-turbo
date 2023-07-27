@@ -6,7 +6,7 @@ import { dbStarspace, endCustomer, user } from '@/db/schema/starspace';
 import { dbFulfillment, vMasterNodelinkStarlink } from '@/db/schema/3easy';
 import { dbStarlink, subscriptions, telemetry, terminals } from '@/db/schema/starlink';
 import config from '@/config';
-import { compareDesc } from 'date-fns';
+import { compareDesc, addHours, parseISO, differenceInMinutes } from 'date-fns';
 
 const { fulfillmentConnStr } = config;
 
@@ -69,7 +69,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
     const slUptimeQuery =  dbStarlink
       .select({
         serviceLineNumber: telemetry.serviceLineNumber,
-        lastUpdated: sql`max(${telemetry.ts})`,
+        lastUpdated: sql<string | null>`max(${telemetry.ts})`,
         uptimeFormatted: sql`max(${telemetry.uptime})`,
       })
       .from(telemetry)
@@ -124,8 +124,16 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       data: {
         ...result[0],
         nodes: {
-          up: mergedData.filter(node => node.lastUpdated !== null).length,
-          down: mergedData.filter(node => node.lastUpdated === null).length,
+          up: mergedData.filter(node => {
+            if (node.lastUpdated === null) return false;
+            const isUp = node.lastUpdated && differenceInMinutes(parseISO(node.lastUpdated), new Date()) > -15;
+            return isUp;
+          }).length,
+          down: mergedData.filter(node => {
+            if (node.lastUpdated === null) return true;
+            const isDown = node.lastUpdated && differenceInMinutes(parseISO(node.lastUpdated), new Date()) < -15;
+            return isDown;
+          }).length,
           inactive: mergedData.filter(node => node.currentKitSerialNumber === null).length,
           count: mergedData.length,
           data: mergedData,
