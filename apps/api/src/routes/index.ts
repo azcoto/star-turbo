@@ -3,7 +3,6 @@ import telemetryRoutes from '@/endpoints/telemetry';
 import authenticationRoutes from '@/endpoints/authentication';
 import serviceLineRoutes from '@/endpoints/service-line';
 import customerRoutes from '@/endpoints/customer';
-
 import rootRoutes from '@/endpoints/root';
 
 const router = Router();

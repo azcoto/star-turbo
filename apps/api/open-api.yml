@@ -1,0 +1,12 @@
+openapi: '3.0.2'
+info:
+  title: Starspace Monitoring
+  version: '1.0'
+servers:
+  - url: https://starmon1.telkomsat.co.id/api
+paths:
+  /login:
+    post:
+      responses:
+        '200':
+          description: OK
