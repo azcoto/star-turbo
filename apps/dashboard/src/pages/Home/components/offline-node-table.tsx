@@ -137,7 +137,7 @@ const OfflineNodeTable = () => {
   });
 
   return (
-    <div className="flex flex-col gap-4 basis-1/2">
+    <div className="flex flex-col gap-4 lg:basis-1/2 w-full">
       <div className="flex flex-row justify-between items-center h-12">
         <div className="flex flex-row gap-4 items-center basis-4/6">
           <h3 className="text-white">OFFLINE NODELINK</h3>

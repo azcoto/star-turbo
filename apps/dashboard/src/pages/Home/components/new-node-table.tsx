@@ -31,15 +31,14 @@ const columns: ColumnDef<NewNode>[] = [
     header: () => <h4 className="text-white">NAMA</h4>,
     accessorFn: row => row.namaNodelink,
     cell: ({ cell, row }) => (
-      <Button
-        className="px-0 hover:bg-transparent"
-        variant="ghost"
+      <div
+        className=""
         onClick={() => {
           router.navigate(`/dashboard/${row.getValue<string>('serviceline')}`);
         }}
       >
         <p className="text-white">{cell.getValue<string>()}</p>
-      </Button>
+      </div>
     ),
     size: 80,
   },
@@ -86,12 +85,20 @@ const columns: ColumnDef<NewNode>[] = [
 
   {
     accessorKey: 'startDate',
-    header: () => <h4 className="text-white">START DATE</h4>,
+    header: () => (
+      <div className="hidden lg:hidden">
+        <h4 className="text-white">START DATE</h4>
+      </div>
+    ),
     accessorFn: row => row.startDate,
     cell: ({ cell }) => {
       if (cell.getValue<Date | null>() === null) return <p className="font-normal text-white">-</p>;
       const displayDate = format(cell.getValue<Date>(), 'dd/MM/yyyy');
-      return <p className="font-normal text-white">{displayDate}</p>;
+      return (
+        <div className="hidden lg:hidden">
+          <p className="font-normal text-white ">{displayDate}</p>;
+        </div>
+      );
     },
   },
 ];
@@ -123,7 +130,7 @@ const NewNodeTable = () => {
   });
 
   return (
-    <div className="flex flex-col gap-4 basis-1/2">
+    <div className="flex flex-col gap-4 lg:basis-1/2 w-full">
       <div className="flex flex-row justify-between items-center h-12">
         <h3 className="text-white">NEW NODELINK</h3>
       </div>

@@ -42,45 +42,45 @@ const SearchNode = () => {
 
   return (
     <>
-      data && (
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
-            {serviceLine && data ? data.find(node => node.serviceline === serviceLine)?.namaNodelink : 'Cari Node...'}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[600px] p-0">
-          <Command shouldFilter={false}>
-            <CommandInput placeholder="Search by name..." className="h-9" onChangeCapture={onSearchChanged} />
-            <CommandList
-              style={{
-                maxHeight: '300px',
-              }}
-            >
-              <CommandEmpty>No site found.</CommandEmpty>
-              {filteredCustomer.map(data => (
-                <CommandItem
-                  key={data.serviceline}
-                  onSelect={() => {
-                    setServiceLine(data.serviceline);
-                    setOpen(false);
-                    router.navigate(`/dashboard/${data.serviceline}`);
-                  }}
-                >
-                  {data.namaNodelink} - {data.currentKitSerialNumber}
-                  <div className="ml-4">
-                    <MiniOnlineIndicator isOnline={data.isOnline} />
-                  </div>
-                  <CheckIcon
-                    className={cn('ml-auto h-4 w-4', serviceLine === data.serviceline ? 'opacity-100' : 'opacity-0')}
-                  />
-                </CommandItem>
-              ))}
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-      )
+      {data && (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
+              {serviceLine && data ? data.find(node => node.serviceline === serviceLine)?.namaNodelink : 'Cari Node...'}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[600px] p-0">
+            <Command shouldFilter={false}>
+              <CommandInput placeholder="Search by name..." className="h-9" onChangeCapture={onSearchChanged} />
+              <CommandList
+                style={{
+                  maxHeight: '300px',
+                }}
+              >
+                <CommandEmpty>No site found.</CommandEmpty>
+                {filteredCustomer.map(data => (
+                  <CommandItem
+                    key={data.serviceline}
+                    onSelect={() => {
+                      setServiceLine(data.serviceline);
+                      setOpen(false);
+                      router.navigate(`/dashboard/${data.serviceline}`);
+                    }}
+                  >
+                    {data.namaNodelink} - {data.currentKitSerialNumber}
+                    <div className="ml-4">
+                      <MiniOnlineIndicator isOnline={data.isOnline} />
+                    </div>
+                    <CheckIcon
+                      className={cn('ml-auto h-4 w-4', serviceLine === data.serviceline ? 'opacity-100' : 'opacity-0')}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      )}
     </>
   );
 };

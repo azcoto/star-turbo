@@ -1,14 +1,20 @@
-### root
-GET http://172.17.0.1:8000
+@host = http://localhost:8000
+@user = bakti
+@password = telkomsat
+
 
 ### Authentication -  Login
-POST http://localhost:8000/auth/login
+# @name login
+POST {{host}}/auth/login
 content-type : application/json
 
 {
-  "username": "user",
-  "password": "telkomsat"
+  "username": "{{user}}",
+  "password": "{{password}}"
 }
+
+### Get token
+@access_token = {{login.response.body.data.accessToken}}
 
 ### Authentication -  Login
 POST http://localhost/api/auth/login
@@ -31,7 +37,11 @@ GET http://localhost:8000/service-line/uptime/AST-1642430-93633-42
 
 ### GET Customer
 GET http://localhost:8000/customer/f9544a2b-981f-4bb7-b451-218fa7c23c13
+Authorization: Bearer {{access_token}}
 
+### Get Customer From Another App
+GET http://localhost:8000/customer/f9544a2b-981f-4bb7-b451-218fa7c23c13
+Authorization: Secret b451b04e19fb7596c860d03ca015447827897de9583536db72943a41f96db924
 
 ### GET Customer
 GET http://localhost:8000/customer/8cc0cdb8-2760-4a6c-9175-bc0b0e581fbd

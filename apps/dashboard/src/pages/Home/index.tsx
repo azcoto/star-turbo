@@ -202,11 +202,11 @@ function Home() {
 
   return (
     <div className="rounded-lg bg-opacity-20 bg-[#57B5DD] pb-8">
-      <div className="flex flex-row gap-x-8 py-4 px-8 ">
+      <div className="flex flex-row gap-x-8 gap-y-4 lg:py-4 py-2 lg:px-8 px-2 flex-wrap lg:flex-nowrap">
         <NewNodeTable />
         <OfflineNodeTable />
       </div>
-      <div className="flex flex-row justify-center gap-x-16 py-4 ">
+      <div className="flex flex-row justify-center gap-x-8 lg:gap-x-16 py-4 ">
         <div className="flex flex-col justify-center items-center gap-y-4 bg-[#50C260] p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
           {data && <h1 className="text-white">{data.nodes.up}</h1>}
