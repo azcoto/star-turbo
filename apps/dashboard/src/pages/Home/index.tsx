@@ -8,16 +8,26 @@ import {
   getPaginationRowModel,
   ColumnFiltersState,
   getFilteredRowModel,
+  ColumnFilter,
 } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import {
+  MdChevronLeft,
+  MdChevronRight,
+  MdClose,
+  MdFileDownload as DownloadIcon,
+  MdLoop as SpinnerIcon,
+} from 'react-icons/md';
 import router from '@/router';
 import { intervalToDuration } from 'date-fns';
 import { useState } from 'react';
 import NewNodeTable from './components/new-node-table';
 import OfflineNodeTable from './components/offline-node-table';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
+import { getCustomerCSV } from '@/services';
 
 type Node = {
   namaNodelink: string | null;
@@ -27,7 +37,9 @@ type Node = {
   uptime: number | null;
   currentKitSerialNumber: string | null;
   isOnline: boolean;
+  active: boolean | null;
 };
+
 const columns: ColumnDef<Node>[] = [
   {
     accessorKey: 'namaNodelink',
@@ -87,6 +99,13 @@ const columns: ColumnDef<Node>[] = [
     cell: ({ cell }) => <p className="font-normal text-white">{cell.getValue<string>()}</p>,
   },
   {
+    accessorKey: 'active',
+
+    header: () => <></>,
+    accessorFn: row => row.active,
+    cell: () => <></>,
+  },
+  {
     accessorKey: 'currentKitSerialNumber',
 
     header: () => <></>,
@@ -107,12 +126,62 @@ const columns: ColumnDef<Node>[] = [
   },
 ];
 
+type NodeFilter = {
+  value: string;
+  label: string;
+  columnFilter: ColumnFilter;
+};
+
+const nodelinkFilters: NodeFilter[] = [
+  {
+    value: 'online',
+    columnFilter: {
+      id: 'isOnline',
+      value: true,
+    },
+    label: 'Online',
+  },
+  {
+    value: 'offline',
+    columnFilter: {
+      id: 'isOnline',
+      value: false,
+    },
+    label: 'Offline',
+  },
+  {
+    value: 'active',
+    columnFilter: {
+      id: 'active',
+      value: true,
+    },
+    label: 'Active',
+  },
+  {
+    value: 'inactive',
+    columnFilter: {
+      id: 'active',
+      value: false,
+    },
+    label: 'Inactive',
+  },
+];
+
 function Home() {
   const authTokenStore = useAuthTokenStore();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [nodeFilter, setNodeFilter] = useState<NodeFilter | null>(null);
+  const [filterOpen, setFilterOpen] = useState<boolean>(false);
+  const [CSVLoading, setCSVLoading] = useState<boolean>(false);
   const { data } = useCustomer({
     uuid: authTokenStore.userUUID,
   });
+
+  const downloadCSV = async () => {
+    setCSVLoading(true);
+    await getCustomerCSV(authTokenStore.userUUID);
+    setCSVLoading(false);
+  };
 
   const { data: dataTable, isLoading: customerIsLoading } = useCustomerTable({
     uuid: authTokenStore.userUUID,
@@ -121,7 +190,7 @@ function Home() {
     data: dataTable || [],
     columns,
     state: {
-      columnFilters,
+      columnFilters: columnFilters,
     },
     getFilteredRowModel: getFilteredRowModel(),
     enableFilters: true,
@@ -138,44 +207,24 @@ function Home() {
         <OfflineNodeTable />
       </div>
       <div className="flex flex-row justify-center gap-x-16 py-4 ">
-        <div
-          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#50C260] p-12 rounded-lg shadow-lg"
-          onClick={() => {
-            setColumnFilters(() => [{ id: 'isOnline', value: true }]);
-          }}
-        >
+        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#50C260] p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
           {data && <h1 className="text-white">{data.nodes.up}</h1>}
           <h3 className="text-white">ONLINE</h3>
         </div>
-        <div
-          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#F63C30] p-12 rounded-lg shadow-lg"
-          onClick={() => {
-            setColumnFilters(() => [{ id: 'isOnline', value: false }]);
-          }}
-        >
+        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#F63C30] p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
           {data && <h1 className="text-white">{data.nodes.down}</h1>}
           <h3 className="text-white">OFFLINE</h3>
         </div>
-        <div
-          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#E4AD20] p-12 rounded-lg shadow-lg"
-          onClick={() => {
-            setColumnFilters(() => []);
-          }}
-        >
+        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#E4AD20] p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
           {data && <h1 className="text-white">{data.nodes.up + data.nodes.down}</h1>}
           <h3 className="text-white">ACTIVE</h3>
         </div>
-        <div
-          className="cursor-pointer flex flex-col justify-center items-center gap-y-4 bg-[#6F6666] p-12 rounded-lg shadow-lg"
-          onClick={() => {
-            setColumnFilters(() => []);
-          }}
-        >
+        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#6F6666] p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
           {data && <h1 className="text-white">{data.nodes.inactive}</h1>}
@@ -184,31 +233,81 @@ function Home() {
       </div>
 
       <div className="flex flex-col gap-2 px-8 py-4">
-        <div className="flex flex-row items-center gap-2 h-12">
-          <h3 className="text-white">NODELINK</h3>
-          <Button
-            variant="ghost"
-            className="hover:bg-white hover:bg-opacity-10 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <MdChevronLeft className="w-8 h-8 fill-white" />
-            {/* <h4 className="text-white">{'<'}</h4> */}
-          </Button>
-          <span className="flex items-center gap-1">
-            <p className="text-white">Page</p>
-            <strong className="text-white">
-              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-            </strong>
-          </span>
-          <Button
-            variant="ghost"
-            className="hover:bg-white hover:bg-opacity-10 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <MdChevronRight className="w-8 h-8 fill-white" />
-          </Button>
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row items-center gap-2 h-12">
+            <h3 className="text-white">NODELINK</h3>
+            <Button
+              variant="ghost"
+              className="hover:bg-white hover:bg-opacity-10 p-0"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <MdChevronLeft className="w-8 h-8 fill-white" />
+              {/* <h4 className="text-white">{'<'}</h4> */}
+            </Button>
+            <span className="flex items-center gap-1">
+              <p className="text-white">Page</p>
+              <strong className="text-white">
+                {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+              </strong>
+            </span>
+            <Button
+              variant="ghost"
+              className="hover:bg-white hover:bg-opacity-10 p-0"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <MdChevronRight className="w-8 h-8 fill-white" />
+            </Button>
+            <Popover open={filterOpen} onOpenChange={setFilterOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  role="combobox"
+                  variant="ghost"
+                  className="bg-transparent hover:bg-white hover:bg-opacity-10 px-2"
+                >
+                  <p className="text-white text-md">Filter : {nodeFilter ? nodeFilter.label : 'None'}</p>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <Command>
+                  <CommandGroup>
+                    {nodelinkFilters.map(filter => (
+                      <CommandItem
+                        key={filter.value}
+                        onSelect={value => {
+                          const f = nodelinkFilters.find(f => f.value === value);
+                          setNodeFilter(f || null);
+                          setFilterOpen(false);
+                          setColumnFilters(f ? [f.columnFilter] : []);
+                        }}
+                      >
+                        {filter.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            {nodeFilter && (
+              <Button
+                variant="ghost"
+                className="p-0 hover:bg-transparent"
+                onClick={() => {
+                  setNodeFilter(null);
+                  setColumnFilters([]);
+                }}
+              >
+                <MdClose className="h-6 w-6 fill-white"></MdClose>
+              </Button>
+            )}
+          </div>
+          <div className="flex flex-row items-center">
+            <Button variant="outline" disabled={CSVLoading} onClick={() => downloadCSV()}>
+              DOWNLOAD CSV
+              {CSVLoading ? <SpinnerIcon className="h-4 w-4 animate-spin" /> : <DownloadIcon className="h-4 w-4" />}
+            </Button>
+          </div>
         </div>
         <div>
           <Table>
@@ -226,7 +325,7 @@ function Home() {
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {!customerIsLoading ? (
                 table.getRowModel().rows.map(row => (
                   <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                     {row.getVisibleCells().map(cell => (

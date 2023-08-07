@@ -41,6 +41,7 @@ export type Node = {
   serviceline: string;
   orderNumber: string;
   psbTeknisId: number;
+  active: boolean;
   currentKitSerialNumber: string;
   startDate: Date;
   uptime: number;
@@ -77,6 +78,7 @@ const schema = z.object({
         serviceline: z.string().nullable(),
         orderNumber: z.string().nullable(),
         psbTeknisId: z.number().nullable(),
+        active: z.boolean().nullable(),
         currentKitSerialNumber: z.string().nullable(),
         starDate: z.coerce.date(),
         uptime: z.number().nullable(),
@@ -96,4 +98,17 @@ export const getCustomer = async (params: CustomerParams) => {
   const { uuid } = params;
   const { data } = await ax.get<CustomerResponse>(`/customer/${uuid}`);
   return schema.parse(data.data);
+};
+
+export const getCustomerCSV = async (uuid: string) => {
+  // convert date to epoch
+  const response = await ax.get(`/customer/${uuid}?format=csv`, {
+    responseType: 'blob',
+  });
+  const url = window.URL.createObjectURL(response.data);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `customer.csv`;
+  a.click();
+  window.URL.revokeObjectURL(url);
 };

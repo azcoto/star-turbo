@@ -6,12 +6,13 @@ import { dbStarspace, endCustomer, user } from '@/db/schema/starspace';
 import { dbFulfillment, vMasterNodelinkStarlink } from '@/db/schema/3easy';
 import { dbStarlink, subscriptions, telemetry, terminals } from '@/db/schema/starlink';
 import config from '@/config';
-import { compareDesc, addHours, parseISO, differenceInMinutes } from 'date-fns';
+import { parseISO, differenceInMinutes } from 'date-fns';
+import { stringify } from 'csv-stringify/sync';
 
 const { fulfillmentConnStr } = config;
 
 const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFunction) => {
-  const { uuid } = res.locals;
+  const { uuid, format } = res.locals;
   try {
     /**
      * * DB Starspace
@@ -111,13 +112,28 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       const currentKit = currentTerminals.find(terminals => terminals.serviceLineNumber === node.serviceline);
       return {
         ...node,
+        active: currentKit ? true : false,
         currentKitSerialNumber: currentKit ? currentKit.kitSerialNumber : null,
         starDate: currentKit ? currentKit.startDate : null,
         uptime: uptime ? uptime.uptimeFormatted : null,
         lastUpdated: uptime ? uptime.lastUpdated : null,
       };
     });
-
+    if (format && format === 'csv') {
+      const refinedData = mergedData.map(node => {
+        return {
+          nama: node.namaNodelink,
+          snKit: node.currentKitSerialNumber ?? '',
+          layanan: node.layanan ?? '',
+          serviceLine: node.serviceline ?? '',
+          lastUpdated: node.lastUpdated ?? '',
+        };
+      });
+      const csv = stringify(refinedData, { header: true });
+      res.setHeader('Content-Disposition', `attachment;filename=customer.csv`);
+      res.setHeader('Content-Type', 'text/csv');
+      return res.status(200).send(csv);
+    }
     return res.status(200).json({
       success: true,
       message: 'Get Customer',

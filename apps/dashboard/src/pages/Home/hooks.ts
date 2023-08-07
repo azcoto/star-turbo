@@ -28,6 +28,7 @@ export function useCustomerTable(customerParams: CustomerParams) {
           serviceline: node.serviceline,
           uptime: node.uptime,
           currentKitSerialNumber: node.currentKitSerialNumber,
+          active: node.active,
           lastUpdated: node.lastUpdated,
           startDate: node.starDate,
           // node last updated is less than 15 minutes ago
@@ -70,6 +71,7 @@ export function useCustomerTableOfflineFiltered(params: CustomerParams & { start
           layanan: node.layanan,
           serviceline: node.serviceline,
           uptime: node.uptime,
+          active: node.active,
           currentKitSerialNumber: node.currentKitSerialNumber,
           lastUpdated: node.lastUpdated,
           startDate: node.starDate,
