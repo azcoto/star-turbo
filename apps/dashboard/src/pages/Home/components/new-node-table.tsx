@@ -6,12 +6,18 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  ExpandedState,
+  getExpandedRowModel,
 } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { useCustomerTable } from '../hooks';
 import { useAuthTokenStore } from '@/store/auth';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Spinner } from '@/components/ui/spinner';
+import { Fragment, useEffect, useState } from 'react';
+import { ChevronRight, ChevronDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useMediaQuery } from '@/pages/hooks/useMediaQuery';
 
 type NewNode = {
   namaNodelink: string | null;
@@ -43,10 +49,7 @@ const columns: ColumnDef<NewNode>[] = [
   },
   {
     accessorKey: 'serviceline',
-
-    header: () => <></>,
     accessorFn: row => row.serviceline,
-    cell: () => <></>,
   },
   {
     accessorKey: 'isOnline',
@@ -76,16 +79,13 @@ const columns: ColumnDef<NewNode>[] = [
 
   {
     accessorKey: 'currentKitSerialNumber',
-
-    header: () => <></>,
     accessorFn: row => row.currentKitSerialNumber,
-    cell: () => <></>,
   },
 
   {
     accessorKey: 'startDate',
     header: () => (
-      <div className="hidden lg:hidden">
+      <div className="md:block">
         <h4 className="text-white">START DATE</h4>
       </div>
     ),
@@ -94,20 +94,62 @@ const columns: ColumnDef<NewNode>[] = [
       if (cell.getValue<Date | null>() === null) return <p className="font-normal text-white">-</p>;
       const displayDate = format(cell.getValue<Date>(), 'dd/MM/yyyy');
       return (
-        <div className="hidden lg:hidden">
-          <p className="font-normal text-white ">{displayDate}</p>;
+        <div className="md:block flex flex-row items-center">
+          <p className="font-normal text-white ">{displayDate}</p>
         </div>
       );
     },
   },
+  {
+    accessorKey: 'expandIcon',
+    header: () => <></>,
+    cell: ({ row }) => (
+      <Button
+        variant="ghost"
+        className="rounded-full p-1 md:hidden"
+        onClick={() => {
+          row.toggleExpanded();
+        }}
+      >
+        {row.getIsExpanded() ? (
+          <ChevronDown size={18} className="stroke-white" />
+        ) : (
+          <ChevronRight size={18} className="stroke-white" />
+        )}
+      </Button>
+    ),
+  },
 ];
 
 const NewNodeTable = () => {
-  const authTokenStore = useAuthTokenStore();
+  const mqMobile = useMediaQuery('(max-width: 768px)');
 
+  const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>({
+    startDate: true,
+    serviceline: false,
+    currentKitSerialNumber: false,
+  });
+
+  const authTokenStore = useAuthTokenStore();
+  const [expanded, setExpanded] = useState<ExpandedState>({});
   const { data } = useCustomerTable({
     uuid: authTokenStore.userUUID,
   });
+  const formattedDateEl = (sDate: Date | null) => {
+    if (!sDate) return '-';
+    const displayDate = format(sDate, 'dd/MM/yyyy');
+    return displayDate;
+  };
+
+  useEffect(() => {
+    console.log(mqMobile);
+    if (mqMobile)
+      setColumnVisibility({
+        startDate: false,
+        serviceline: false,
+        currentKitSerialNumber: false,
+      });
+  }, [mqMobile]);
 
   const table = useReactTable({
     data: data ?? [],
@@ -123,13 +165,20 @@ const NewNodeTable = () => {
         pageSize: 5,
       },
     },
+    state: {
+      expanded,
+      columnVisibility,
+    },
+    onColumnVisibilityChange: setColumnVisibility,
+    onExpandedChange: setExpanded,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
   });
 
   return (
-    <div className="flex flex-col gap-4 lg:basis-1/2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-row justify-between items-center h-12">
         <h3 className="text-white">NEW NODELINK</h3>
       </div>
@@ -150,11 +199,22 @@ const NewNodeTable = () => {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map(row => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                ))}
-              </TableRow>
+              <Fragment key={row.id}>
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                  {row.getVisibleCells().map(cell => (
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                  ))}
+                </TableRow>
+                {row.getIsExpanded() && (
+                  <TableRow key={1000 + row.id}>
+                    <td key={2000 + row.id} colSpan={3} className="px-2">
+                      <div className="flex flex-col gap-2">
+                        <p className="text-white">START DATE : {formattedDateEl(row.original.startDate)}</p>
+                      </div>
+                    </td>
+                  </TableRow>
+                )}
+              </Fragment>
             ))
           ) : (
             <TableRow>

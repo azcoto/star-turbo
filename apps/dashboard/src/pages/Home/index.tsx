@@ -46,15 +46,14 @@ const columns: ColumnDef<Node>[] = [
     header: () => <h4 className="text-white">NAMA</h4>,
     accessorFn: row => row.namaNodelink,
     cell: ({ cell, row }) => (
-      <Button
-        className="px-0 hover:bg-transparent"
-        variant="ghost"
+      <div
+        className=""
         onClick={() => {
           router.navigate(`/dashboard/${row.getValue<string>('serviceline')}`);
         }}
       >
         <p className="text-white">{cell.getValue<string>()}</p>
-      </Button>
+      </div>
     ),
     size: 80,
   },
@@ -86,17 +85,17 @@ const columns: ColumnDef<Node>[] = [
 
   {
     accessorKey: 'layanan',
-    header: () => <h4 className="text-white">LAYANAN</h4>,
+    header: () => <h4 className="hidden md:block text-white">LAYANAN</h4>,
     accessorFn: row => row.layanan,
     size: 80,
-    cell: ({ cell }) => <p className="font-normal text-white">{cell.getValue<string>()}</p>,
+    cell: ({ cell }) => <p className="hidden md:block font-normal text-white">{cell.getValue<string>()}</p>,
   },
   {
     accessorKey: 'serviceline',
-    header: () => <h4 className="text-white">SERVICE LINE</h4>,
+    header: () => <h4 className="hidden md:block text-white">SERVICE LINE</h4>,
     accessorFn: row => row.serviceline,
     size: 80,
-    cell: ({ cell }) => <p className="font-normal text-white">{cell.getValue<string>()}</p>,
+    cell: ({ cell }) => <p className="hidden md:block font-normal text-white">{cell.getValue<string>()}</p>,
   },
   {
     accessorKey: 'active',
@@ -114,13 +113,13 @@ const columns: ColumnDef<Node>[] = [
   },
   {
     accessorKey: 'uptime',
-    header: () => <h4 className="text-white">UPTIME</h4>,
+    header: () => <h4 className="hidden md:block text-white">UPTIME</h4>,
     accessorFn: row => row.uptime,
     cell: ({ cell }) => {
-      if (cell.getValue<number | null>() === null) return <p className="font-normal text-white">-</p>;
+      if (cell.getValue<number | null>() === null) return <p className="hidden md:block font-normal text-white">-</p>;
       const uptimeDuration = intervalToDuration({ start: 0, end: cell.getValue<number>() * 1000 });
       return (
-        <p className="font-normal text-white">{`${uptimeDuration.days} DAYS ${uptimeDuration.hours} HOURS ${uptimeDuration.minutes} MINUTES`}</p>
+        <p className="hidden md:block font-normal text-white">{`${uptimeDuration.days} DAYS ${uptimeDuration.hours} HOURS ${uptimeDuration.minutes} MINUTES`}</p>
       );
     },
   },
@@ -202,40 +201,56 @@ function Home() {
 
   return (
     <div className="rounded-lg bg-opacity-20 bg-[#57B5DD] pb-8">
-      <div className="flex flex-row gap-x-8 gap-y-4 lg:py-4 py-2 lg:px-8 px-2 flex-wrap lg:flex-nowrap">
+      <div className="flex flex-row gap-x-8 gap-y-8 lg:py-4 py-2 lg:px-8 px-2 flex-wrap lg:flex-nowrap ">
         <NewNodeTable />
         <OfflineNodeTable />
       </div>
-      <div className="flex flex-row justify-center gap-x-8 lg:gap-x-16 py-4 ">
-        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#50C260] p-12 rounded-lg shadow-lg">
+      <div className="flex flex-row justify-between md:justify-center px-4 gap-x-4 lg:gap-x-16 py-4 ">
+        <div className="flex flex-col justify-center items-center gap-y-1 bg-[#50C260] p-2 lg:p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
-          {data && <h1 className="text-white">{data.nodes.up}</h1>}
-          <h3 className="text-white">ONLINE</h3>
+          {data && (
+            <p className="text-white text-lg md:text-4xl">
+              <strong>{data.nodes.up}</strong>
+            </p>
+          )}
+          <p className="text-white text-sm md:text-3xl">ONLINE</p>
         </div>
-        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#F63C30] p-12 rounded-lg shadow-lg">
+        <div className="flex flex-col justify-center items-center gap-y-1 bg-[#F63C30] p-2 lg:p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
-          {data && <h1 className="text-white">{data.nodes.down}</h1>}
-          <h3 className="text-white">OFFLINE</h3>
+          {data && (
+            <p className="text-white text-lg md:text-4xl">
+              <strong>{data.nodes.down}</strong>
+            </p>
+          )}
+          <p className="text-white text-sm md:text-3xl">OFFLINE</p>
         </div>
-        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#E4AD20] p-12 rounded-lg shadow-lg">
+        <div className="flex flex-col justify-center items-center gap-y-1 bg-[#E4AD20] p-2 lg:p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
-          {data && <h1 className="text-white">{data.nodes.up + data.nodes.down}</h1>}
-          <h3 className="text-white">ACTIVE</h3>
+          {data && (
+            <p className="text-white text-lg md:text-4xl">
+              <strong>{data.nodes.up + data.nodes.down}</strong>
+            </p>
+          )}
+          <p className="text-white text-sm md:text-3xl">ACTIVE</p>
         </div>
-        <div className="flex flex-col justify-center items-center gap-y-4 bg-[#6F6666] p-12 rounded-lg shadow-lg">
+        <div className="flex flex-col justify-center items-center gap-y-1 bg-[#6F6666] p-2 lg:p-12 rounded-lg shadow-lg">
           {customerIsLoading && <Spinner className="w-16 h-16" />}
 
-          {data && <h1 className="text-white">{data.nodes.inactive}</h1>}
-          <h3 className="text-white">INACTIVE</h3>
+          {data && (
+            <p className="text-white text-lg md:text-4xl">
+              <strong>{data.nodes.inactive}</strong>
+            </p>
+          )}
+          <p className="text-white text-sm md:text-3xl">INACTIVE</p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 px-8 py-4">
-        <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-col gap-2 px-4 lg:px-8 py-4">
+        <div className="flex flex-row flex-wrap justify-between items-center">
+          <h3 className="text-white">NODELINK</h3>
           <div className="flex flex-row items-center gap-2 h-12">
-            <h3 className="text-white">NODELINK</h3>
             <Button
               variant="ghost"
               className="hover:bg-white hover:bg-opacity-10 p-0"
@@ -245,12 +260,14 @@ function Home() {
               <MdChevronLeft className="w-8 h-8 fill-white" />
               {/* <h4 className="text-white">{'<'}</h4> */}
             </Button>
-            <span className="flex items-center gap-1">
-              <p className="text-white">Page</p>
-              <strong className="text-white">
-                {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-              </strong>
-            </span>
+            <div className="flex items-center gap-1">
+              <p className="text-white">
+                Page{' '}
+                <strong>
+                  {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                </strong>
+              </p>
+            </div>
             <Button
               variant="ghost"
               className="hover:bg-white hover:bg-opacity-10 p-0"

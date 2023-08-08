@@ -41,15 +41,14 @@ const columns: ColumnDef<NewNode>[] = [
     header: () => <h4 className="text-white">NAMA</h4>,
     accessorFn: row => row.namaNodelink,
     cell: ({ cell, row }) => (
-      <Button
-        className="px-0 hover:bg-transparent"
-        variant="ghost"
+      <div
+        className=""
         onClick={() => {
           router.navigate(`/dashboard/${row.getValue<string>('serviceline')}`);
         }}
       >
         <p className="text-white">{cell.getValue<string>()}</p>
-      </Button>
+      </div>
     ),
     size: 80,
   },
@@ -137,61 +136,59 @@ const OfflineNodeTable = () => {
   });
 
   return (
-    <div className="flex flex-col gap-4 lg:basis-1/2 w-full">
-      <div className="flex flex-row justify-between items-center h-12">
-        <div className="flex flex-row gap-4 items-center basis-4/6">
-          <h3 className="text-white">OFFLINE NODELINK</h3>
-          <div className="flex flex-row gap-2">
-            <Button
-              variant="ghost"
-              className="hover:bg-white hover:bg-opacity-10 p-0"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <MdChevronLeft className="w-8 h-8 fill-white" />
-              {/* <h4 className="text-white">{'<'}</h4> */}
-            </Button>
-            <span className="flex items-center gap-1">
-              <p className="text-white">Page</p>
-              <strong className="text-white">
-                {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-              </strong>
-            </span>
-            <Button
-              variant="ghost"
-              className="hover:bg-white hover:bg-opacity-10 p-0"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <MdChevronRight className="w-8 h-8 fill-white" />
-            </Button>
+    <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-row flex-wrap lg:flex-nowrap items-center justify-between gap-y-4">
+        <h3 className="text-white">OFFLINE NODELINK</h3>
+        <div className="flex flex-row gap-2">
+          <Button
+            variant="ghost"
+            className="hover:bg-white hover:bg-opacity-10 p-0"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <MdChevronLeft className="w-8 h-8 fill-white" />
+            {/* <h4 className="text-white">{'<'}</h4> */}
+          </Button>
+          <div className="flex flex-row items-center gap-1">
+            <p className="text-white">
+              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </p>
+          </div>
+          <Button
+            variant="ghost"
+            className="hover:bg-white hover:bg-opacity-10 p-0"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <MdChevronRight className="w-8 h-8 fill-white" />
+          </Button>
+          <div>
+            <Select defaultValue="15 Minutes" onValueChange={value => selectFilterOnChange(value)}>
+              <SelectTrigger className=" text-white">
+                <SelectValue placeholder="Offline For" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>OFFLINE OVER </SelectLabel>
+                  <SelectItem value="15 Minutes">
+                    <p>15 Minutes</p>
+                  </SelectItem>
+                  <SelectItem value="1 Hours">
+                    <p>1 Hours</p>
+                  </SelectItem>
+                  <SelectItem value="6 Hours">
+                    <p>6 Hours</p>
+                  </SelectItem>
+                  <SelectItem value="1 Days">
+                    <p>1 Days</p>
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
-        <div className="basis-2/6">
-          <Select defaultValue="15 Minutes" onValueChange={value => selectFilterOnChange(value)}>
-            <SelectTrigger className=" text-white">
-              <SelectValue placeholder="Offline For" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>OFFLINE OVER </SelectLabel>
-                <SelectItem value="15 Minutes">
-                  <p>15 Minutes</p>
-                </SelectItem>
-                <SelectItem value="1 Hours">
-                  <p>1 Hours</p>
-                </SelectItem>
-                <SelectItem value="6 Hours">
-                  <p>6 Hours</p>
-                </SelectItem>
-                <SelectItem value="1 Days">
-                  <p>1 Days</p>
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
       </div>
+
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (

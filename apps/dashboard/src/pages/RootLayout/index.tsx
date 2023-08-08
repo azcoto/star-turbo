@@ -24,14 +24,14 @@ function RootLayout(_props: Props) {
   };
 
   return (
-    <main className="lg:px-8 px-2 pt-8 h-screen">
+    <div className="lg:px-8 px-2 pt-8 h-screen">
       {/* Image with opacity */}
       <div className="fixed inset-0 -z-10">
         <img src={BackgroundImage} alt="background" className="object-cover w-full h-full" />
         <div className="fixed inset-0 bg-black opacity-80"></div>
       </div>
 
-      <div className="flex flex-col rounded-lg shadow-lg lg:px-6 px-2 pb-8 ">
+      <div className="flex flex-col rounded-lg shadow-lg lg:px-6 px-2 pb-8">
         <div className="flex flex-row  items-center py-4 mb-4">
           <div className="flex-grow basis-0">
             <img src={LogoStarspace} alt="logo" className="w-64 h-14 cursor-pointer" onClick={() => navigate('/')} />
@@ -67,7 +67,7 @@ function RootLayout(_props: Props) {
         </div>
         <Outlet />
       </div>
-    </main>
+    </div>
   );
 }
 
