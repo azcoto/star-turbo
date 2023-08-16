@@ -6,14 +6,17 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import LogoStarspace from '@/assets/logo-starspace.png';
 import BackgroundImage from '@/assets/bg-landing.jpg';
 import { getInitials } from '@/lib/utils';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import SearchNode from './searchNode';
+import { ChangePasswordDialog } from './components/changePasswordDialog';
 
 type Props = {
   children: ReactNode;
 };
 
 function RootLayout(_props: Props) {
+  const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const authTokenStore = useAuthTokenStore();
 
   const navigate = useNavigate();
@@ -43,7 +46,7 @@ function RootLayout(_props: Props) {
             <SearchNode />
           </div>
           <div className="flex-grow basis-0 flex flex-row justify-end items-center">
-            <Popover>
+            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger asChild>
                 <div className="flex flex-row items-center gap-x-2 cursor-pointer">
                   <p className="uppercase text-white ">{authTokenStore.fullname}</p>
@@ -52,8 +55,18 @@ function RootLayout(_props: Props) {
                   </Avatar>
                 </div>
               </PopoverTrigger>
-              <PopoverContent side="bottom" className="w-32">
+              <PopoverContent side="bottom" className="w-64">
                 <div className="flex flex-col gap-y-2 bg-white">
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setPopoverOpen(false);
+                      setShowChangePasswordDialog(true);
+                    }}
+                  >
+                    <p>Change Password</p>
+                  </div>
+                  <ChangePasswordDialog open={showChangePasswordDialog} closed={() => setShowChangePasswordDialog} />
                   <Button variant="ghost" onClick={logout}>
                     Log Out
                   </Button>
