@@ -91,7 +91,7 @@ const SignalChart = (props: SignalChartProps) => {
                   const month = `${date.getMonth()}`.padStart(2, '0');
                   return `${day}/${month}`;
                 }}
-                dataKey="hari"
+                dataKey="time"
                 scale="time"
                 type="number"
                 domain={domain}

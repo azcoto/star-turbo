@@ -4,7 +4,7 @@ import { NextFunction } from 'express';
 import { DrizzleError, eq, and, isNotNull, sql, inArray } from 'drizzle-orm';
 import { dbStarspace, endCustomer, user } from '@/db/schema/starspace';
 import { dbFulfillment, vMasterNodelinkStarlink } from '@/db/schema/3easy';
-import { dbStarlink, subscriptions, telemetry, terminals } from '@/db/schema/starlink';
+import { dbStarlink, subscriptions, telemetryLastUpdate, terminals } from '@/db/schema/starlink';
 import config from '@/config';
 import { parseISO, differenceInMinutes } from 'date-fns';
 import { stringify } from 'csv-stringify/sync';
@@ -38,15 +38,20 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
      * * DB Fulfillment
      * * Get nodelink where mCustomerId = trieasyId
      */
-    const nodes = await dbFulfillment
-      .select()
-      .from(vMasterNodelinkStarlink)
-      .where(
+    const qNodes = dbFulfillment.select().from(vMasterNodelinkStarlink);
+
+    if (result[0].trieasyId !== 0) {
+      qNodes.where(
         and(
           eq(vMasterNodelinkStarlink.mCustomerId, result[0].trieasyId),
           isNotNull(vMasterNodelinkStarlink.serviceline)
         )
       );
+    } else {
+      qNodes.where(isNotNull(vMasterNodelinkStarlink.serviceline));
+    }
+
+    const nodes = await qNodes;
 
     /**
      * * IF nodelink not found
@@ -69,18 +74,13 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
     // prettier-ignore
     const slUptimeQuery =  dbStarlink
       .select({
-        serviceLineNumber: telemetry.serviceLineNumber,
-        lastUpdated: sql<string | null>`max(${telemetry.ts})`,
-        uptimeFormatted: sql`max(${telemetry.uptime})`,
+        serviceLineNumber: telemetryLastUpdate.serviceLineNumber,
+        lastUpdated: sql<string | null>`${telemetryLastUpdate.lastUpdated}`,
       })
-      .from(telemetry)
+      .from(telemetryLastUpdate)
       .where(
-        and(
-          sql`${telemetry.ts} >= NOW() - INTERVAL '7 days'`,
-          inArray(telemetry.serviceLineNumber, slList)
-        )
+          inArray(telemetryLastUpdate.serviceLineNumber, slList)
       )
-      .groupBy(telemetry.serviceLineNumber)
 
     /**
      * * Get current kit sn from terminals
@@ -115,7 +115,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
         active: currentKit ? true : false,
         currentKitSerialNumber: currentKit ? currentKit.kitSerialNumber : null,
         starDate: currentKit ? currentKit.startDate : null,
-        uptime: uptime ? uptime.uptimeFormatted : null,
+        // uptime: uptime ? uptime.uptimeFormatted : null,
         lastUpdated: uptime ? uptime.lastUpdated : null,
       };
     });

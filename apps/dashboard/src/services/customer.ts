@@ -44,7 +44,6 @@ export type Node = {
   active: boolean;
   currentKitSerialNumber: string;
   startDate: Date;
-  uptime: number;
   lastUpdated: Date;
 };
 
@@ -81,7 +80,6 @@ const schema = z.object({
         active: z.boolean().nullable(),
         currentKitSerialNumber: z.string().nullable(),
         starDate: z.coerce.date(),
-        uptime: z.number().nullable(),
         lastUpdated: z.coerce.date(),
       })
     ),
@@ -93,8 +91,6 @@ export type CustomerParams = {
 };
 
 export const getCustomer = async (params: CustomerParams) => {
-  // add delay 2  second
-  await new Promise(resolve => setTimeout(resolve, 2000));
   const { uuid } = params;
   const { data } = await ax.get<CustomerResponse>(`/customer/${uuid}`);
   return schema.parse(data.data);

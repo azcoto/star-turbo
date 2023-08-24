@@ -16,23 +16,23 @@ export type TelemetryResponse = {
 
 export type TelemetryData = {
   ts: Date;
-  downlinkThroughput: number;
-  uplinkThroughput: number;
-  signalQuality: number;
-  pingLatencyMsAvg: number;
-  pingDropRateAvg: number;
-  obstructionPercentTime: number;
+  downlinkThroughput: number | null;
+  uplinkThroughput: number | null;
+  signalQuality: number | null;
+  pingLatencyMsAvg: number | null;
+  pingDropRateAvg: number | null;
+  obstructionPercentTime: number | null;
 };
 
 const schema = z.array(
   z.object({
     ts: z.coerce.date(),
-    downlinkThroughput: z.number(),
-    uplinkThroughput: z.number(),
-    signalQuality: z.number(),
-    pingLatencyMsAvg: z.number(),
-    pingDropRateAvg: z.number(),
-    obstructionPercentTime: z.number(),
+    downlinkThroughput: z.number().nullable(),
+    uplinkThroughput: z.number().nullable(),
+    signalQuality: z.number().nullable(),
+    pingLatencyMsAvg: z.number().nullable(),
+    pingDropRateAvg: z.number().nullable(),
+    obstructionPercentTime: z.number().nullable(),
   })
 );
 

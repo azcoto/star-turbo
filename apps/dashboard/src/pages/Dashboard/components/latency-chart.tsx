@@ -93,7 +93,7 @@ const LatencyChart = (props: LatencyChartProps) => {
 
                   return `${day}/${month}`;
                 }}
-                dataKey="hari"
+                dataKey="time"
                 scale="time"
                 type="number"
                 domain={domain}

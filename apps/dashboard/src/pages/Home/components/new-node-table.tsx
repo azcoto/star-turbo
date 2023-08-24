@@ -24,7 +24,6 @@ type NewNode = {
   lastUpdated: Date | null;
   layanan: string | null;
   serviceline: string | null;
-  uptime: number | null;
   startDate: Date | null;
   currentKitSerialNumber: string | null;
   isOnline: boolean;

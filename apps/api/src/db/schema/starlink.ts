@@ -66,3 +66,8 @@ export const telemetry = pgTable('telemetry', {
   signalQuality: doublePrecision('signal_quality'),
   serviceLineNumber: varchar('service_line_number', { length: 30 }),
 });
+
+export const telemetryLastUpdate = pgTable('telemetry_last_update', {
+  serviceLineNumber: varchar('service_line_number', { length: 30 }).primaryKey(),
+  lastUpdated: timestamp('last_updated', { withTimezone: true }),
+});

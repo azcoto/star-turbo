@@ -36,8 +36,9 @@ export const handler = async (req: RawDataRequest, res: RawDataResponse) => {
     return {
       time: formatExcel,
       // round to 2 decimal
-      downlinkThroughputbps: row.downlinkThroughput !== null ? Math.round(row.downlinkThroughput * 1000000) : null,
-      uplinkThroughputbps: row.uplinkThroughput !== null ? Math.round(row.uplinkThroughput * 1000000) : null,
+      downlinkThroughputKbps:
+        row.downlinkThroughput !== null ? Math.round(row.downlinkThroughput * 100000) / 100 : null,
+      uplinkThroughputKbps: row.uplinkThroughput !== null ? Math.round(row.uplinkThroughput * 100000) / 100 : null,
       latencyms: row.pingLatencyMsAvg !== null ? row.pingLatencyMsAvg : null,
       pingDropRate: row.pingDropRateAvg !== null ? row.pingDropRateAvg * 100 : null,
       signalQuality: row.signalQuality !== null ? row.signalQuality * 100 : null,

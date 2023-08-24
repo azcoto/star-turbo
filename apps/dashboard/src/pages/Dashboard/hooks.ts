@@ -13,6 +13,8 @@ export function useTelemetry(telemetryQuery: TelemetryQuery) {
         return {
           time: d.ts.getTime(),
           hari: new Date(d.ts).setHours(0, 0, 0, 0),
+          downlinkThroughputKbps:
+            d.downlinkThroughput !== null ? Math.round(d.downlinkThroughput * 100000) / 100 : null,
           ...d,
         };
       });

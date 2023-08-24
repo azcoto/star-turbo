@@ -24,9 +24,6 @@ export type LoginData = {
 };
 
 const postLogin = async (body: LoginBody) => {
-  // add delay to simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 2000));
-
   try {
     const response = await ax.post<LoginResponse>('/auth/login', body);
     const { accessToken, uuid, fullname } = response.data.data;

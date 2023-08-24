@@ -1,12 +1,19 @@
 import { and, desc, eq, sql } from 'drizzle-orm';
 import { dbStarlink, telemetry } from '@/db/schema/starlink';
 import { TelemetryRequest, TelemetryResponse } from './dtos';
+import { roundToNearestMinutes } from 'date-fns';
 
 export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => {
   const { start, end, serviceLineNumber } = res.locals;
   // epoch to date
   const startDate = new Date(start);
   const endDate = new Date(end);
+  console.log(
+    roundToNearestMinutes(endDate, {
+      nearestTo: 5,
+      roundingMethod: 'floor',
+    })
+  );
   /*
    * * Calculate bucket size
    * * If delta less than 1 hour then bucket size 15s
@@ -18,7 +25,7 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
   // prettier-ignore
   const query = dbStarlink
     .select({
-      ts: sql<string>`time_bucket(${bucketSize}, ts)`.as('tsb'),
+      ts: sql<string>`time_bucket_gapfill(${bucketSize}, ts)`.as('tsb'),
       downlinkThroughput: sql<number>`avg(downlink_throughput)`.as('downlinkThroughput'),
       uplinkThroughput: sql<number>`avg(uplink_throughput)`.as('uplinkThroughput'),
       signalQuality: sql<number>`avg(signal_quality)`.as('signalQuality'),
@@ -29,15 +36,17 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
     .from(telemetry)
     .where(
       and(
-        sql`ts BETWEEN ${startDate} AND ${endDate}`, 
+        sql`ts BETWEEN ${startDate} AND ${roundToNearestMinutes( endDate, {
+          nearestTo: 5,
+          roundingMethod: 'floor',
+        })}`, 
         eq(telemetry.serviceLineNumber, serviceLineNumber)
       )
     )
     .orderBy(desc(sql`tsb`))
     .groupBy(sql`tsb`);
-
+  console.log(query.toSQL());
   const result = await query;
-  console.log('hitted');
   return res.json({
     success: true,
     message: 'Success!',

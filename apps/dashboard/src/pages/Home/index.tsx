@@ -9,6 +9,7 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   ColumnFilter,
+  ExpandedState,
 } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
@@ -21,20 +22,20 @@ import {
   MdLoop as SpinnerIcon,
 } from 'react-icons/md';
 import router from '@/router';
-import { intervalToDuration } from 'date-fns';
-import { useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import NewNodeTable from './components/new-node-table';
 import OfflineNodeTable from './components/offline-node-table';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
 import { getCustomerCSV } from '@/services';
+import { useMediaQuery } from '../hooks/useMediaQuery';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 type Node = {
   namaNodelink: string | null;
   lastUpdated: Date | null;
   layanan: string | null;
   serviceline: string | null;
-  uptime: number | null;
   currentKitSerialNumber: string | null;
   isOnline: boolean;
   active: boolean | null;
@@ -112,16 +113,23 @@ const columns: ColumnDef<Node>[] = [
     cell: () => <></>,
   },
   {
-    accessorKey: 'uptime',
-    header: () => <h4 className="hidden md:block text-white">UPTIME</h4>,
-    accessorFn: row => row.uptime,
-    cell: ({ cell }) => {
-      if (cell.getValue<number | null>() === null) return <p className="hidden md:block font-normal text-white">-</p>;
-      const uptimeDuration = intervalToDuration({ start: 0, end: cell.getValue<number>() * 1000 });
-      return (
-        <p className="hidden md:block font-normal text-white">{`${uptimeDuration.days} DAYS ${uptimeDuration.hours} HOURS ${uptimeDuration.minutes} MINUTES`}</p>
-      );
-    },
+    accessorKey: 'expandIcon',
+    header: () => <></>,
+    cell: ({ row }) => (
+      <Button
+        variant="ghost"
+        className="rounded-full p-1 md:hidden"
+        onClick={() => {
+          row.toggleExpanded();
+        }}
+      >
+        {row.getIsExpanded() ? (
+          <ChevronDown size={18} className="stroke-white" />
+        ) : (
+          <ChevronRight size={18} className="stroke-white" />
+        )}
+      </Button>
+    ),
   },
 ];
 
@@ -167,6 +175,8 @@ const nodelinkFilters: NodeFilter[] = [
 ];
 
 function Home() {
+  const mqMobile = useMediaQuery('(max-width: 768px)');
+  const [expanded, setExpanded] = useState<ExpandedState>({});
   const authTokenStore = useAuthTokenStore();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [nodeFilter, setNodeFilter] = useState<NodeFilter | null>(null);
@@ -175,6 +185,24 @@ function Home() {
   const { data } = useCustomer({
     uuid: authTokenStore.userUUID,
   });
+
+  const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>({
+    namaNodelink: true,
+    isOnline: true,
+    layanan: true,
+    serviceline: true,
+  });
+
+  useEffect(() => {
+    console.log(mqMobile);
+    if (mqMobile)
+      setColumnVisibility({
+        namaNodelink: true,
+        isOnline: true,
+        layanan: false,
+        serviceline: false,
+      });
+  }, [mqMobile]);
 
   const downloadCSV = async () => {
     setCSVLoading(true);
@@ -190,7 +218,11 @@ function Home() {
     columns,
     state: {
       columnFilters: columnFilters,
+      expanded,
+      columnVisibility,
     },
+    onColumnVisibilityChange: setColumnVisibility,
+    onExpandedChange: setExpanded,
     getFilteredRowModel: getFilteredRowModel(),
     enableFilters: true,
     enableColumnFilters: true,
@@ -342,13 +374,25 @@ function Home() {
               ))}
             </TableHeader>
             <TableBody>
-              {!customerIsLoading ? (
+              {!customerIsLoading && table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map(row => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                    {row.getVisibleCells().map(cell => (
-                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                    ))}
-                  </TableRow>
+                  <Fragment key={row.id}>
+                    <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                      {row.getVisibleCells().map(cell => (
+                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                      ))}
+                    </TableRow>
+                    {row.getIsExpanded() && (
+                      <TableRow key={1000 + row.id}>
+                        <td key={2000 + row.id} colSpan={3} className="px-2">
+                          <div className="flex flex-col gap-2">
+                            <p className="text-white">LAYANAN : {row.original.layanan}</p>
+                            <p className="text-white">SERVICE LINE : {row.original.serviceline}</p>
+                          </div>
+                        </td>
+                      </TableRow>
+                    )}
+                  </Fragment>
                 ))
               ) : (
                 <TableRow>

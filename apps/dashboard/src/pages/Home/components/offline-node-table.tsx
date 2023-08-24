@@ -29,7 +29,6 @@ type NewNode = {
   namaNodelink: string | null;
   layanan: string | null;
   serviceline: string | null;
-  uptime: number | null;
   currentKitSerialNumber: string | null;
   lastUpdated: Date;
   startDate: Date;
