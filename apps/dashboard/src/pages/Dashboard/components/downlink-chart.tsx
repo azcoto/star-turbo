@@ -29,8 +29,9 @@ const DownlinkChart = (props: DownlinkChartProps) => {
   const { tq } = props;
   const { data, isLoading } = useTelemetry(tq);
   const domain = data && data.length > 0 ? [data[0].time, data[data.length - 1].time] : [0, 0];
+  // const dayTicks =
+  // data && data.length > 0 ? (data.filter(d => d.midnight !== null).map(d => d.midnight) as number[]) : [];
   const isSameDay = data && data.length > 0 && data[0].hari === data[data.length - 1].hari ? true : false;
-
   return (
     <>
       {data && data?.length > 0 ? (
