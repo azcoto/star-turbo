@@ -60,7 +60,6 @@ function RootLayout(_props: Props) {
                   <div
                     className="cursor-pointer"
                     onClick={() => {
-                      setPopoverOpen(false);
                       setShowChangePasswordDialog(true);
                     }}
                   >

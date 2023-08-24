@@ -1,19 +1,14 @@
 import { and, desc, eq, sql } from 'drizzle-orm';
 import { dbStarlink, telemetry } from '@/db/schema/starlink';
 import { TelemetryRequest, TelemetryResponse } from './dtos';
-import { roundToNearestMinutes } from 'date-fns';
+import { roundToNearestMinutes, sub, subMinutes } from 'date-fns';
 
 export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => {
   const { start, end, serviceLineNumber } = res.locals;
   // epoch to date
   const startDate = new Date(start);
   const endDate = new Date(end);
-  console.log(
-    roundToNearestMinutes(endDate, {
-      nearestTo: 5,
-      roundingMethod: 'floor',
-    })
-  );
+  console.log();
   /*
    * * Calculate bucket size
    * * If delta less than 1 hour then bucket size 15s
@@ -36,7 +31,7 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
     .from(telemetry)
     .where(
       and(
-        sql`ts BETWEEN ${startDate} AND ${roundToNearestMinutes( endDate, {
+        sql`ts BETWEEN ${startDate} AND ${roundToNearestMinutes(subMinutes(endDate, 5), {
           nearestTo: 5,
           roundingMethod: 'floor',
         })}`, 
