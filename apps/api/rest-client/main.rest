@@ -1,5 +1,5 @@
 @host = http://localhost:8000
-@user = bakti
+@user = nettocyber
 @password = telkomsat
 
 
@@ -13,6 +13,19 @@ content-type : application/json
   "password": "{{password}}"
 }
 
+
+### POST Change Password
+# @name change-password
+POST {{host}}/auth/change-password
+content-type : application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "uuid" : "f9544a2b-981f-4bb7-b451-218fa7c23c13",
+  "oldPassword" : "telkomsat",
+  "newPassword" : "T3lkomsat"
+}
+
 ### Get token
 @access_token = {{login.response.body.data.accessToken}}
 
@@ -24,6 +37,9 @@ content-type : application/json
   "username": "user",
   "password": "telkomsat"
 }
+
+
+
       
 ### Get Telemetry
 GET http://localhost:8000/telemetry?start=1688662800000&end=1688673600000&serviceLineNumber=AST-1642430-93633-42
@@ -38,6 +54,9 @@ GET http://localhost:8000/service-line/uptime/AST-1642430-93633-42
 ### GET Customer
 GET http://localhost:8000/customer/f9544a2b-981f-4bb7-b451-218fa7c23c13
 Authorization: Bearer {{access_token}}
+
+
+
 
 ### Get Customer From Another App
 GET http://localhost:8000/customer/f9544a2b-981f-4bb7-b451-218fa7c23c13

@@ -9,13 +9,14 @@ import { getInitials } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
 import SearchNode from './searchNode';
 import { ChangePasswordDialog } from './components/changePasswordDialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Toaster } from '@/components/ui/toaster';
 
 type Props = {
   children: ReactNode;
 };
 
 function RootLayout(_props: Props) {
-  const [showChangePasswordDialog, setShowChangePasswordDialog] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
   const authTokenStore = useAuthTokenStore();
 
@@ -28,6 +29,7 @@ function RootLayout(_props: Props) {
 
   return (
     <div className="lg:px-8 px-2 pt-8 h-screen">
+      <Toaster />
       {/* Image with opacity */}
       <div className="fixed inset-0 -z-10">
         <img src={BackgroundImage} alt="background" className="object-cover w-full h-full" />
@@ -57,15 +59,21 @@ function RootLayout(_props: Props) {
               </PopoverTrigger>
               <PopoverContent side="bottom" className="w-64">
                 <div className="flex flex-col gap-y-2 bg-white">
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setShowChangePasswordDialog(true);
-                    }}
-                  >
-                    <p>Change Password</p>
-                  </div>
-                  <ChangePasswordDialog open={showChangePasswordDialog} closed={() => setShowChangePasswordDialog} />
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      {/* <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setShowChangePasswordDialog(true);
+                        }}
+                      >
+                        <p>Change Password</p>
+                      </div> */}
+                      <Button variant="ghost">Change Password</Button>
+                    </DialogTrigger>
+                    <ChangePasswordDialog />
+                  </Dialog>
+
                   <Button variant="ghost" onClick={logout}>
                     Log Out
                   </Button>
