@@ -13,7 +13,6 @@ import { toast } from '@/components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuthTokenStore } from '@/store/auth';
 import { AppError } from '@/lib/AppError';
-import { Toaster } from '@/components/ui/toaster';
 
 const formSchema = z.object({
   oldPassword: z.string().nonempty('Old password cannot be empty').min(6, 'Password must be at least 6 characters'),
