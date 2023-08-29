@@ -87,25 +87,25 @@ function Dashboard() {
 
   return (
     <>
-      <div className="flex flex-row justify-between pt-4">
+      <div className="flex flex-row flex-wrap justify-between pt-4">
         {slData ? <h3 className="text-white">{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
         {upData && <OnlineIndicator isOnline={upData.checkOnline} />}
       </div>
 
-      <div className="flex flex-row py-4 gap-x-4">
-        <div className="flex flex-col w-1/2 p-4  rounded-lg shadow-md bg-[#57B5DD66]">
+      <div className="flex flex-row flex-wrap py-4 gap-x-4 gap-y-4">
+        <div className="flex flex-col md:basis-1/2-gap-4 w-full p-4  rounded-lg shadow-md bg-[#57B5DD66]">
           {serviceLine && <TerminalInfo serviceLine={serviceLine} />}
         </div>
-        <div className="flex flex-col w-1/2 h-96 border rounded-lg shadow-md z-0">
+        <div className="flex flex-col md:basis-1/2-gap-4 w-full h-96 border rounded-lg shadow-md z-0">
           {serviceLine && <GeoMap serviceLine={serviceLine} />}
         </div>
       </div>
-      <div className="flex flex-row justify-between items-center py-4 border-b">
-        <div className="flex flex-row items-center basis-1/3">
+      <div className="flex flex-row flex-wrap justify-between items-center py-4 border-b gap-y-4">
+        <div className="flex flex-row items-center lg:basis-1/3 w-full">
           <h3 className="text-[#66D1FF]">NETWORK STATISTICS</h3>
         </div>
 
-        <div className="flex flex-row items-center justify-center gap-4 basis-1/3">
+        <div className="flex flex-row flex-wrap items-center  gap-4 lg:basis-1/3 w-full">
           <RelativeTimeRangeSelector
             onToggleChange={relativeTimeRangeChanged}
             isRelTimeRange={isRelTimeRange}
@@ -126,21 +126,18 @@ function Dashboard() {
             }}
           >
             <PopoverTrigger asChild>
-              <Button variant="ghost" className="hover:bg-[#66D1FF]">
+              <Button variant="outline" className="hover:bg-[#66D1FF]">
                 <div className="flex flex-row gap-2 items-center justify-start">
-                  <CalendarIcon className="fill-white" />
+                  <CalendarIcon />
                   {absTimeRange && absTimeRange.from && absTimeRange.to ? (
-                    <p className="text-white">{`${format(absTimeRange.from, 'dd/MM/yyyy')} - ${format(
-                      absTimeRange.to,
-                      'dd/MM/yyyy'
-                    )}`}</p>
+                    <p>{`${format(absTimeRange.from, 'dd/MM/yyyy')} - ${format(absTimeRange.to, 'dd/MM/yyyy')}`}</p>
                   ) : (
-                    <p className="text-white">Pick a date</p>
+                    <p>Pick a date</p>
                   )}
                 </div>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start" side="left">
+            <PopoverContent className="w-auto p-0" align="start" side="bottom">
               <Calendar
                 initialFocus
                 mode="range"
@@ -156,7 +153,7 @@ function Dashboard() {
             </PopoverContent>
           </Popover>
         </div>
-        <div className="flex flex-row items-center justify-end basis-1/3">
+        <div className="flex flex-row items-center md:justify-end md:basis-1/3 w-full">
           <Popover onOpenChange={open => setCsvOpen(open)} open={csvOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline">
@@ -171,28 +168,30 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 py-4">
-        <div className="flex flex-col h-72 gap-y-4">
+      <div className="flex flex-row flex-wrap md:gap-x-4">
+        <div className="flex flex-col h-72 w-full md:basis-1/3-gap-4 gap-y-4">
           <h4 className="text-[#66D1FF]">DOWNLINK THROUGHPUT</h4>
           <DownlinkChart tq={telemeryQuery} />
         </div>
-        <div className="flex flex-col h-72 gap-y-4">
+        <div className="flex flex-col h-72 w-full md:basis-1/3-gap-4 gap-y-4">
           <h4 className="text-[#66D1FF]">UPLINK THROUGHPUT</h4>
           <UplinkChart tq={telemeryQuery} />
         </div>
-        <div className="flex flex-col h-72 gap-y-4">
+        <div className="flex flex-col h-72 w-full md:basis-1/3-gap-4 gap-y-4">
           <h4 className="text-[#66D1FF]">LATENCY</h4>
           <LatencyChart tq={telemeryQuery} />
         </div>
-        <div className="flex flex-col h-72">
+      </div>
+      <div className="flex flex-row flex-wrap md:gap-x-4">
+        <div className="flex flex-col h-72 w-full md:basis-1/3-gap-4 gap-y-4">
           <h4 className="text-[#66D1FF]">PING DROP RATE</h4>
           <PingDropChart tq={telemeryQuery} />
         </div>
-        <div className="flex flex-col h-72 gap-y-4">
+        <div className="flex flex-col h-72 w-full md:basis-1/3-gap-4 gap-y-4">
           <h4 className="text-[#66D1FF]">SIGNAL QUALITY</h4>
           <SignalChart tq={telemeryQuery} />
         </div>
-        <div className="flex flex-col h-72 gap-y-4">
+        <div className="flex flex-col h-72 w-full md:basis-1/3-gap-4 gap-y-4">
           <h4 className="text-[#66D1FF]">OBSTRUCTION</h4>
           <ObstructionChart tq={telemeryQuery} />
         </div>
