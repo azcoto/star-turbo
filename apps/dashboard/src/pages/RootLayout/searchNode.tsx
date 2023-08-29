@@ -10,6 +10,7 @@ import { CheckIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ComboNode = {
+  mnodelinkid: number;
   namaNodelink: string | null;
   serviceline: string | null;
   currentKitSerialNumber: string | null;
@@ -60,7 +61,7 @@ const SearchNode = () => {
                 <CommandEmpty>No site found.</CommandEmpty>
                 {filteredCustomer.map(data => (
                   <CommandItem
-                    key={data.serviceline}
+                    key={data.mnodelinkid}
                     onSelect={() => {
                       setServiceLine(data.serviceline);
                       setOpen(false);

@@ -26,7 +26,6 @@ export function useCustomerTable(customerParams: CustomerParams) {
           namaNodelink: node.namaNodelink,
           layanan: node.layanan,
           serviceline: node.serviceline,
-          uptime: node.uptime,
           currentKitSerialNumber: node.currentKitSerialNumber,
           active: node.active,
           lastUpdated: node.lastUpdated,
@@ -70,7 +69,6 @@ export function useCustomerTableOfflineFiltered(params: CustomerParams & { start
           namaNodelink: node.namaNodelink,
           layanan: node.layanan,
           serviceline: node.serviceline,
-          uptime: node.uptime,
           active: node.active,
           currentKitSerialNumber: node.currentKitSerialNumber,
           lastUpdated: node.lastUpdated,
@@ -93,6 +91,7 @@ export function useCustomerCombo(customerParams: CustomerParams) {
       const nodes = data.nodes.data;
       const filteredNodes = nodes.map(node => {
         return {
+          mnodelinkid: node.mNodelinkId,
           namaNodelink: node.namaNodelink,
           serviceline: node.serviceline,
           currentKitSerialNumber: node.currentKitSerialNumber,
