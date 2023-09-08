@@ -31,7 +31,7 @@ export function useCustomerTable(customerParams: CustomerParams) {
           lastUpdated: node.lastUpdated,
           startDate: node.starDate,
           // node last updated is less than 15 minutes ago
-          isOnline: node.lastUpdated > new Date(Date.now() - 1000 * 60 * 15),
+          isOnline: node.lastUpdated > new Date(Date.now() - 1000 * 60 * 60),
         };
       });
       return filteredNodes;
@@ -96,7 +96,7 @@ export function useCustomerCombo(customerParams: CustomerParams) {
           serviceline: node.serviceline,
           currentKitSerialNumber: node.currentKitSerialNumber,
           // node last updated is less than 15 minutes ago
-          isOnline: node.lastUpdated > new Date(Date.now() - 1000 * 60 * 15),
+          isOnline: node.lastUpdated > new Date(Date.now() - 1000 * 60 * 60),
         };
       });
       return filteredNodes;
