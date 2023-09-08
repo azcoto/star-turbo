@@ -109,6 +109,7 @@ const PingDropChart = (props: PingDropChartProps) => {
               tickLine={{
                 stroke: 'white',
               }}
+              domain={[0, 1]}
               dx={-10}
               width={70}
               tickFormatter={pingDropRate => {

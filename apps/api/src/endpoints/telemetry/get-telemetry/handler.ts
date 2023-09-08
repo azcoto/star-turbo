@@ -8,7 +8,6 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
   // epoch to date
   const startDate = new Date(start);
   const endDate = new Date(end);
-  console.log();
   /*
    * * Calculate bucket size
    * * If delta less than 1 hour then bucket size 15s
@@ -40,7 +39,6 @@ export const handler = async (req: TelemetryRequest, res: TelemetryResponse) => 
     )
     .orderBy(desc(sql`tsb`))
     .groupBy(sql`tsb`);
-  console.log(query.toSQL());
   const result = await query;
   return res.json({
     success: true,

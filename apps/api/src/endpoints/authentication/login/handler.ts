@@ -49,6 +49,7 @@ const handler = async (req: LoginRequest, res: LoginResponse, next: NextFunction
       },
     });
   } catch (err) {
+    console.log(err);
     if (err instanceof DrizzleError) {
       return next(new ApiError('ORM Error', 500, { message: err.message }));
     }
