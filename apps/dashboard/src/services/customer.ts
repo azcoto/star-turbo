@@ -67,6 +67,8 @@ const schema = z.object({
         starlinkSid: z.string().nullable(),
         namaNodelink: z.string().nullable(),
         layanan: z.string().nullable(),
+        downloadBW: z.string().nullable(),
+        uploadBW: z.string().nullable(),
         nomorMI: z.string().nullable(),
         noProvisioning: z.string().nullable(),
         notaAktivasi: z.string().nullable(),

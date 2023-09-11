@@ -48,7 +48,9 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
         )
       );
     } else {
-      qNodes.where(isNotNull(vMasterNodelinkStarlink.serviceline));
+      qNodes.where(
+        and(isNotNull(vMasterNodelinkStarlink.serviceline), sql`${vMasterNodelinkStarlink.jenisMI} NOT LIKE '%Trial%'`)
+      );
     }
 
     const nodes = await qNodes;
