@@ -44,7 +44,8 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
       qNodes.where(
         and(
           eq(vMasterNodelinkStarlink.mCustomerId, result[0].trieasyId),
-          isNotNull(vMasterNodelinkStarlink.serviceline)
+          isNotNull(vMasterNodelinkStarlink.serviceline),
+          sql`${vMasterNodelinkStarlink.jenisMI} NOT LIKE '%Trial%'`
         )
       );
     } else {
@@ -52,7 +53,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
         and(isNotNull(vMasterNodelinkStarlink.serviceline), sql`${vMasterNodelinkStarlink.jenisMI} NOT LIKE '%Trial%'`)
       );
     }
-
+    console.log(qNodes.toSQL());
     const nodes = await qNodes;
 
     /**
