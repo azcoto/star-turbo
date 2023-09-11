@@ -3,8 +3,7 @@
 
   "compilerOptions": {
       "target": "ES2022",
-      "module": "NodeNext",
-      "moduleResolution": "NodeNext",
+      "module": "CommonJS",
       "types": ["node", "express", "vite/client"],
       "paths": {
         "@/*": ["./src/*"]
