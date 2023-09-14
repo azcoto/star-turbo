@@ -6,8 +6,8 @@ import { ErrorMessage } from '@hookform/error-message';
 import { Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/components/ui/use-toast';
 import { useLogin } from './hooks';
@@ -25,9 +25,27 @@ const formSchema = z.object({
 
 type FormType = z.infer<typeof formSchema>;
 
+type LocationState = {
+  error?: string;
+};
+
 const LoginPage = () => {
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const location = useLocation();
+  const { error: locationError } = location.state as LocationState;
+
+  useEffect(() => {
+    if (locationError) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: locationError,
+        duration: 3000,
+      });
+    }
+  }, [locationError, toast]);
+
   const navigate = useNavigate();
 
   const form = useForm<FormType>({
