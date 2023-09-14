@@ -33,7 +33,7 @@ const LoginPage = () => {
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
-  const { error: locationError } = location.state as LocationState;
+  const { error: locationError } = (location.state as LocationState) ?? { error: null };
 
   useEffect(() => {
     if (locationError) {
