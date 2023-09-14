@@ -5,6 +5,7 @@ import { QueryClientProvider, QueryClient, QueryCache } from '@tanstack/react-qu
 import './globals.css';
 import router from './router';
 import { useAuthTokenStore } from './store/auth';
+import { isAxiosError } from 'axios';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,7 +14,9 @@ const queryClient = new QueryClient({
     },
   },
   queryCache: new QueryCache({
-    onError: _err => {
+    onError: err => {
+      if (!isAxiosError(err)) return;
+      if (err.response?.status !== 401) return;
       useAuthTokenStore.getState().logout();
       router.navigate('/login', {
         state: {
