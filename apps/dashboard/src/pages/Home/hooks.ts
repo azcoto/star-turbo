@@ -8,6 +8,7 @@ export function useCustomer(customerParams: CustomerParams) {
     queryFn: () => getCustomer(customerParams),
     refetchInterval: 1000 * 60 * 5, // 20 minutes
     enabled: customerParams.uuid !== '',
+    retry: 3,
   });
 }
 

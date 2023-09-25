@@ -25,9 +25,27 @@ const formSchema = z.object({
 
 type FormType = z.infer<typeof formSchema>;
 
+// type LocationState = {
+//   error?: string;
+// };
+
 const LoginPage = () => {
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  // const location = useLocation();
+  // const { error: locationError } = (location.state as LocationState) ?? { error: null };
+
+  // useEffect(() => {
+  //   if (locationError) {
+  //     toast({
+  //       variant: 'destructive',
+  //       title: 'Error',
+  //       description: locationError,
+  //       duration: 3000,
+  //     });
+  //   }
+  // }, [locationError, toast]);
+
   const navigate = useNavigate();
 
   const form = useForm<FormType>({
