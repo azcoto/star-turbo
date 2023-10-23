@@ -23,6 +23,8 @@ import { PopoverClose } from '@radix-ui/react-popover';
 import { useParams } from 'react-router-dom';
 import RelativeTimeRangeSelector from './components/relative-time-range';
 import DownloadCSVDialog from './components/download-csv-dialog';
+import { useCustomer } from '../Home/hooks';
+import { useAuthTokenStore } from '@/store/auth';
 
 export type RelativeTimeRange = {
   id: number;
@@ -72,9 +74,14 @@ function Dashboard() {
     setAbsTimeRange(undefined);
     setIsRelTimeRange(true);
   };
-
+  const authTokenStore = useAuthTokenStore();
   const { data: slData } = useServiceLine(serviceLine);
   const { data: upData } = useUptime(serviceLine);
+  const { data: customerData } = useCustomer({
+    uuid: authTokenStore.userUUID,
+  });
+
+  const cData = customerData?.nodes.data.find(c => c.serviceline === serviceLine);
 
   const calendarOnChange: SelectRangeEventHandler = (range: DateRange | undefined) => {
     if (range) {
@@ -88,7 +95,7 @@ function Dashboard() {
   return (
     <>
       <div className="flex flex-row flex-wrap justify-between pt-4">
-        {slData ? <h3 className="text-white">{slData.metadata}</h3> : <Skeleton className="w-96 h-8" />}
+        {slData ? <h3 className="text-white">{cData?.namaNodelink}</h3> : <Skeleton className="w-96 h-8" />}
         {upData && <OnlineIndicator isOnline={upData.checkOnline} />}
       </div>
 
