@@ -39,7 +39,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
      * * Get nodelink where mCustomerId = trieasyId
      */
     const qNodes = dbFulfillment.select().from(vMasterNodelinkStarlink);
-
+    console.log(dbFulfillment);
     if (result[0].trieasyId !== 0) {
       qNodes.where(
         and(
@@ -56,9 +56,7 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
         and(isNotNull(vMasterNodelinkStarlink.serviceline), sql`${vMasterNodelinkStarlink.jenisMI} NOT LIKE '%Trial%'`)
       );
     }
-    console.log(qNodes.toSQL());
     const nodes = await qNodes;
-
     /**
      * * IF nodelink not found
      * * throw 404
