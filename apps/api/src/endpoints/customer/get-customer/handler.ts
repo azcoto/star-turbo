@@ -1,7 +1,7 @@
 import { ApiError } from '@/api-error';
 import { CustomerRequest, CustomerResponse } from './dto';
 import { NextFunction } from 'express';
-import { DrizzleError, eq, and, isNotNull, sql, inArray } from 'drizzle-orm';
+import { DrizzleError, eq, and, isNotNull, sql, inArray, or } from 'drizzle-orm';
 import { dbStarspace, endCustomer, user } from '@/db/schema/starspace';
 import { dbFulfillment, vMasterNodelinkStarlink } from '@/db/schema/3easy';
 import { dbStarlink, subscriptions, telemetryLastUpdate, terminals } from '@/db/schema/starlink';
@@ -45,7 +45,10 @@ const handler = async (req: CustomerRequest, res: CustomerResponse, next: NextFu
         and(
           eq(vMasterNodelinkStarlink.mCustomerId, result[0].trieasyId),
           isNotNull(vMasterNodelinkStarlink.serviceline),
-          sql`${vMasterNodelinkStarlink.jenisMI} NOT LIKE '%Trial%'`
+          or(
+            sql`${vMasterNodelinkStarlink.jenisMI} NOT LIKE '%Trial%'`,
+            eq(vMasterNodelinkStarlink.mCustomerId, result[0].trieasyId)
+          )
         )
       );
     } else {
