@@ -3,6 +3,7 @@ import telemetryRoutes from '@/endpoints/telemetry';
 import authenticationRoutes from '@/endpoints/authentication';
 import serviceLineRoutes from '@/endpoints/service-line';
 import customerRoutes from '@/endpoints/customer';
+import baktiRoutes from '@/endpoints/bakti';
 import rootRoutes from '@/endpoints/root';
 
 const router = Router();
@@ -12,5 +13,6 @@ router.use('/auth', authenticationRoutes);
 router.use('/telemetry', telemetryRoutes);
 router.use('/service-line', serviceLineRoutes);
 router.use('/customer', customerRoutes);
+router.use('/bakti', baktiRoutes);
 
 export default router;

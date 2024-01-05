@@ -1,5 +1,15 @@
 import config from '@/config';
-import { pgTable, boolean, varchar, doublePrecision, timestamp, char, integer, smallint } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  boolean,
+  varchar,
+  doublePrecision,
+  timestamp,
+  char,
+  integer,
+  smallint,
+  numeric,
+} from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 
@@ -10,6 +20,12 @@ const queryClient = new Pool({
 });
 
 export const dbStarlink = drizzle(queryClient);
+
+export const nodeBtsBakti = pgTable('node_bts_bakti', {
+  id: numeric('id').primaryKey(),
+  serviceLineNumber: varchar('service_line', { length: 255 }).notNull(),
+  nama: varchar('nama', { length: 255 }),
+});
 
 export const serviceLine = pgTable('service_line', {
   serviceLineNumber: varchar('service_line_number', { length: 30 }).primaryKey(),
